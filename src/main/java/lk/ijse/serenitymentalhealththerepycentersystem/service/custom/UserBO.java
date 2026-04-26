@@ -6,4 +6,8 @@ public interface UserBO extends SuperBO {
 
     String checkCredentials(String username, String password);
 
+    String login(String username, String password);
+
+    String authenticateUser(String username, String password) throws Exception;
+
 }

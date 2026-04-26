@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="lk.ijse.serenitymentalhealththerepycentersystem.controller.LoginController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane fx:id="baseAnchorPane" prefHeight="660.0" prefWidth="1280.0" style="-fx-background-color: #E3F2FD;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <ImageView fitHeight="660.0" fitWidth="1280.0" opacity="0.3" pickOnBounds="true" preserveRatio="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <image>
+                <Image url="@../images/freepik__upload__84393.png" />
+            </image>
+        </ImageView>
 
+        <StackPane layoutX="165.0" layoutY="83.0" prefHeight="500.0" prefWidth="949.0" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="146.20000000000005" AnchorPane.topAnchor="83.0">
+         <children>
+                <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="500.0" prefWidth="951.0" spacing="50.0" style="-fx-background-color: #FFFFFF80; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+                    <children>
+      
+                        <VBox alignment="CENTER" prefHeight="500.0" prefWidth="450.0">
+                            <children>
+                                <ImageView fitHeight="304.0" fitWidth="561.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/tiny-people-beautiful-flower-garden-inside-female-head-isolated-flat-illustration.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </VBox>
+      
+                        <VBox alignment="CENTER_LEFT" prefHeight="500.0" prefWidth="400.0" spacing="20.0">
+                            <children>
+                                <Label text="Already have an account?" textFill="#444444">
+                                    <font>
+                                        <Font name="System Bold" size="22.0" />
+                                    </font>
+                                </Label>
+      
+                                <VBox spacing="5.0">
+                                    <children>
+                                        <Label text="Enter User Name" textFill="#5c78ff" />
+                                        <TextField fx:id="loginUsernameText" promptText="User Name" style="-fx-background-color: transparent; -fx-border-color: #003366; -fx-border-width: 0 0 1.5 0;">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </TextField>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="20.0" />
+                                    </VBox.margin>
+                                </VBox>
+      
+                                <VBox spacing="5.0">
+                                    <children>
+                                        <Label text="Enter Password" textFill="#666666" />
+                                        <PasswordField fx:id="loginPasswordText" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #666666; -fx-border-width: 0 0 1 0;">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </PasswordField>
+                                    </children>
+                                </VBox>
+      
+                                <HBox alignment="TOP_RIGHT">
+                                    <children>
+                                        <Hyperlink fx:id="lblFogotPassword" text="Forgot password ?" textFill="#03a9f4" />
+                                    </children>
+                                </HBox>
+      
+                                <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginValidate" prefHeight="45.0" prefWidth="400.0" style="-fx-background-color: #003366; -fx-background-radius: 5;" text="Login" textFill="white">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets top="20.0" />
+                                    </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                                </Button>
+                            </children>
+                            <padding>
+                                <Insets left="20.0" right="40.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+         </children>
+        </StackPane>
+
+        <Label alignment="CENTER" text="© 2026 Serenity Mental Health Therapy Center. All Rights Reserved." textFill="#555555" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+    </children>
 </AnchorPane>
