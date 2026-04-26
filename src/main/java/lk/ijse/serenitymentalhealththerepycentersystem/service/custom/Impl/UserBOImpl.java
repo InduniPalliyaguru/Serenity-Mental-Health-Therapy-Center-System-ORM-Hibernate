@@ -11,8 +11,8 @@ public class UserBOImpl implements UserBO {
 
     UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 
-        @Override
-        public String checkCredentials(String username, String password) {
+    @Override
+    public String checkCredentials(String username, String password) {
             User user = userDAO.findByUsername(username);
             if (user != null) {
 

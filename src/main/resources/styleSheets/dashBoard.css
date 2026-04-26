@@ -1,0 +1,51 @@
+/*Side Bar Button*/
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #003366;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-background-radius: 12;
+    -fx-padding: 10 20;
+    -fx-alignment: BASELINE_LEFT;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #E6F0F9;
+    -fx-text-fill: #002244;
+}
+
+.sidebar-button:pressed {
+    -fx-background-color: #CCDDF0;
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+.sidebar-button-active {
+    -fx-background-color: rgba(0, 51, 102, 0.6) !important;
+    -fx-text-fill: white !important;
+}
+
+/*Logout Button */
+
+.logout-button {
+    -fx-background-color: #FFEBEE;
+    -fx-text-fill: #B71C1C;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+}
+
+.logout-button:hover {
+    -fx-background-color: #FFCDD2;
+}
+
+.logout-button:pressed {
+    -fx-background-color: #EF9A9A;
+    -fx-scale-x: 0.95;
+}
+
+.homeLogo:pressed {
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
