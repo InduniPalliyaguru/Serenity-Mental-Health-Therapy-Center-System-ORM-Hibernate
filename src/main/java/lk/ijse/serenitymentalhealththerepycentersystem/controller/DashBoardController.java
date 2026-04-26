@@ -1,17 +1,24 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import lk.ijse.serenitymentalhealththerepycentersystem.util.NavigationUtil;
 
-public class DashBoardController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class DashBoardController implements Initializable {
 
     @FXML
     private StackPane bodyPane;
+
+    @FXML
+    private AnchorPane baseAnchorPane;
 
     @FXML
     private Label lblRole;
@@ -48,62 +55,81 @@ public class DashBoardController {
 
     private Button currentActiveButton;
 
+    private final NavigationUtil navigate = new NavigationUtil();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        navigate.navigateTo(bodyPane, "/view/welcome.fxml");
+    }
+
     private void setActiveStyle(Button clickedButton) {
-        // 1. කලින් Active වෙලා තිබුණු බොත්තමෙන් Style එක ඉවත් කරන්න
+
         if (currentActiveButton != null) {
             currentActiveButton.getStyleClass().remove("sidebar-button-active");
         }
 
-        // 2. අලුත් බොත්තමට Style එක එකතු කරන්න
         clickedButton.getStyleClass().add("sidebar-button-active");
 
-        // 3. දැන් මේ බොත්තම Active ලෙස මතක තබා ගන්න
         currentActiveButton = clickedButton;
     }
 
     @FXML
     void loadPatientProgramPage(MouseEvent event) {
         setActiveStyle(patientProgramPageBtn);
+        navigate.navigateTo(bodyPane, "/view/patientProgram.fxml");
     }
 
     @FXML
     void loadPatientsPage(MouseEvent event) {
         setActiveStyle(patientsPageBtn);
+        navigate.navigateTo(bodyPane, "/view/patientPage.fxml");
     }
 
     @FXML
     void loadPaymentsPageBtn(MouseEvent event) {
         setActiveStyle(paymentsPageBtn);
+        navigate.navigateTo(bodyPane, "/view/payment.fxml");
     }
 
     @FXML
     void loadTherapistsPage(MouseEvent event) {
         setActiveStyle(therapistsPageBtn);
+        navigate.navigateTo(bodyPane, "/view/therapist.fxml");
     }
 
     @FXML
     void loadTherapyProgramsPage(MouseEvent event) {
         setActiveStyle(therapyProgramPageBtn);
+        navigate.navigateTo(bodyPane, "/view/therapyProgram.fxml");
     }
 
     @FXML
     void loadTherapySessionsPage(MouseEvent event) {
         setActiveStyle(therapySessionPageBtn);
+        navigate.navigateTo(bodyPane, "/view/therapySession.fxml");
     }
 
     @FXML
     void loadUsersPage(MouseEvent event) {
         setActiveStyle(usersPageBtn);
+        navigate.navigateTo(bodyPane, "/view/userManage.fxml");
     }
 
     @FXML
     void loadWelcomePage(MouseEvent event) {
-
+        navigate.navigateTo(bodyPane, "/view/welcome.fxml");
     }
 
     @FXML
     void logOut(MouseEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to log out?",
+                ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Logout Confirmation");
 
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                navigate.navigateBack(baseAnchorPane, "/view/login.fxml");
+            }
+        });
     }
 
     public void setUserRole(String role) {
@@ -121,8 +147,6 @@ public class DashBoardController {
 
 
         System.out.println("Admin access: " + isAdmin);
-//        System.out.println("Admin buttons visible: " + adminOnlyButtonBox.isVisible());
-//        System.out.println("Common buttons visible: " + commonButtonBox.isVisible());
     }
 
 }
