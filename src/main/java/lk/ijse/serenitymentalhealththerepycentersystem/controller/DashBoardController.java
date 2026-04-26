@@ -1,5 +1,7 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -7,9 +9,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import lk.ijse.serenitymentalhealththerepycentersystem.util.NavigationUtil;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class DashBoardController implements Initializable {
@@ -59,6 +64,7 @@ public class DashBoardController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         navigate.navigateTo(bodyPane, "/view/welcome.fxml");
+        startDateTimeUpdater();
     }
 
     private void setActiveStyle(Button clickedButton) {
@@ -149,4 +155,15 @@ public class DashBoardController implements Initializable {
         System.out.println("Admin access: " + isAdmin);
     }
 
+    private void startDateTimeUpdater() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE MMM dd | hh:mm a");
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            LocalDateTime now = LocalDateTime.now();
+            txtDate.setText(now.format(formatter));
+        }));
+
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
 }

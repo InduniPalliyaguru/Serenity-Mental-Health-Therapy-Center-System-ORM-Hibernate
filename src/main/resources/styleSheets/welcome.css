@@ -1,0 +1,43 @@
+
+.quick-access-btn {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 15;
+    -fx-text-fill: #003366;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+.quick-access-btn:hover {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: #003366;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 51, 102, 0.1), 10, 0, 0, 5);
+}
+
+.quick-access-btn:pressed {
+    -fx-background-color: #EDF2F7;
+    -fx-scale-x: 0.96;
+    -fx-scale-y: 0.96;
+}
+
+.export-btn {
+    -fx-background-color: #003366;
+    -fx-background-radius: 15;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+.export-btn:hover {
+    -fx-background-color: #002244;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);
+}
+
+.export-btn:pressed {
+    -fx-background-color: #001122;
+    -fx-scale-x: 0.96;
+    -fx-scale-y: 0.96;
+}
