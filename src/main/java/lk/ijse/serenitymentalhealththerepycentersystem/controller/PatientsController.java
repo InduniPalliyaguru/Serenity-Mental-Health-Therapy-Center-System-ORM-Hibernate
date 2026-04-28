@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.PatientTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapyProgramTM;
@@ -230,6 +231,11 @@ public class PatientsController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void btnRefreshOnAction(MouseEvent event) {
+        refreshPage();
     }
 
     private boolean haveEmptyFields() {

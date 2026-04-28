@@ -1,6 +1,7 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.service;
 
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.Impl.PatientBOImpl;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.Impl.TherapistBOImpl;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.Impl.TherapyProgramBOImpl;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.Impl.UserBOImpl;
 
@@ -36,7 +37,7 @@ public class BOFactory {
             case PAYMENT:
 //                return new PaymentBOImpl();
             case THERAPIST:
-//                return new TherapistBOImpl();
+                return new TherapistBOImpl();
             case THERAPIST_AVAILABILITY:
 //                return new TherapistAvailabilityBOImpl();
             case THERAPIST_PROGRAM:

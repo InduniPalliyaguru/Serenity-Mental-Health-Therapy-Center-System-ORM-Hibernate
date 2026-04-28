@@ -1,6 +1,7 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.dao;
 
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl.PatientDAOImpl;
+import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl.TherapistDAOImpl;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl.TherapyProgramDAOImpl;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl.UserDAOImpl;
 
@@ -36,7 +37,7 @@ public class DAOFactory {
             case PAYMENT:
 //                return new PaymentDAOImpl();
             case THERAPIST:
-//                return new TherapistDAOImpl();
+                return new TherapistDAOImpl();
             case THERAPIST_AVAILABILITY:
 //                return new TherapistAvailabilityDAOImpl();
             case THERAPIST_PROGRAM:

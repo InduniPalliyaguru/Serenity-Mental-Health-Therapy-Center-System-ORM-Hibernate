@@ -140,3 +140,26 @@
 .table-view .virtual-flow .scroll-bar:horizontal {
     -fx-background-color: transparent;
 }
+
+ /*Reset Button*/
+.btn-reset {
+    /*-fx-background-color: #F1F5F9;*/
+    /*-fx-background-radius: 50%;*/
+    /*-fx-min-width: 40px;*/
+    /*-fx-min-height: 40px;*/
+    /*-fx-max-width: 40px;*/
+    /*-fx-max-height: 40px;*/
+    -fx-cursor: hand;
+    -fx-transition: 0.2s;
+}
+
+.btn-reset:hover {
+    -fx-background-color: #E2E8F0;
+    -fx-rotate: 15;
+}
+
+.btn-reset:pressed {
+    -fx-scale-x: 0.85;
+    -fx-scale-y: 0.85;
+    -fx-background-color: #CBD5E1;
+}

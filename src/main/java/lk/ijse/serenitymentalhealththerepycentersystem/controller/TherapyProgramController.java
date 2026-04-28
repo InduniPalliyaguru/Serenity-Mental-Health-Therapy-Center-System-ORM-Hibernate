@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapyProgramTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.BOFactory;
@@ -171,6 +172,11 @@ public class TherapyProgramController implements Initializable {
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Update Failed!");
         }
+    }
+
+    @FXML
+    void btnRefreshOnAction(MouseEvent event) {
+        refreshPage();
     }
 
     private void loadAllPrograms() {
