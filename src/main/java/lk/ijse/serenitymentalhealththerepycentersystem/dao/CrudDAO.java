@@ -1,6 +1,7 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CrudDAO <T> extends SuperDAO{
 

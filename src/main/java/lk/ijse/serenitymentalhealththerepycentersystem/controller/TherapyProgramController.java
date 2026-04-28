@@ -83,6 +83,7 @@ public class TherapyProgramController implements Initializable {
         colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         refreshPage();
+        colFee.setStyle("-fx-alignment: CENTER-RIGHT;");
 
         tblTherapyProgram.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) fillFields(newValue);
@@ -110,6 +111,7 @@ public class TherapyProgramController implements Initializable {
 
     @FXML
     void btnSaveOnAction(ActionEvent event) {
+        if (haveEmptyFields()) return;
         if (!validateData()) return;
         try {
             BigDecimal fee = new BigDecimal(txtFee.getText());
@@ -150,6 +152,7 @@ public class TherapyProgramController implements Initializable {
 
     @FXML
     void btnUpdateOnAction(ActionEvent event) {
+        if (haveEmptyFields()) return;
         if (!validateData()) return;
         try {
             BigDecimal fee = new BigDecimal(txtFee.getText());
@@ -213,6 +216,31 @@ public class TherapyProgramController implements Initializable {
             return false;
         }
         return true;
+    }
+
+    private boolean haveEmptyFields() {
+
+        if (txtProgramId.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "ID field is empty. Enter valid ID! (MT1001)");
+            return true;
+        }
+        if (txtProgramName.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Name field is empty. Enter valid Name!");
+            return true;
+        }
+        if (txtFee.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Fee field is empty. Enter valid Fee!");
+            return true;
+        }
+        if (txtDuration.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Duration field is empty. Enter Program Duration!");
+            return true;
+        }
+        if (txtDescription.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Description field is empty. Enter Description!");
+            return true;
+        }
+        return false;
     }
 
     private void showAlert(Alert.AlertType type, String msg) {

@@ -1,5 +1,6 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.dao;
 
+import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl.PatientDAOImpl;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl.TherapyProgramDAOImpl;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl.UserDAOImpl;
 
@@ -29,7 +30,7 @@ public class DAOFactory {
     public SuperDAO getDAO(DAOType type) {
         switch (type) {
             case PATIENT:
-//                return new PatientDAOImpl();
+                return new PatientDAOImpl();
             case PATIENT_PROGRAM:
 //                return new PatientProgramDAOImpl();
             case PAYMENT:

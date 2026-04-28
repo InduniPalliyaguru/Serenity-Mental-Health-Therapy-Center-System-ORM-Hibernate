@@ -1,5 +1,6 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.service;
 
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.Impl.PatientBOImpl;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.Impl.TherapyProgramBOImpl;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.Impl.UserBOImpl;
 
@@ -29,7 +30,7 @@ public class BOFactory {
     public SuperBO getBO(BOType type) {
         switch (type) {
             case PATIENT:
-//                return new PatientBOImpl();
+                return new PatientBOImpl();
             case PATIENT_PROGRAM:
 //                return new PatientProgramBOImpl();
             case PAYMENT:

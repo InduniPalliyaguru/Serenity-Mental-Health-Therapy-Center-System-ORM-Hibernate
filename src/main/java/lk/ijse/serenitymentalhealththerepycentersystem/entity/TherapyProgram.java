@@ -1,9 +1,6 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +27,6 @@ public class TherapyProgram {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal fee;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Lob
     private String description;
 }

@@ -74,7 +74,7 @@
                                         <VBox spacing="5.0">
                                             <children>
                                                 <Label text="Program ID" textFill="#475569"> <font> <Font name="System Bold" size="12.0" /> </font> </Label>
-                                                <TextField fx:id="txtProgramId" prefHeight="40.0" promptText="MT1001" style="-fx-background-radius: 8; -fx-border-color: #CBD5E1; -fx-border-radius: 8; -fx-background-color: #F8FAFC;" />
+                                                <TextField fx:id="txtProgramId" editable="false" prefHeight="40.0" promptText="MT1001" style="-fx-background-radius: 8; -fx-border-color: #CBD5E1; -fx-border-radius: 8; -fx-background-color: #F8FAFC;" />
                                             </children>
                                         </VBox>
                                         <VBox spacing="5.0" GridPane.columnIndex="1">
