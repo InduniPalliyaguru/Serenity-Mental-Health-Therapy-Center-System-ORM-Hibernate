@@ -42,7 +42,7 @@
                             </children>
                         </VBox>
                         <Pane prefHeight="58.0" prefWidth="195.0" HBox.hgrow="ALWAYS" />
-                          <ImageView fx:id="imgSearchIcon" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" styleClass="btn-reset">
+                          <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#btnRefreshPageOnAction" pickOnBounds="true" preserveRatio="true" styleClass="btn-reset">
                               <HBox.margin> <Insets left="12.0" right="8.0" /> </HBox.margin>
                      <image>
                         <Image url="@../images/arrows-rotate-solid.png" />

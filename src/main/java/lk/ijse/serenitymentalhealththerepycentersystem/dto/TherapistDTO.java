@@ -1,6 +1,9 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.dto;
 
+import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapistProgramTM;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,4 +17,7 @@ public class TherapistDTO {
     private String phone;
     private String specialization;
 
+    private List<TherapistProgramTM> assignedPrograms;
+
 }
+
