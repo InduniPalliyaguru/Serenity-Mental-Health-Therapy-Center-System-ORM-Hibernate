@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -17,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="637.0" prefWidth="1185.0" style="-fx-background-color: #F8FAFC; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenitymentalhealththerepycentersystem.controller.TherapistAvailabilityController">
+<AnchorPane prefHeight="637.0" prefWidth="1185.0" style="-fx-background-color: #F8FAFC; -fx-background-radius: 20;" stylesheets="@../styleSheets/therapyProgram.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.serenitymentalhealththerepycentersystem.controller.TherapistAvailabilityController">
     <children>
         <VBox spacing="20.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="25.0">
             <children>
@@ -38,12 +40,17 @@
                                 </Label>
                             </children>
                         </VBox>
-                        <Pane HBox.hgrow="ALWAYS" />
+                        <Pane prefHeight="58.0" prefWidth="307.0" HBox.hgrow="ALWAYS" />
+                  <ImageView fitHeight="30.0" fitWidth="30.0" onMouseClicked="#btnRefreshOnAction" pickOnBounds="true" preserveRatio="true" styleClass="btn-reset">
+                     <image>
+                        <Image url="@../images/arrows-rotate-solid.png" />
+                     </image>
+                  </ImageView>
 
                         <HBox alignment="CENTER" prefHeight="45.0" prefWidth="350.0" style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #E2E8F0; -fx-border-radius: 12;">
                             <children>
                                 <TextField fx:id="txtSearch" promptText="Search by Availability ID or Therapist..." style="-fx-background-color: transparent;" HBox.hgrow="ALWAYS" />
-                                <Button mnemonicParsing="false" styleClass="btn-search" text="Search" textFill="WHITE" style="-fx-background-color: #003366; -fx-background-radius: 8;">
+                                <Button mnemonicParsing="false" onAction="#btnSearchOnAction" styleClass="btn-search" text="Search" textFill="WHITE">
                                     <HBox.margin> <Insets right="5.0" /> </HBox.margin>
                                 </Button>
                             </children>
@@ -53,7 +60,7 @@
                 </HBox>
 
                 <VBox spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-border-color: #E2E8F0; -fx-border-radius: 15;">
-                    <padding> <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" /> </padding>
+                    <padding> <Insets bottom="10.0" left="25.0" right="25.0" top="10.0" /> </padding>
                     <children>
                         <GridPane hgap="25.0" vgap="20.0">
                             <columnConstraints>
@@ -69,7 +76,7 @@
                                 <VBox spacing="8.0">
                                     <children>
                                         <Label text="Availability ID" textFill="#475569"> <font> <Font name="System Bold" size="13.0" /> </font> </Label>
-                                        <TextField fx:id="txtAvailabilityId" prefHeight="40.0" style="-fx-background-radius: 8; -fx-border-color: #CBD5E1; -fx-border-radius: 8; -fx-background-color: #F8FAFC;" />
+                                        <TextField fx:id="txtAvailabilityId" editable="false" prefHeight="40.0" style="-fx-background-radius: 8; -fx-border-color: #CBD5E1; -fx-border-radius: 8; -fx-background-color: #F8FAFC;" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="8.0" GridPane.columnIndex="1">
@@ -77,8 +84,8 @@
                                         <Label text="Therapist Name" textFill="#475569"> <font> <Font name="System Bold" size="13.0" /> </font> </Label>
                                         <HBox spacing="10.0">
                                             <children>
-                                                <TextField fx:id="txtTherapistName" prefHeight="40.0" HBox.hgrow="ALWAYS" style="-fx-background-radius: 8; -fx-border-color: #CBD5E1; -fx-border-radius: 8;" />
-                                                <Button fx:id="btnCheck" mnemonicParsing="false" prefHeight="40.0" prefWidth="80.0" text="Check" textFill="WHITE" style="-fx-background-color: #003366; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" />
+                                                <TextField fx:id="txtTherapistName" prefHeight="40.0" style="-fx-background-radius: 8; -fx-border-color: #CBD5E1; -fx-border-radius: 8;" HBox.hgrow="ALWAYS" />
+                                                <Button fx:id="btnCheck" mnemonicParsing="false" onAction="#btnCheckOnAction" prefHeight="40.0" prefWidth="80.0" styleClass="btn-save" text="Check" textFill="WHITE" />
                                             </children>
                                         </HBox>
                                     </children>
@@ -112,15 +119,15 @@
 
                         <HBox alignment="CENTER_RIGHT" spacing="15.0">
                             <children>
-                                <Button fx:id="btnDelete" prefHeight="40.0" prefWidth="110.0" styleClass="btn-delete" text="Delete" style="-fx-background-color: #FEF2F2; -fx-text-fill: #DC2626; -fx-border-color: #FECACA; -fx-border-radius: 10; -fx-background-radius: 10; -fx-font-weight: bold;" />
-                                <Button fx:id="btnUpdate" prefHeight="40.0" prefWidth="110.0" styleClass="btn-update" text="Update" style="-fx-background-color: white; -fx-text-fill: #003366; -fx-border-color: #003366; -fx-border-radius: 10; -fx-background-radius: 10; -fx-font-weight: bold;" />
-                                <Button fx:id="btnSave" prefHeight="40.0" prefWidth="130.0" styleClass="btn-save" text="Save Schedule" style="-fx-background-color: #003366; -fx-text-fill: white; -fx-background-radius: 10; -fx-font-weight: bold;" />
+                                <Button fx:id="btnDelete" onAction="#btnDeleteOnAction" prefHeight="40.0" prefWidth="110.0" styleClass="btn-delete" text="Delete" />
+                                <Button fx:id="btnUpdate" onAction="#btnUpdateOnAction" prefHeight="40.0" prefWidth="110.0" styleClass="btn-update" text="Update" />
+                                <Button onAction="#btnSavOnAction" prefHeight="40.0" prefWidth="130.0" styleClass="btn-save" text="Save Schedule" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
 
-                <TableView fx:id="tblAvailability" VBox.vgrow="ALWAYS" style="-fx-background-radius: 12; -fx-border-radius: 12; -fx-background-color: white; -fx-border-color: #E2E8F0;">
+                <TableView fx:id="tblAvailability" style="-fx-background-radius: 12; -fx-border-radius: 12; -fx-background-color: white; -fx-border-color: #E2E8F0;" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colAvailabilityId" prefWidth="100.0" text="Avail ID" />
                         <TableColumn fx:id="colTherapistId" prefWidth="150.0" text="Therapist ID" />

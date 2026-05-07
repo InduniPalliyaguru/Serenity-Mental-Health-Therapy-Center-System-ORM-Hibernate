@@ -10,8 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapyProgramTM;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.BOFactory;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapyProgramBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapyProgramService;
 
 import java.math.BigDecimal;
 import java.net.URL;
@@ -73,7 +73,7 @@ public class TherapyProgramController implements Initializable {
     private final String NAME_PATTERN = "^[A-z\\s]{3,}$";
     private final String FEE_PATTERN = "^[0-9]+(\\.[0-9]{1,2})?$";
 
-    TherapyProgramBO therapyProgramBO = (TherapyProgramBO) BOFactory.getInstance().getBO(BOFactory.BOType.THERAPY_PROGRAM);
+    TherapyProgramService therapyProgramBO = (TherapyProgramService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPY_PROGRAM);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

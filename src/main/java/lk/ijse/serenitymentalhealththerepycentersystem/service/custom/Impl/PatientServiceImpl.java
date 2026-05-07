@@ -4,13 +4,13 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.PatientDAO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.Patient;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PatientBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PatientService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PatientBOImpl implements PatientBO {
+public class PatientServiceImpl implements PatientService {
 
     PatientDAO patientDAO = (PatientDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PATIENT);
 

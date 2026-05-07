@@ -1,8 +1,8 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.service.custom;
 
-import lk.ijse.serenitymentalhealththerepycentersystem.service.SuperBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.SuperService;
 
-public interface UserBO extends SuperBO {
+public interface UserService extends SuperService {
 
     String checkCredentials(String username, String password);
 

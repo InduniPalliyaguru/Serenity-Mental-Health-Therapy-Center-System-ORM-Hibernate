@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,9 +17,9 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapistProgramTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapistTM;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.BOFactory;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapistBO;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapyProgramBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapistService;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapyProgramService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -88,8 +87,8 @@ public class TherapistController implements Initializable {
     private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private static final String PHONE_PATTERN = "^0[0-9]{9}$";
 
-    TherapistBO therapistBO = (TherapistBO) BOFactory.getInstance().getBO(BOFactory.BOType.THERAPIST);
-    TherapyProgramBO programBO = (TherapyProgramBO) BOFactory.getInstance().getBO(BOFactory.BOType.THERAPY_PROGRAM);
+    TherapistService therapistBO = (TherapistService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST);
+    TherapyProgramService programBO = (TherapyProgramService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPY_PROGRAM);
 
     private ObservableList<TherapistTM> therapistList = FXCollections.observableArrayList();
     private ObservableList<TherapistProgramTM> assignedProgramList = FXCollections.observableArrayList();

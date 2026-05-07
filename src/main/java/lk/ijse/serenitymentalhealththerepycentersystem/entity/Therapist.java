@@ -34,8 +34,8 @@ public class Therapist implements SuperEntity {
 //    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
 //    private List<TherapySession> therapySessions;
 
-//    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
-//    private List<TherapistAvailability> availabilities;
+    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
+    private List<TherapistAvailability> availabilities;
 
     @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<TherapistProgram> therapistPrograms;

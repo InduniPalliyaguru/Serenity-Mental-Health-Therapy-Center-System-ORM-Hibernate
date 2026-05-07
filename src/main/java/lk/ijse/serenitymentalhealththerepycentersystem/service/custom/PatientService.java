@@ -1,12 +1,12 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.service.custom;
 
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.SuperBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.SuperService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface PatientBO extends SuperBO {
+public interface PatientService extends SuperService {
 
     boolean savePatient(PatientDTO dto);
     boolean updatePatient(PatientDTO dto);

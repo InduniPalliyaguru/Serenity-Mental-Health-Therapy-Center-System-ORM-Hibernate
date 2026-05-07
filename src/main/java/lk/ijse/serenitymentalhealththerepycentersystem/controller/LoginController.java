@@ -7,8 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.BOFactory;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.UserBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.UserService;
 
 import java.io.IOException;
 
@@ -29,7 +29,7 @@ public class LoginController {
     @FXML
     private TextField loginUsernameText;
 
-    UserBO userBO = (UserBO) BOFactory.getInstance().getBO(BOFactory.BOType.USER);
+    UserService userBO = (UserService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.USER);
 
     @FXML
     void loginValidate(ActionEvent event) {

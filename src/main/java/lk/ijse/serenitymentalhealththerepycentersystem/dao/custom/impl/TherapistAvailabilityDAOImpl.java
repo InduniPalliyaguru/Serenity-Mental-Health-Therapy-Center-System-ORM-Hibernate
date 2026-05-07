@@ -1,0 +1,111 @@
+package lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl;
+
+import lk.ijse.serenitymentalhealththerepycentersystem.config.FactoryConfiguration;
+import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.TherapistAvailabilityDAO;
+import lk.ijse.serenitymentalhealththerepycentersystem.entity.TherapistAvailability;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.util.List;
+import java.util.Optional;
+
+public class TherapistAvailabilityDAOImpl implements TherapistAvailabilityDAO {
+
+    @Override
+    public boolean save(TherapistAvailability entity) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            session.persist(entity);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            tx.rollback();
+            return false;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public boolean update(TherapistAvailability entity) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            session.merge(entity);
+            tx.commit();
+            return true;
+        } catch (Exception e) {
+            tx.rollback();
+            return false;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public boolean delete(String id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction tx = session.beginTransaction();
+        try {
+            TherapistAvailability availability = session.get(TherapistAvailability.class, id);
+            if (availability != null) {
+                session.remove(availability);
+                tx.commit();
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            tx.rollback();
+            return false;
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public TherapistAvailability search(String id) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            return session.get(TherapistAvailability.class, id);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<TherapistAvailability> getAll() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            return session.createQuery("FROM TherapistAvailability", TherapistAvailability.class).list();
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public Optional<String> getLastPK() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            String lastId = session.createQuery("SELECT a.availability_id FROM TherapistAvailability a ORDER BY a.availability_id DESC", String.class)
+                    .setMaxResults(1).uniqueResult();
+            return Optional.ofNullable(lastId);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public List<TherapistAvailability> findByTherapistName(String name) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            String hql = "SELECT a FROM TherapistAvailability a JOIN a.therapist t WHERE t.name LIKE :name";
+            return session.createQuery(hql, TherapistAvailability.class)
+                    .setParameter("name", "%" + name + "%")
+                    .list();
+        } finally {
+            session.close();
+        }
+    }
+
+}

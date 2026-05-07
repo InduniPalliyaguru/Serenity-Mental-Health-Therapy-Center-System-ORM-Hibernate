@@ -3,11 +3,11 @@ package lk.ijse.serenitymentalhealththerepycentersystem.service.custom.Impl;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.UserDAO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.User;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.UserBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.UserService;
 import lk.ijse.serenitymentalhealththerepycentersystem.util.PasswordUtil;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class UserBOImpl implements UserBO {
+public class UserServiceImpl implements UserService {
 
     UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 

@@ -4,13 +4,13 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.TherapyProgramDAO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.TherapyProgram;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapyProgramBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapyProgramService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TherapyProgramBOImpl implements TherapyProgramBO {
+public class TherapyProgramServiceImpl implements TherapyProgramService {
 
     TherapyProgramDAO programDAO = (TherapyProgramDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPY_PROGRAM);
 

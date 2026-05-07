@@ -10,9 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.PatientTM;
-import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapyProgramTM;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.BOFactory;
-import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PatientBO;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PatientService;
 
 import java.net.URL;
 import java.util.List;
@@ -79,7 +78,7 @@ public class PatientsController implements Initializable {
     private static final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final String PHONE_PATTERN = "^0[0-9]{9}$";
 
-    PatientBO patientBO = (PatientBO) BOFactory.getInstance().getBO(BOFactory.BOType.PATIENT);
+    PatientService patientBO = (PatientService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.PATIENT);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
