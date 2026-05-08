@@ -3,7 +3,9 @@ package lk.ijse.serenitymentalhealththerepycentersystem.service.custom;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistAvailabilityDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.SuperService;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface TherapistAvailabilityService extends SuperService {
@@ -14,4 +16,5 @@ public interface TherapistAvailabilityService extends SuperService {
     String getNextAvailabilityId() throws Exception;
     List<TherapistAvailabilityDTO> findAvailabilityByTherapistName(String name) throws Exception;
     List<TherapistAvailabilityDTO> getAvailableSlots(String therapistId, LocalDate date) throws Exception;
+    public boolean bookTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration);
 }

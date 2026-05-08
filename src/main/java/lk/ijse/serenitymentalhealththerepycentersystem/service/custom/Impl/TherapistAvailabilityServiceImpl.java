@@ -8,6 +8,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.entity.Therapist;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.TherapistAvailability;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapistAvailabilityService;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -137,6 +138,46 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
             temp = next;
         }
         return slots;
+    }
+
+    public boolean bookTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration) {
+        List<TherapistAvailability> availabilityList = availDAO.findByTherapistAndDate(therapistId, date);
+
+        if (availabilityList.isEmpty()) return false;
+
+        Duration slotDuration = Duration.ofMinutes(30);
+        int requiredSlotCount = (int) (sessionDuration.toMinutes() / slotDuration.toMinutes());
+
+        for (TherapistAvailability availability : availabilityList) {
+            List<String> availableSlots = availability.getAvailable_slots();
+
+            // Find the index of the slot starting at the given startTime
+            int startIndex = -1;
+            for (int i = 0; i < availableSlots.size(); i++) {
+                String slotStart = availableSlots.get(i).split("-")[0];
+                if (LocalTime.parse(slotStart).equals(startTime)) {
+                    startIndex = i;
+                    break;
+                }
+            }
+
+            if (startIndex != -1 && startIndex + requiredSlotCount <= availableSlots.size()) {
+                List<String> subList = availableSlots.subList(startIndex, startIndex + requiredSlotCount);
+
+                if (areConsecutive(subList, slotDuration)) {
+                    // Book these slots
+                    availability.getAvailable_slots().removeAll(subList);
+
+                    // Mark as unavailable if no slots left
+                    if (availability.getAvailable_slots().isEmpty()) {
+                        availability.set_available(false);
+                    }
+
+                    return therapistAvailabilityDAO.update(availability);
+                }
+            }
+        }
+        return false;
     }
 
 }

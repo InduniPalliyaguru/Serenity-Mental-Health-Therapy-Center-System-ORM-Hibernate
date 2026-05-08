@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public interface TherapySessionDAO extends CrudDAO<TherapySession> {
 
-    List<TherapySession> searchByPatientName(String name) throws Exception;
+    Optional<TherapySession> findBySessionId(String sessionId);
+    List<TherapySession> findByPatientId(String patientId);
     Optional<String> getLastPK();
 
 }

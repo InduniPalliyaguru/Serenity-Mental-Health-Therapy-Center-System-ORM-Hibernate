@@ -14,6 +14,7 @@ public interface TherapySessionService extends SuperService {
     boolean deleteSession(String sessionId, String availabilityId) throws Exception;
     List<TherapySessionDTO> getAllSessions() throws Exception;
     List<TherapySessionDTO> searchByPatientName(String name) throws Exception;
-    String generateNextSessionId() throws Exception;
+    List<TherapySessionDTO> findByPatientId(String patientId);
+    String getNextSessionPK();
 
 }
