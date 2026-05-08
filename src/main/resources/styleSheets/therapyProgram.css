@@ -143,12 +143,6 @@
 
  /*Reset Button*/
 .btn-reset {
-    /*-fx-background-color: #F1F5F9;*/
-    /*-fx-background-radius: 50%;*/
-    /*-fx-min-width: 40px;*/
-    /*-fx-min-height: 40px;*/
-    /*-fx-max-width: 40px;*/
-    /*-fx-max-height: 40px;*/
     -fx-cursor: hand;
     -fx-transition: 0.2s;
 }
@@ -162,4 +156,25 @@
     -fx-scale-x: 0.85;
     -fx-scale-y: 0.85;
     -fx-background-color: #CBD5E1;
+}
+
+/*payment confirm button*/
+.btnConfirmPay {
+    -fx-background-color: #10B981;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-transition: 0.3s;
+}
+
+.btnConfirmPay:hover {
+    -fx-background-color: #059669;
+    -fx-effect: dropshadow(three-pass-box, rgba(5, 150, 105, 0.4), 12, 0, 0, 5);
+}
+
+.btnConfirmPay:pressed {
+    -fx-background-color: #047857;
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
 }

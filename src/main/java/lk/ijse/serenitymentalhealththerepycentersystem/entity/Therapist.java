@@ -31,8 +31,8 @@ public class Therapist implements SuperEntity {
     @Column(nullable = false)
     private String specialization;
 
-//    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
-//    private List<TherapySession> therapySessions;
+    @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
+    private List<TherapySession> therapySessions;
 
     @OneToMany(mappedBy = "therapist", cascade = CascadeType.ALL)
     private List<TherapistAvailability> availabilities;

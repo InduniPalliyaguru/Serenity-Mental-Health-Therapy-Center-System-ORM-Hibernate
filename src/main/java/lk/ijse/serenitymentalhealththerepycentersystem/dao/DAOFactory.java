@@ -42,7 +42,7 @@ public class DAOFactory {
             case THERAPY_PROGRAM:
                 return new TherapyProgramDAOImpl();
             case THERAPY_SESSION:
-//                return new TherapySessionDAOImpl();
+                return new TherapySessionDAOImpl();
             case USER:
                 return new UserDAOImpl();
             default:

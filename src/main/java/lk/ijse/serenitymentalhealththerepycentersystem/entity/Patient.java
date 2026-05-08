@@ -31,9 +31,9 @@ public class Patient implements SuperEntity {
     @Lob
     private String medical_history;
 
-//    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-//    private List<TherapySession> therapySessions;
-//
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    private List<TherapySession> therapySessions;
+
 //    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
 //    private List<Payment> payments;
 

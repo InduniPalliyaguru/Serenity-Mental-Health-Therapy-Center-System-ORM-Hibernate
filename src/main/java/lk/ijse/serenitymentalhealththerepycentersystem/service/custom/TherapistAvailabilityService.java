@@ -3,6 +3,7 @@ package lk.ijse.serenitymentalhealththerepycentersystem.service.custom;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistAvailabilityDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.SuperService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TherapistAvailabilityService extends SuperService {
@@ -12,4 +13,5 @@ public interface TherapistAvailabilityService extends SuperService {
     List<TherapistAvailabilityDTO> getAllAvailability() throws Exception;
     String getNextAvailabilityId() throws Exception;
     List<TherapistAvailabilityDTO> findAvailabilityByTherapistName(String name) throws Exception;
+    List<TherapistAvailabilityDTO> getAvailableSlots(String therapistId, LocalDate date) throws Exception;
 }

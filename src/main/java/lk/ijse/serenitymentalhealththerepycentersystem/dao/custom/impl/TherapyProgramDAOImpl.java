@@ -93,4 +93,17 @@ public class TherapyProgramDAOImpl implements TherapyProgramDAO {
 
         return Optional.ofNullable(lastPk);
     }
+
+    @Override
+    public TherapyProgram findByName(String name) throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            String hql = "FROM TherapyProgram p WHERE p.programName = :pName";
+            return session.createQuery(hql, TherapyProgram.class)
+                    .setParameter("pName", name)
+                    .uniqueResult();
+        } finally {
+            session.close();
+        }
+    }
 }

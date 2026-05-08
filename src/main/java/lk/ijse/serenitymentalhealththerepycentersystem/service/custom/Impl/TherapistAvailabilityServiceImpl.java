@@ -8,6 +8,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.entity.Therapist;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.TherapistAvailability;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapistAvailabilityService;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,6 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
         entity.setAvailable_date(dto.getAvailableDate());
         entity.setStart_time(dto.getStartTime());
         entity.setEnd_time(dto.getEndTime());
-        entity.setAvailable_slots(generateSlots(dto.getStartTime(), dto.getEndTime()));
         entity.set_available(dto.isAvailable());
 
         return availDAO.save(entity);
@@ -48,7 +48,6 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
         entity.setStart_time(dto.getStartTime());
         entity.setEnd_time(dto.getEndTime());
 
-        entity.setAvailable_slots(generateSlots(dto.getStartTime(), dto.getEndTime()));
         entity.set_available(dto.isAvailable());
 
         return availDAO.update(entity);
@@ -72,7 +71,6 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
                     a.getAvailable_date(),
                     a.getStart_time(),
                     a.getEnd_time(),
-                    a.getAvailable_slots(),
                     a.is_available()
             ));
         }
@@ -102,7 +100,27 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
                     a.getAvailable_date(),
                     a.getStart_time(),
                     a.getEnd_time(),
-                    a.getAvailable_slots(),
+                    a.is_available()
+            ));
+        }
+        return dtoList;
+    }
+
+    @Override
+    public List<TherapistAvailabilityDTO> getAvailableSlots(String therapistId, LocalDate date) throws Exception {
+
+        List<TherapistAvailability> entities = availDAO.getAvailableSlots(therapistId, date);
+
+        List<TherapistAvailabilityDTO> dtoList = new ArrayList<>();
+
+        for (TherapistAvailability a : entities) {
+            dtoList.add(new TherapistAvailabilityDTO(
+                    a.getAvailability_id(),
+                    a.getTherapist().getTherapist_id(),
+                    null,
+                    a.getAvailable_date(),
+                    a.getStart_time(),
+                    a.getEnd_time(),
                     a.is_available()
             ));
         }
@@ -120,4 +138,5 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
         }
         return slots;
     }
+
 }

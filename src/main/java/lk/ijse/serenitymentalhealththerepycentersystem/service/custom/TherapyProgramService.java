@@ -13,5 +13,6 @@ public interface TherapyProgramService extends SuperService {
     List<TherapyProgramDTO> getAllPrograms() throws Exception;
     TherapyProgramDTO searchProgram(String id) throws Exception;
     String getNextTherapyProgramPK() throws Exception;
+    TherapyProgramDTO findByName(String name) throws Exception;
 
 }

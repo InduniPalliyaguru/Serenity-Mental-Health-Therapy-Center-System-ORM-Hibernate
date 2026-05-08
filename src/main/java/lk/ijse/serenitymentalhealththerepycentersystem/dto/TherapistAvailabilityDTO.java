@@ -19,7 +19,7 @@ public class TherapistAvailabilityDTO {
     private LocalDate availableDate;
     private LocalTime startTime;
     private LocalTime endTime;
-    private List<String> availableSlots;
+//    private List<String> availableSlots;
     private boolean isAvailable;
 
 }

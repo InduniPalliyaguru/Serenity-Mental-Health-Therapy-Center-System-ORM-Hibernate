@@ -42,7 +42,7 @@ public class ServiceFactory {
             case THERAPY_PROGRAM:
                 return new TherapyProgramServiceImpl();
             case THERAPY_SESSION:
-//                return new TherapySessionBOImpl();
+                return new TherapySessionServiceImpl();
             case USER:
                 return new UserServiceImpl();
             default:

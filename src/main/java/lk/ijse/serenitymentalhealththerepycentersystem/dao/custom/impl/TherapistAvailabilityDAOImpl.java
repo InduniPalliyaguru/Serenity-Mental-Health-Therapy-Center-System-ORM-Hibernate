@@ -6,6 +6,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.entity.TherapistAvailabil
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,6 +107,27 @@ public class TherapistAvailabilityDAOImpl implements TherapistAvailabilityDAO {
         } finally {
             session.close();
         }
+    }
+
+    @Override
+    public List<TherapistAvailability> getAvailableSlots(String therapistId, LocalDate date) throws Exception {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            String hql = "FROM TherapistAvailability t WHERE t.therapist.therapist_id = :tId " +
+                    "AND t.available_date = :selDate AND t.is_available = true ";
+
+            return session.createQuery(hql, TherapistAvailability.class)
+                    .setParameter("tId", therapistId)
+                    .setParameter("selDate", date)
+                    .list();
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public boolean updateStatus(String id, String status) throws Exception {
+        return false;
     }
 
 }

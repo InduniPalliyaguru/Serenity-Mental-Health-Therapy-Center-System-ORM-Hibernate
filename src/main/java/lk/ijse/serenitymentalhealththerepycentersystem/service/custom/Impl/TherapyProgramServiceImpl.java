@@ -62,22 +62,37 @@ public class TherapyProgramServiceImpl implements TherapyProgramService {
 
         if (lastPkOpt.isPresent()) {
             String lastPk = lastPkOpt.get();
-            if (lastPk.startsWith("MT1")) {
+            if (lastPk.startsWith("TP")) {
                 String numericPart = lastPk.substring(2);
 
                 try {
                     int currentId = Integer.parseInt(numericPart);
                     int nextId = currentId + 1;
 
-                    return String.format("MT%03d", nextId);
+                    return String.format("TP%03d", nextId);
                 } catch (NumberFormatException e) {
                     System.err.println("Error parsing numeric part of primary key: " + numericPart);
-                    return "MT1001";
+                    return "TP001";
                 }
             }
         }
 
         return "TP001";
+    }
+
+    @Override
+    public TherapyProgramDTO findByName(String name) throws Exception {
+        TherapyProgram p = programDAO.findByName(name);
+        if (p != null) {
+            return new TherapyProgramDTO(
+                    p.getProgramId(),
+                    p.getProgramName(),
+                    p.getDescription(),
+                    p.getFee(),
+                    p.getDuration()
+            );
+        }
+        return null;
     }
 
 }

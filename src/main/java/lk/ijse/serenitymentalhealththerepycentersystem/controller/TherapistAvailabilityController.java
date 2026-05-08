@@ -171,7 +171,6 @@ public class TherapistAvailabilityController implements Initializable {
                     datePicker.getValue(),
                     LocalTime.parse(txtStartTime.getText()),
                     LocalTime.parse(txtEndTime.getText()),
-                    null,
                     cmbAvailability.getValue().equals("Available")
             );
 
@@ -234,7 +233,6 @@ public class TherapistAvailabilityController implements Initializable {
                     datePicker.getValue(),
                     LocalTime.parse(txtStartTime.getText()),
                     LocalTime.parse(txtEndTime.getText()),
-                    null,
                     cmbAvailability.getValue().equals("Available")
             );
 
