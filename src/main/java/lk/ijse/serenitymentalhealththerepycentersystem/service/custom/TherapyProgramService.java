@@ -3,6 +3,7 @@ package lk.ijse.serenitymentalhealththerepycentersystem.service.custom;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.SuperService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface TherapyProgramService extends SuperService {
@@ -14,5 +15,5 @@ public interface TherapyProgramService extends SuperService {
     TherapyProgramDTO searchProgram(String id) throws Exception;
     String getNextTherapyProgramPK() throws Exception;
     TherapyProgramDTO findByName(String name) throws Exception;
-
+    ArrayList<TherapyProgramDTO> findTherapyProgramByName(String name);
 }

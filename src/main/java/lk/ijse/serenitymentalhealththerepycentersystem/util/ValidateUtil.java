@@ -28,7 +28,7 @@ public class ValidateUtil {
 
     private static final Pattern PATIENT_ID_PATTERN = Pattern.compile("^P\\d{3}$");
     private static final Pattern THERAPY_SESSION_ID_PATTERN = Pattern.compile("^TS\\d{3}$");
-    private static final Pattern THERAPY_PROGRAM_ID_PATTERN = Pattern.compile("^TP\\d{3}$");
+    private static final Pattern THERAPY_PROGRAM_ID_PATTERN = Pattern.compile("^MT[0-9]{4}$");
     private static final Pattern THERAPIST_ID_PATTERN = Pattern.compile("^T\\d{3}$");
     private static final Pattern USER_ID_PATTERN = Pattern.compile("^U\\d{3}$");
     private static final Pattern PAYMENT_ID_PATTERN = Pattern.compile("^PAY-\\d{4}$");

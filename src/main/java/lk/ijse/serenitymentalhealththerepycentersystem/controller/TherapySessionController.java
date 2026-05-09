@@ -576,6 +576,7 @@ public class TherapySessionController implements Initializable {
     DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("hh:mm a").toFormatter().withLocale(Locale.ENGLISH);
     private final List<LocalDate> nextFiveDates = new ArrayList<>();
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         sessionDurationTxt.getItems().addAll("30 minutes", "1 hour", "1 and half hour", "2 hours");
@@ -630,7 +631,7 @@ public class TherapySessionController implements Initializable {
     @FXML
     void loadPaymentPage(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/payments-page.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/payment.fxml"));
             Parent root = loader.load();
 
             PaymentsController controller = loader.getController();
@@ -945,15 +946,15 @@ public class TherapySessionController implements Initializable {
         String name = programNameTxt.getValue().trim();
 
         try {
-            TherapyProgramDTO programs = therapyProgramService.findByName(name);
+            ArrayList<TherapyProgramDTO> programs = therapyProgramService.findTherapyProgramByName(name);
 
+            if (programs.isEmpty()) {
+                showAlert("Not Found", "Program not found", Alert.AlertType.WARNING);
+                return;
+            }
 
-        if (programs == null) {
-            showAlert("Not Found", "Program not found", Alert.AlertType.WARNING);
-            return;
-        }
-
-        programIdTxt.setText(programs.getProgramId());
+            TherapyProgramDTO program = programs.getFirst();
+            programIdTxt.setText(program.getProgramId());
         } catch (Exception e) {
             e.printStackTrace();
         }

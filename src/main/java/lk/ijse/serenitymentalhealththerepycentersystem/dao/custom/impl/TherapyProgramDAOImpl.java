@@ -106,4 +106,15 @@ public class TherapyProgramDAOImpl implements TherapyProgramDAO {
             session.close();
         }
     }
+
+    @Override
+    public List<TherapyProgram> findByTherapyProgramName(String name) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        List<TherapyProgram> programs = session.createQuery("FROM TherapyProgram tp WHERE tp.programName LIKE :name", TherapyProgram.class)
+                .setParameter("name", "%" + name + "%")
+                .list();
+        session.close();
+
+        return programs;
+    }
 }

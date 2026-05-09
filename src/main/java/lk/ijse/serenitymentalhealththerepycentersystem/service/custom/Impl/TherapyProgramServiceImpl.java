@@ -62,22 +62,22 @@ public class TherapyProgramServiceImpl implements TherapyProgramService {
 
         if (lastPkOpt.isPresent()) {
             String lastPk = lastPkOpt.get();
-            if (lastPk.startsWith("TP")) {
+            if (lastPk.startsWith("MT")) {
                 String numericPart = lastPk.substring(2);
 
                 try {
                     int currentId = Integer.parseInt(numericPart);
                     int nextId = currentId + 1;
 
-                    return String.format("TP%03d", nextId);
+                    return String.format("MT%03d", nextId);
                 } catch (NumberFormatException e) {
                     System.err.println("Error parsing numeric part of primary key: " + numericPart);
-                    return "TP001";
+                    return "MT1001";
                 }
             }
         }
 
-        return "TP001";
+        return "MT1001";
     }
 
     @Override
@@ -95,4 +95,21 @@ public class TherapyProgramServiceImpl implements TherapyProgramService {
         return null;
     }
 
+    @Override
+    public ArrayList<TherapyProgramDTO> findTherapyProgramByName(String name) {
+        List<TherapyProgram> programs = programDAO.findByTherapyProgramName(name);
+        ArrayList<TherapyProgramDTO> dtos = new ArrayList<>();
+
+        for (TherapyProgram program : programs) {
+            dtos.add(new TherapyProgramDTO(
+                    program.getProgramId(),
+                    program.getProgramName(),
+                    program.getDuration(),
+                    program.getFee(),
+                    program.getDescription()
+            ));
+        }
+
+        return dtos;
+    }
 }
