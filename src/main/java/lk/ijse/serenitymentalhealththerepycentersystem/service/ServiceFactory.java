@@ -30,15 +30,15 @@ public class ServiceFactory {
             case PATIENT:
                 return new PatientServiceImpl();
             case PATIENT_PROGRAM:
-//                return new PatientProgramBOImpl();
+                return new PatientProgramServiceImpl();
             case PAYMENT:
-//                return new PaymentBOImpl();
+                return new PaymentServiceImpl();
             case THERAPIST:
                 return new TherapistServiceImpl();
             case THERAPIST_AVAILABILITY:
                 return new TherapistAvailabilityServiceImpl();
             case THERAPIST_PROGRAM:
-//                return new TherapistProgramBOImpl();
+                return new TherapistProgramServiceImpl();
             case THERAPY_PROGRAM:
                 return new TherapyProgramServiceImpl();
             case THERAPY_SESSION:

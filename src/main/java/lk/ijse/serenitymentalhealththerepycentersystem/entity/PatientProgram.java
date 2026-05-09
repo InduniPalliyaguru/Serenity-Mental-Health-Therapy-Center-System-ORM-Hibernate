@@ -30,9 +30,9 @@ public class PatientProgram implements SuperEntity {
     @Column(nullable = false)
     private LocalDate registration_date;
 
-//    @ManyToOne
-//    @JoinColumn(name = "payment_id") // Nullable for future developments
-//    private Payment payment;
+    @ManyToOne
+    @JoinColumn(name = "payment_id") // Nullable for future developments
+    private Payment payment;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal program_fee;

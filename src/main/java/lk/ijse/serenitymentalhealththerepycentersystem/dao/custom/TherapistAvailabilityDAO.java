@@ -13,5 +13,6 @@ public interface TherapistAvailabilityDAO extends CrudDAO<TherapistAvailability>
     List<TherapistAvailability> findByTherapistName(String name);
     List<TherapistAvailability> getAvailableSlots(String therapistId, LocalDate date) throws Exception;
     boolean updateStatus(String id, String status) throws Exception;
+    public List<TherapistAvailability> findByTherapistAndDate(String therapistId, LocalDate date);
 
 }

@@ -47,7 +47,8 @@ public class FactoryConfiguration {
                  .addAnnotatedClass(Therapist.class)
                  .addAnnotatedClass(TherapistProgram.class)
                  .addAnnotatedClass(TherapistAvailability.class)
-                 .addAnnotatedClass(TherapySession.class);
+                 .addAnnotatedClass(TherapySession.class)
+                 .addAnnotatedClass(Payment.class);
 
         sessionFactory = configuration.buildSessionFactory();
     }

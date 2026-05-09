@@ -441,32 +441,39 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapySessionTM;
+import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TimeSlotRowTM;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PatientService;
+
+import java.time.Duration;
+import java.time.LocalDate;
 
 public class TherapySessionController {
 
     @FXML
-    private TableColumn<?, ?> date1TSCol;
+    private TableColumn<TimeSlotRowTM, String> date1TSCol;
 
     @FXML
-    private TableColumn<?, ?> date2TSCol;
+    private TableColumn<TimeSlotRowTM, String> date2TSCol;
 
     @FXML
-    private TableColumn<?, ?> date3TSCol;
+    private TableColumn<TimeSlotRowTM, String> date3TSCol;
 
     @FXML
-    private TableColumn<?, ?> date4TSCol;
+    private TableColumn<TimeSlotRowTM, String> date4TSCol;
 
     @FXML
-    private TableColumn<?, ?> date5TSCol;
+    private TableColumn<TimeSlotRowTM, String> date5TSCol;
 
     @FXML
     private Button deleteButton;
 
     @FXML
-    private TableColumn<?, ?> durationCol;
+    private TableColumn<TherapySessionTM, Duration> durationCol;
 
     @FXML
-    private TableColumn<?, ?> patientIdCol;
+    private TableColumn<TherapySessionTM, String> patientIdCol;
 
     @FXML
     private TextField patientIdTxt;
@@ -481,13 +488,13 @@ public class TherapySessionController {
     private Button paymentLoadButton;
 
     @FXML
-    private TableColumn<?, ?> programIdCol;
+    private TableColumn<TherapySessionTM, String> programIdCol;
 
     @FXML
     private TextField programIdTxt;
 
     @FXML
-    private ComboBox<?> programNameTxt;
+    private ComboBox<String> programNameTxt;
 
     @FXML
     private Button saveButton;
@@ -499,53 +506,55 @@ public class TherapySessionController {
     private TextField searchTxt;
 
     @FXML
-    private TableColumn<?, ?> sessionDateCol;
+    private TableColumn<TherapySessionTM, LocalDate> sessionDateCol;
 
     @FXML
     private DatePicker sessionDateTxt;
 
     @FXML
-    private ComboBox<?> sessionDurationTxt;
+    private ComboBox<String> sessionDurationTxt;
 
     @FXML
-    private TableColumn<?, ?> sessionIdCol;
+    private TableColumn<TherapySessionTM, String> sessionIdCol;
 
     @FXML
     private TextField sessionIdTxt;
 
     @FXML
-    private TableColumn<?, ?> sessionTimeCol;
+    private TableColumn<TherapySessionTM, String> sessionTimeCol;
 
     @FXML
     private TextField sessionTimeTxt;
 
     @FXML
-    private TableColumn<?, ?> statusCol;
+    private TableColumn<TherapySessionTM, String> statusCol;
 
     @FXML
-    private ComboBox<?> statusTxtChoice;
+    private ComboBox<String> statusTxtChoice;
 
     @FXML
-    private TableColumn<?, ?> therapistIdCol;
+    private TableColumn<TherapySessionTM, String> therapistIdCol;
 
     @FXML
     private TextField therapistIdTxt;
 
     @FXML
-    private ComboBox<?> therapistNameTxt;
+    private ComboBox<String> therapistNameTxt;
 
     @FXML
-    private TableView<?> therapySessionTable;
+    private TableView<TherapySessionTM> therapySessionTable;
 
     @FXML
-    private TableView<?> timeSlotTable;
+    private TableView<TimeSlotRowTM> timeSlotTable;
 
     @FXML
-    private TableColumn<?, ?> timeTSCol;
+    private TableColumn<TimeSlotRowTM, String> timeTSCol;
 
     @FXML
     private Button updateButton;
 
+    PatientService patientService = (PatientService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.PATIENT);
+//    PatientProgram patientService = (PatientService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.PATIENT);
     @FXML
     void btnRefresh(MouseEvent event) {
 

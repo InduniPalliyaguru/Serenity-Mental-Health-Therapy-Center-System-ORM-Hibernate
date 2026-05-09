@@ -30,15 +30,15 @@ public class DAOFactory {
             case PATIENT:
                 return new PatientDAOImpl();
             case PATIENT_PROGRAM:
-//                return new PatientProgramDAOImpl();
+                return new PatientProgramDAOImpl();
             case PAYMENT:
-//                return new PaymentDAOImpl();
+                return new PaymentDAOImpl();
             case THERAPIST:
                 return new TherapistDAOImpl();
             case THERAPIST_AVAILABILITY:
                 return new TherapistAvailabilityDAOImpl();
             case THERAPIST_PROGRAM:
-//                return new TherapistProgramDAOImpl();
+                return new TherapistProgramDAOImpl();
             case THERAPY_PROGRAM:
                 return new TherapyProgramDAOImpl();
             case THERAPY_SESSION:

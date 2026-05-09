@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -173,11 +174,62 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
                         availability.set_available(false);
                     }
 
-                    return therapistAvailabilityDAO.update(availability);
+                    return availDAO.update(availability);
                 }
             }
         }
         return false;
     }
+
+    private boolean areConsecutive(List<String> slots, Duration slotDuration) {
+        for (int i = 0; i < slots.size() - 1; i++) {
+            String currentEnd = slots.get(i).split("-")[1];
+            String nextStart = slots.get(i + 1).split("-")[0];
+
+            if (!LocalTime.parse(currentEnd).equals(LocalTime.parse(nextStart))) {
+                return false;
+            }
+        }
+
+        String firstStart = slots.get(0).split("-")[0];
+        String lastEnd = slots.get(slots.size() - 1).split("-")[1];
+
+        Duration totalDuration = Duration.between(LocalTime.parse(firstStart), LocalTime.parse(lastEnd));
+        return totalDuration.equals(slotDuration.multipliedBy(slots.size()));
+    }
+
+    public boolean restoreTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration) {
+        List<TherapistAvailability> availabilityList = availDAO.findByTherapistAndDate(therapistId, date);
+
+        if (availabilityList.isEmpty()) return false;
+
+        Duration slotDuration = Duration.ofMinutes(30);
+        int slotCount = (int) (sessionDuration.toMinutes() / slotDuration.toMinutes());
+
+        // Generate the slots to restore
+        List<String> slotsToRestore = new ArrayList<>();
+        LocalTime current = startTime;
+        for (int i = 0; i < slotCount; i++) {
+            String slot = current + "-" + current.plus(slotDuration);
+            slotsToRestore.add(slot);
+            current = current.plus(slotDuration);
+        }
+
+        for (TherapistAvailability availability : availabilityList) {
+            if (availability.getAvailable_date().equals(date)) {
+                List<String> existingSlots = availability.getAvailable_slots();
+
+                // Add the slots back
+                existingSlots.addAll(slotsToRestore);
+                existingSlots.sort(Comparator.comparing(slot -> LocalTime.parse(slot.split("-")[0])));
+
+                availability.set_available(true); // Restore availability
+                return availDAO.update(availability);
+            }
+        }
+
+        return false;
+    }
+
 
 }

@@ -130,4 +130,17 @@ public class TherapistAvailabilityDAOImpl implements TherapistAvailabilityDAO {
         return false;
     }
 
+    @Override
+    public List<TherapistAvailability> findByTherapistAndDate(String therapistId, LocalDate date) {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        List<TherapistAvailability> availabilities = session.createQuery(
+                        "FROM TherapistAvailability ta WHERE ta.therapist.therapist_id = :id AND ta.available_date = :date",
+                        TherapistAvailability.class)
+                .setParameter("id", therapistId)
+                .setParameter("date", date)
+                .getResultList();
+        session.close();
+        return availabilities;
+    }
+
 }
