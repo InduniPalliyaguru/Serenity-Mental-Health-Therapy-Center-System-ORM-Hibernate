@@ -210,7 +210,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     }
 
     @Override
-    public boolean updateSession(TherapySessionDTO dto, String oldAvailId) throws Exception {
+    public boolean updateSession(TherapySessionDTO dto) throws Exception {
 //        Session session = FactoryConfiguration.getInstance().getSession();
 //        Transaction tx = session.beginTransaction();
 //
@@ -275,7 +275,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     }
 
     @Override
-    public boolean deleteSession(String sessionId, String availabilityId) throws Exception {
+    public boolean deleteSession(String sessionId) throws Exception {
 //        Session session = FactoryConfiguration.getInstance().getSession();
 //        Transaction tx = session.beginTransaction();
 //

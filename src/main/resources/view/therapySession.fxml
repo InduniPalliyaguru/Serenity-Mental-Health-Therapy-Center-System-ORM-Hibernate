@@ -112,7 +112,7 @@
                                 <Label text="Available Time" textFill="#003366">
                                     <font> <Font name="System Bold" size="18.0" /> </font>
                                 </Label>
-                                <TableView fx:id="timeSlotTable" prefHeight="250.0">
+                                <TableView fx:id="timeSlotTable" onMouseClicked="#onclickTSTable" prefHeight="250.0">
                                     <columns>
                                         <TableColumn fx:id="timeTSCol" prefWidth="70.0" text="Time" />
                                         <TableColumn fx:id="date1TSCol" prefWidth="65.0" text="Day 1" />
@@ -134,7 +134,7 @@
                     </children>
                 </HBox>
 
-                <TableView fx:id="therapySessionTable" VBox.vgrow="ALWAYS">
+                <TableView fx:id="therapySessionTable" onMouseClicked="#tableClick" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="sessionIdCol" prefWidth="100.0" text="Session ID" />
                         <TableColumn fx:id="patientIdCol" prefWidth="120.0" text="Patient ID" />

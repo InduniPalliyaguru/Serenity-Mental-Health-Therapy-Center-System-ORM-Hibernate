@@ -73,6 +73,7 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
                     a.getAvailable_date(),
                     a.getStart_time(),
                     a.getEnd_time(),
+                    a.getAvailable_slots(),
                     a.is_available()
             ));
         }
@@ -102,6 +103,7 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
                     a.getAvailable_date(),
                     a.getStart_time(),
                     a.getEnd_time(),
+                    a.getAvailable_slots(),
                     a.is_available()
             ));
         }
@@ -119,14 +121,38 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
             dtoList.add(new TherapistAvailabilityDTO(
                     a.getAvailability_id(),
                     a.getTherapist().getTherapist_id(),
-                    null,
+                    a.getTherapist().getName(),
                     a.getAvailable_date(),
                     a.getStart_time(),
                     a.getEnd_time(),
+                    a.getAvailable_slots(),
                     a.is_available()
             ));
         }
         return dtoList;
+    }
+
+    @Override
+    public List<TherapistAvailabilityDTO> findByTherapistAndDate(String therapistId, LocalDate date) {
+        List<TherapistAvailability> entities = availDAO.findByTherapistAndDate(therapistId, date);
+
+        if (entities.isEmpty()) return new ArrayList<>();
+
+        List<TherapistAvailabilityDTO> dtos = new ArrayList<>();
+        for (TherapistAvailability entity : entities) {
+            dtos.add(new TherapistAvailabilityDTO(
+                    entity.getAvailability_id(),
+                    entity.getTherapist().getTherapist_id(),
+                    entity.getTherapist().getName(),
+                    entity.getAvailable_date(),
+                    entity.getStart_time(),
+                    entity.getEnd_time(),
+                    entity.getAvailable_slots(),
+                    entity.is_available()
+            ));
+        }
+
+        return dtos;
     }
 
     private List<String> generateSlots(LocalTime start, LocalTime end) {

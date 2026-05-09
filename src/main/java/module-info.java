@@ -10,6 +10,7 @@ module lk.ijse.serenitymentalhealththerepycentersystem {
     requires java.naming;
     requires static lombok;
     requires javafx.base;
+    requires javafx.graphics;
 
     opens lk.ijse.serenitymentalhealththerepycentersystem.config to jakarta.persistence;
 

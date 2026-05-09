@@ -18,4 +18,5 @@ public interface TherapistAvailabilityService extends SuperService {
     List<TherapistAvailabilityDTO> getAvailableSlots(String therapistId, LocalDate date) throws Exception;
     public boolean bookTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration);
     public boolean restoreTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration);
+    public List<TherapistAvailabilityDTO> findByTherapistAndDate(String therapistId, LocalDate date);
 }
