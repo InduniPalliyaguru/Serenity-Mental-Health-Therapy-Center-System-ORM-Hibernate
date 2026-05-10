@@ -10,13 +10,22 @@ import java.util.List;
 
 public interface TherapistAvailabilityService extends SuperService {
     boolean saveAvailability(TherapistAvailabilityDTO dto) throws Exception;
+
     boolean updateAvailability(TherapistAvailabilityDTO dto) throws Exception;
+
     boolean deleteAvailability(String id) throws Exception;
+
     List<TherapistAvailabilityDTO> getAllAvailability() throws Exception;
+
     String getNextAvailabilityId() throws Exception;
+
     List<TherapistAvailabilityDTO> findAvailabilityByTherapistName(String name) throws Exception;
+
     List<TherapistAvailabilityDTO> getAvailableSlots(String therapistId, LocalDate date) throws Exception;
-    public boolean bookTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration);
-    public boolean restoreTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration);
-    public List<TherapistAvailabilityDTO> findByTherapistAndDate(String therapistId, LocalDate date);
+
+    boolean bookTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration);
+
+    boolean restoreTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration);
+
+    List<TherapistAvailabilityDTO> findByTherapistAndDate(String therapistId, LocalDate date);
 }

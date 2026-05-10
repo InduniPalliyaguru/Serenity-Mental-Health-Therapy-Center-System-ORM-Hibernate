@@ -30,17 +30,17 @@ public class TherapistAvailabilityDAOImpl implements TherapistAvailabilityDAO {
 
     @Override
     public boolean update(TherapistAvailability entity) {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction tx = session.beginTransaction();
+        return false;
+    }
+
+    @Override
+    public boolean update(TherapistAvailability entity, Session session) {
         try {
             session.merge(entity);
-            tx.commit();
             return true;
         } catch (Exception e) {
-            tx.rollback();
+            e.printStackTrace();
             return false;
-        } finally {
-            session.close();
         }
     }
 
@@ -134,7 +134,7 @@ public class TherapistAvailabilityDAOImpl implements TherapistAvailabilityDAO {
     public List<TherapistAvailability> findByTherapistAndDate(String therapistId, LocalDate date) {
         Session session = FactoryConfiguration.getInstance().getSession();
         List<TherapistAvailability> availabilities = session.createQuery(
-                        "FROM TherapistAvailability ta WHERE ta.therapist.therapist_id = :id AND ta.available_date = :date",
+                        "FROM TherapistAvailability ta WHERE ta.therapist.therapist_id = :id AND ta.available_date = :date AND ta.is_available = true",
                         TherapistAvailability.class)
                 .setParameter("id", therapistId)
                 .setParameter("date", date)

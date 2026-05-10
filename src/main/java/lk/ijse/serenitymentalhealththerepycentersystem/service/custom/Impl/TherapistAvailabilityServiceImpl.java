@@ -178,11 +178,15 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
         for (TherapistAvailability availability : availabilityList) {
             List<String> availableSlots = availability.getAvailable_slots();
 
-            // Find the index of the slot starting at the given startTime
             int startIndex = -1;
+
             for (int i = 0; i < availableSlots.size(); i++) {
-                String slotStart = availableSlots.get(i).split("-")[0];
-                if (LocalTime.parse(slotStart).equals(startTime)) {
+
+                String slotStartStr = availableSlots.get(i).split("-")[0].trim();
+
+                LocalTime slotStart = LocalTime.parse(slotStartStr);
+
+                if (slotStart.equals(startTime)) {
                     startIndex = i;
                     break;
                 }
@@ -192,10 +196,9 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
                 List<String> subList = availableSlots.subList(startIndex, startIndex + requiredSlotCount);
 
                 if (areConsecutive(subList, slotDuration)) {
-                    // Book these slots
+
                     availability.getAvailable_slots().removeAll(subList);
 
-                    // Mark as unavailable if no slots left
                     if (availability.getAvailable_slots().isEmpty()) {
                         availability.set_available(false);
                     }
