@@ -21,6 +21,6 @@ public interface UserService extends SuperService {
      String generateNextUserId();
      ArrayList<UserDTO> getAllUsers();
      UserDTO findUserByUserId(String userId);
-     boolean updateUsernameAndPassword(String userId, String newUsername, String newPassword)
+     boolean updateUsernameAndPassword(String userId, String newUsername, String newPassword);
 
 }

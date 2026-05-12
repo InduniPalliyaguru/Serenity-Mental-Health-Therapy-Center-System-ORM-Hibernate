@@ -43,12 +43,41 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean update(User entity) {
-        return false;
-    }
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.merge(entity);
+            transaction.commit();
+            return true;
+        } catch (Exception e) {
+            transaction.rollback();
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }    }
 
     @Override
     public boolean delete(String id) {
-        return false;
+        Session session = FactoryConfiguration.getInstance().getSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            User user = session.find(User.class, id);
+            if (user!= null) {
+                session.remove(user);
+                transaction.commit();
+                return true;
+            }
+            return false;
+        }catch (Exception e) {
+            transaction.rollback();
+            return false;
+        }finally {
+            if (session != null) {
+                session.close();
+            }
+        }
     }
 
     @Override
@@ -58,18 +87,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAll() {
-        return List.of();
+        Session session = FactoryConfiguration.getInstance().getSession();
+        List<User> users = session.createQuery("FROM User", User.class).list();
+        session.close();
+        return users;
     }
 
-    @Override
-    public User findByID(String pk) {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        try {
-            return session.get(User.class, pk);
-        } finally {
-            session.close();
-        }
-    }
 
     @Override
     public Optional<String> getLastPK() {
