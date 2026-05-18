@@ -11,9 +11,7 @@ import org.hibernate.Transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class PaymentServiceImpl implements PaymentService {
 
@@ -28,12 +26,10 @@ public class PaymentServiceImpl implements PaymentService {
     public boolean savePayment(PaymentDTO dto) {
         boolean isCompleted = false;
 
-        // Get the session from the FactoryConfiguration instance
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
 
         try {
-            // Get the Patient and TherapyProgram based on DTO
             Patient patientOpt = patientDAO.search(dto.getPatient().getPatient_id());
             TherapyProgram programOpt = programDAO.search(dto.getTherapyProgram().getProgramId());
             Optional<TherapySession> sessionOpt = Optional.empty();
@@ -42,10 +38,8 @@ public class PaymentServiceImpl implements PaymentService {
                 sessionOpt = sessionDAO.findBySessionId(dto.getTherapySession().getSession_id());
             }
 
-            // If patient or program is not found, return false
             if (patientOpt == null || programOpt == null) return false;
 
-            // Create new Payment entity
             Payment payment = new Payment();
             payment.setPayment_id(dto.getPaymentId());
             payment.setPatient(patientOpt);
@@ -54,17 +48,14 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setAmount(dto.getAmount());
             payment.setPayment_date(dto.getPaymentDate());
 
-            // Save the payment
             if (paymentDAO.save(payment)) {
                 isCompleted = true;
 
-                // Find PatientProgram based on the patient and program IDs
                 Optional<PatientProgram> patientProgram = patientProgramDAO.findById(patientOpt.getPatient_id(), programOpt.getProgramId());
                 if (patientProgram.isPresent()) {
                     BigDecimal oldFee = patientProgram.get().getProgram_fee();
                     BigDecimal newFee = oldFee.subtract(dto.getAmount());
 
-                    // Update the fee for the program
                     patientProgramDAO.updateTherapyProgramFee(patientOpt.getPatient_id(), programOpt.getProgramId(), newFee);
                 }
 
@@ -99,7 +90,7 @@ public class PaymentServiceImpl implements PaymentService {
                 sessionOpt = sessionDAO.findBySessionId(dto.getTherapySession().getSession_id());
             }
 
-            if (patientOpt == null|| programOpt == null) {
+            if (patientOpt == null || programOpt == null) {
                 return false;
             }
 
@@ -284,5 +275,10 @@ public class PaymentServiceImpl implements PaymentService {
         TherapySession session = sessionOpt.orElse(null);
 
         return new PaymentDTO(paymentId, patientOpt, programOpt, session, amount, date);
+    }
+
+    @Override
+    public void generateInvoice(String paymentId) throws Exception {
+        paymentDAO.printInvoiceReport(paymentId);
     }
 }

@@ -225,7 +225,20 @@ public class PaymentsController implements Initializable {
 
     @FXML
     void getInvoiceOnAction(ActionEvent event) {
+        String paymentId = paymentIdTxt.getText().trim();
 
+        if (paymentId.isEmpty()) {
+            new Alert(Alert.AlertType.WARNING, "Please enter or select a Payment ID first!").show();
+            return;
+        }
+
+        try {
+            payService.generateInvoice(paymentId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to generate invoice").show();
+        }
     }
 
     @FXML
@@ -344,7 +357,8 @@ public class PaymentsController implements Initializable {
                 patientIdTxt.setText(selected.getPatientId());
                 patientNameTxt.setText(patientService.findPatientByID(selected.getPatientId()).getName());
                 programIdTxt.setText(selected.getTherapyProgramId());
-                programNameTxt.setText(therapyProgramService.findByName(selected.getTherapyProgramId()).getProgramName());
+                programNameTxt.setText(therapyProgramService.searchProgram(selected.getTherapyProgramId()).getProgramName());
+                System.out.println("Debug: Session ID from table: " + therapyProgramService.searchProgram(selected.getTherapyProgramId()).getProgramName());
                 sessionIdTxt.setText(selected.getTherapySessionId());
                 amountTxt.setText(String.valueOf(selected.getAmount()));
                 dateTxt.setValue(selected.getPaymentDate());

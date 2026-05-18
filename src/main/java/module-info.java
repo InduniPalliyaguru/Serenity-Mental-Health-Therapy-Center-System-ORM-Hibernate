@@ -11,6 +11,8 @@ module lk.ijse.serenitymentalhealththerepycentersystem {
     requires static lombok;
     requires javafx.base;
     requires javafx.graphics;
+//    requires jasperreports;
+    requires net.sf.jasperreports.core;
 
     opens lk.ijse.serenitymentalhealththerepycentersystem.config to jakarta.persistence;
 

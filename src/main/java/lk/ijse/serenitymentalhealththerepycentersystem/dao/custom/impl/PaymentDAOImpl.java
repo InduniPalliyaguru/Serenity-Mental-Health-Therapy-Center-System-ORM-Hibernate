@@ -3,11 +3,18 @@ package lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl;
 import lk.ijse.serenitymentalhealththerepycentersystem.config.FactoryConfiguration;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.PaymentDAO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.Payment;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class PaymentDAOImpl implements PaymentDAO {
@@ -117,5 +124,41 @@ public class PaymentDAOImpl implements PaymentDAO {
                 .uniqueResult();
         session.close();
         return Optional.ofNullable(lastPk);
+    }
+
+    @Override
+    public void printInvoiceReport(String paymentId) {
+
+        Session session = FactoryConfiguration.getInstance().getSession();
+
+        try {
+            session.doWork(new org.hibernate.jdbc.Work() {
+                @Override
+                public void execute(Connection connection) throws SQLException {
+                    try {
+                        InputStream reportStream = getClass().getResourceAsStream("/reports/paymentInvoice.jasper");
+
+                        if (reportStream == null) {
+                            throw new RuntimeException("Compiled report file (paymentInvoice.jasper) not found in resources/reports/ folder!");
+                        }
+
+                        Map<String, Object> parameters = new HashMap<>();
+                        parameters.put("p_payment_id", paymentId);
+
+                        JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, connection);
+
+                        JasperViewer.viewReport(jasperPrint, false);
+
+                    } catch (JRException e) {
+                        e.printStackTrace();
+                        throw new SQLException("JasperReport filling failed", e);
+                    }
+                }
+            });
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
     }
 }
