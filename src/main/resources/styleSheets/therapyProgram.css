@@ -178,3 +178,60 @@
     -fx-scale-x: 0.95;
     -fx-scale-y: 0.95;
 }
+
+/* ==========================================================================
+   REPORTING DASHBOARD - TAB PANE STYLES
+   ========================================================================== */
+
+/* 1. Tab Header Area එකේ පසුබිම (මුළු Tab එකම ඇති තීරුව) */
+.tab-pane .tab-header-area {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 10 0; /* Tab සහ පහළ Card එක අතර පරතරය */
+}
+
+/* Tab Header එක ඇතුළත ඇති හිස් තීරුව */
+.tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+/* 2. සාමාන්‍ය තත්ත්වයේ පවතින Tab එකක Style එක (Unselected Tabs) */
+.tab-pane .tab {
+    -fx-background-color: #E2E8F0; /* ලා අළු පැහැති පසුබිම */
+    -fx-background-radius: 10 10 0 0; /* ඉහළ දාර පමණක් වටකුරු කිරීම */
+    -fx-background-insets: 0 4 0 4; /* Tab එකිනෙක වෙන්ව පෙනීමට පරතරය */
+    -fx-padding: 8 20 8 20;
+    -fx-cursor: hand;
+    -fx-transition: 0.2s;
+}
+
+/* Tab එක ඇතුළත ඇති අකුරු (Unselected Text) */
+.tab-pane .tab .tab-label {
+    -fx-text-fill: #64748B; /* Slate Gray අකුරු */
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+/* 3. Mouse එක Tab එක උඩට ගෙන ගිය විට (Hover State) */
+.tab-pane .tab:hover {
+    -fx-background-color: #CBD5E1; /* මදක් තද අළු පැහැයක් */
+}
+
+.tab-pane .tab:hover .tab-label {
+    -fx-text-fill: #334155;
+}
+
+/* 4. දැනට තෝරාගෙන ඇති Tab එකේ Style එක (Active / Selected Tab) */
+.tab-pane .tab:selected {
+    -fx-background-color: #003366; /* ඔබේ පද්ධතියේ ප්‍රධාන තද නිල් වර්ණය */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 51, 102, 0.15), 8, 0, 0, 2);
+}
+
+/* Selected Tab එක ඇතුළත ඇති අකුරු */
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: white; /* සුදු පැහැති අකුරු */
+}
+
+/* 5. Tab එක ක්ලික් කරන විට සිදුවන කුඩා වෙනස (Pressed State) */
+.tab-pane .tab:pressed {
+    -fx-scale-y: 0.95; /* මදක් පහළට එබෙන ස්වභාවය */
+}

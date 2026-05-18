@@ -457,6 +457,13 @@ public class TherapySessionController implements Initializable {
             therapistIdTxt.setText(selected.getTherapistId());
             sessionDateTxt.setValue(selected.getSessionDate());
             sessionTimeTxt.setText(selected.getSessionTime().format(timeFormatter));
+            patientNameTxt.setText(patientService.findPatientByID(selected.getPatientId()).getName());
+            try {
+                programNameTxt.setValue(therapyProgramService.searchProgram(selected.getTherapyProgramId()).getProgramName());
+                therapistNameTxt.setValue(therapistService.findByTherapistId(selected.getTherapistId()).getName());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             String sessionDurationStr = switch ((int) selected.getDuration().toMinutes()) {
                 case 30 -> "30 minutes";
