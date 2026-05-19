@@ -47,12 +47,9 @@
 
                                 <TableView fx:id="tblPayments" layoutX="25.0" layoutY="75.0" prefHeight="395.0" prefWidth="1085.0" style="-fx-background-radius: 10; -fx-border-radius: 10;">
                                     <columns>
-                                        <TableColumn fx:id="colPayId" prefWidth="130.0" style="-fx-alignment: CENTER;" text="Payment ID" />
-                                        <TableColumn fx:id="colPatientName" prefWidth="250.0" text="Patient Name" />
-                                        <TableColumn fx:id="colTotalAmount" prefWidth="160.0" style="-fx-alignment: CENTER-RIGHT;" text="Total Amount (LKR)" />
-                                        <TableColumn fx:id="colAmountPaid" prefWidth="160.0" style="-fx-alignment: CENTER-RIGHT;" text="Amount Paid (LKR)" />
-                                        <TableColumn fx:id="colBalance" prefWidth="160.0" style="-fx-alignment: CENTER-RIGHT;" text="Balance (LKR)" />
-                                        <TableColumn fx:id="colStatus" prefWidth="190.0" style="-fx-alignment: CENTER;" text="Transaction Status" />
+                                        <TableColumn fx:id="colPayId" prefWidth="237.06663131713867" style="-fx-alignment: CENTER;" text="Payment ID" />
+                                        <TableColumn fx:id="colPatientName" prefWidth="509.33338928222656" text="Patient Name" />
+                                        <TableColumn fx:id="colAmountPaid" prefWidth="339.19989013671875" style="-fx-alignment: CENTER-RIGHT;" text="Amount Paid (LKR)" />
                                     </columns>
                                 </TableView>
                             </children>
@@ -60,7 +57,7 @@
                     </content>
                 </Tab>
 
-                <Tab style="-fx-font-weight: bold; -fx-font-size: 13;" text="Performance &amp; Statistics">
+                <Tab fx:id="tabPerformance" style="-fx-font-weight: bold; -fx-font-size: 13;" text="Performance &amp; Statistics">
                     <content>
                         <AnchorPane style="-fx-background-color: #FFFFFF; -fx-background-radius: 15; -fx-border-radius: 15; -fx-border-color: #E2E8F0;">
                             <children>

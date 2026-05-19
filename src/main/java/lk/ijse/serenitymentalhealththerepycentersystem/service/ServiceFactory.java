@@ -22,7 +22,8 @@ public class ServiceFactory {
         THERAPIST_PROGRAM,
         THERAPY_PROGRAM,
         THERAPY_SESSION,
-        USER
+        USER,
+        REPORT
     }
 
     public SuperService getService(ServiceType type) {
@@ -45,6 +46,8 @@ public class ServiceFactory {
                 return new TherapySessionServiceImpl();
             case USER:
                 return new UserServiceImpl();
+            case REPORT:
+                return new ReportServiceImpl();
             default:
                 return null;
         }

@@ -14,7 +14,7 @@ public class PaymentTM {
     private String paymentId;
     private String patientId;
     private String therapyProgramId;
-    private String therapySessionId;  // Nullable for upfront payments
+    private String therapySessionId;
     private BigDecimal amount;
     private LocalDate paymentDate;
 

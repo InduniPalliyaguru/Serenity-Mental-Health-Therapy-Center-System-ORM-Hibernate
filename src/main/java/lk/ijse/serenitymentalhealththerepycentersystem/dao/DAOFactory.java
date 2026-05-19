@@ -22,7 +22,8 @@ public class DAOFactory {
         THERAPIST_PROGRAM,
         THERAPY_PROGRAM,
         THERAPY_SESSION,
-        USER
+        USER,
+        QUERY
     }
 
     public SuperDAO getDAO(DAOType type) {
@@ -45,6 +46,8 @@ public class DAOFactory {
                 return new TherapySessionDAOImpl();
             case USER:
                 return new UserDAOImpl();
+            case QUERY:
+                return new QueryDAOImpl();
             default:
                 return null;
         }

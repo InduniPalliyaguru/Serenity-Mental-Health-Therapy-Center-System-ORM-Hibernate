@@ -21,4 +21,5 @@ public class PaymentDTO {
     private TherapySession therapySession;
     private BigDecimal amount;
     private LocalDate paymentDate;
+
 }

@@ -43,7 +43,7 @@ public class WelcomeController implements Initializable {
 
     @FXML
     void exportReportOnClicked(MouseEvent event) {
-
+        navigate.navigateTo(bodyPane, "/view/reportsView.fxml");
     }
 
     @FXML

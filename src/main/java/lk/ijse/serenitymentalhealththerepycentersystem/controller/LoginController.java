@@ -31,6 +31,7 @@ public class LoginController {
 
     UserService userBO = (UserService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.USER);
 
+
     @FXML
     void loginValidate(ActionEvent event) {
         String username = loginUsernameText.getText();
@@ -40,8 +41,10 @@ public class LoginController {
 
             String role = userBO.authenticateUser(username, password);
 
+
             if (role != null) {
-                    navigateTo("/view/dashboard.fxml", role);
+                navigateTo("/view/dashboard.fxml", role);
+                new ReportsController().setUserRole(role);
             } else {
                 new Alert(Alert.AlertType.ERROR, "Invalid Username or Password!").show();
             }
@@ -57,11 +60,9 @@ public class LoginController {
             stage.setScene(new Scene(loader.load()));
             stage.setResizable(false);
 
-            // Pass the role to the dashboard controller
             DashBoardController controller = loader.getController();
             controller.setUserRole(role);
 
-            // Debug message to verify role
             System.out.println("User logged in with role: " + role);
 
             stage.show();
