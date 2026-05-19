@@ -156,49 +156,7 @@
                                 </Label>
                                 <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent; -fx-padding: 0;">
                                     <content>
-                                        <VBox spacing="15.0">
-                                            <children>
-                                                <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                                    <children>
-                                                        <Circle fill="#EFF6FF" radius="18.0" stroke="TRANSPARENT" />
-                                                        <VBox>
-                                                            <children>
-                                                                <Label text="New patient registered: Emma Johnson" textFill="#1E293B">
-                                                                    <font> <Font name="System Bold" size="13.0" /> </font>
-                                                                </Label>
-                                                                <Label text="10:30 AM" textFill="#94A3B8"> <font> <Font size="11.0" /> </font> </Label>
-                                                            </children>
-                                                        </VBox>
-                                                    </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                                    <children>
-                                                        <Circle fill="#F0FDF4" radius="18.0" stroke="TRANSPARENT" />
-                                                        <VBox>
-                                                            <children>
-                                                                <Label text="Therapy session completed: Michael Brown" textFill="#1E293B">
-                                                                    <font> <Font name="System Bold" size="13.0" /> </font>
-                                                                </Label>
-                                                                <Label text="9:45 AM" textFill="#94A3B8"> <font> <Font size="11.0" /> </font> </Label>
-                                                            </children>
-                                                        </VBox>
-                                                    </children>
-                                                </HBox>
-                                                <HBox alignment="CENTER_LEFT" spacing="15.0">
-                                                    <children>
-                                                        <Circle fill="#FFF7ED" radius="18.0" stroke="TRANSPARENT" />
-                                                        <VBox>
-                                                            <children>
-                                                                <Label text="Payment received: $150 from Sarah Davis" textFill="#1E293B">
-                                                                    <font> <Font name="System Bold" size="13.0" /> </font>
-                                                                </Label>
-                                                                <Label text="9:15 AM" textFill="#94A3B8"> <font> <Font size="11.0" /> </font> </Label>
-                                                            </children>
-                                                        </VBox>
-                                                    </children>
-                                                </HBox>
-                                            </children>
-                                        </VBox>
+                                        <VBox fx:id="vBoxRecentActivity" prefHeight="239.0" prefWidth="631.0" spacing="15.0" />
                                     </content>
                                 </ScrollPane>
                             </children>

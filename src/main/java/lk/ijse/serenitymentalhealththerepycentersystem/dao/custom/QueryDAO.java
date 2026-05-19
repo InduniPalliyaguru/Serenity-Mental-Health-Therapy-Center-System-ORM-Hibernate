@@ -14,4 +14,13 @@ public interface QueryDAO extends SuperDAO {
 
     List<Object[]> getAllPaymentsInfo();
 
+    long getTotalPatientsCount();
+
+    long getDailySessionsCount();
+
+    long getActiveTherapistsCount();
+
+    double getMonthlyRevenue();
+
+    List<Object[]> getRecentActivities();
 }
