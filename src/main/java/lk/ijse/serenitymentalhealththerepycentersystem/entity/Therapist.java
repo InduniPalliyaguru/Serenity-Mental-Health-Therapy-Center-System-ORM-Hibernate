@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+//import jakarta.persistence.Cacheable;
+import org.hibernate.annotations.Cache;
 
 import java.util.List;
 
@@ -14,6 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "therapist")
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Therapist implements SuperEntity {
     @Id
     private String therapist_id;
