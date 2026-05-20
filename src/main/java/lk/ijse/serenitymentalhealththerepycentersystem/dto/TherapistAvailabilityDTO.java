@@ -15,7 +15,7 @@ public class TherapistAvailabilityDTO {
 
     private String availabilityId;
     private String therapistId;
-    private String therapistName; // UI එකේ පෙන්වීමට පහසුවට
+    private String therapistName;
     private LocalDate availableDate;
     private LocalTime startTime;
     private LocalTime endTime;

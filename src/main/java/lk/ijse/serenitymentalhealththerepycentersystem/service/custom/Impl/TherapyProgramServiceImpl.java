@@ -15,12 +15,12 @@ public class TherapyProgramServiceImpl implements TherapyProgramService {
     TherapyProgramDAO programDAO = (TherapyProgramDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPY_PROGRAM);
 
     @Override
-    public boolean saveProgram(TherapyProgramDTO dto) throws Exception {
+    public boolean saveProgram(TherapyProgramDTO dto) {
         return programDAO.save(new TherapyProgram(dto.getProgramId(), dto.getProgramName(), dto.getDuration(), dto.getFee(), dto.getDescription()));
     }
 
     @Override
-    public List<TherapyProgramDTO> getAllPrograms() throws Exception {
+    public List<TherapyProgramDTO> getAllPrograms() {
         List<TherapyProgram> all = programDAO.getAll();
         List<TherapyProgramDTO> dtoList = new ArrayList<>();
         for (TherapyProgram p : all) {
@@ -30,7 +30,7 @@ public class TherapyProgramServiceImpl implements TherapyProgramService {
     }
 
     @Override
-    public TherapyProgramDTO searchProgram(String id) throws Exception {
+    public TherapyProgramDTO searchProgram(String id) {
         TherapyProgram entity = programDAO.search(id);
 
         if (entity != null) {
@@ -47,17 +47,17 @@ public class TherapyProgramServiceImpl implements TherapyProgramService {
     }
 
     @Override
-    public boolean updateProgram(TherapyProgramDTO dto) throws Exception {
+    public boolean updateProgram(TherapyProgramDTO dto) {
         return programDAO.update(new TherapyProgram(dto.getProgramId(), dto.getProgramName(), dto.getDuration(), dto.getFee(), dto.getDescription()));
     }
 
     @Override
-    public boolean deleteProgram(String id) throws Exception {
+    public boolean deleteProgram(String id) {
         return programDAO.delete(id);
     }
 
     @Override
-    public String getNextTherapyProgramPK() throws Exception {
+    public String getNextTherapyProgramPK() {
         Optional<String> lastPkOpt = programDAO.getLastPK();
 
         if (lastPkOpt.isPresent()) {
@@ -109,7 +109,7 @@ public class TherapyProgramServiceImpl implements TherapyProgramService {
                     program.getDescription()
             ));
         }
-
         return dtos;
     }
+
 }

@@ -24,7 +24,6 @@ public class DashboardServiceImpl implements DashboardService {
         for (Object[] row : rows) {
             activities.add("Payment received: LKR " + row[2] + " from " + row[1]);
         }
-
         return new DashboardDTO(totalPatients, dailySessions, activeTherapists, monthlyRevenue, activities);
     }
 }

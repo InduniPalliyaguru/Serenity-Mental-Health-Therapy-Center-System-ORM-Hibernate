@@ -37,7 +37,7 @@ public class PatientProgramServiceImpl implements PatientProgramService {
         Payment payment = null;
         BigDecimal leftToPay = programOpt.getFee();
 
-        if (!paymentOtp.isEmpty()) {
+        if (paymentOtp.isPresent()) {
             payment = paymentOtp.get();
             leftToPay = leftToPay.subtract(payment.getAmount());
         }
@@ -53,37 +53,6 @@ public class PatientProgramServiceImpl implements PatientProgramService {
         return patientProgramDAO.save(patientProgram);
     }
 
-    //    @Override
-//    public boolean updatePatientProgram(PatientProgramDTO dto) {
-//        // complete the update method later
-//        Patient patientOpt = patientDAO.search(dto.getPatientId());
-//        TherapyProgram programOpt = therapyProgramDAO.search(dto.getProgramId());
-//
-//        Optional<Payment> paymentOtp = Optional.empty();
-//        if (dto.getPaymentId() != null) {
-//            paymentOtp = paymentDAO.findById(dto.getPaymentId());
-//        }
-//
-//        if (patientOpt == null || programOpt == null) {
-//            return false;
-//        }
-//
-//        Payment payment = null;
-//        if (paymentOtp.isPresent()) {
-//            payment = paymentOtp.get();
-//        }
-//
-//        PatientProgram patientProgram = new PatientProgram();
-//        patientProgram.setId(new PatientProgramID(patientOpt.getPatient_id(), programOpt.getProgramId()));
-//        patientProgram.setPatient(patientOpt);
-//        patientProgram.setTherapy_program(programOpt);
-//        patientProgram.setRegistration_date(dto.getRegistrationDate());
-//        patientProgram.setPayment(payment);
-//
-//        // can not update left to pay
-//
-//        return patientProgramDAO.update(patientProgram);
-//    }
     @Override
     public boolean updatePatientProgram(PatientProgramDTO dto) {
         Patient patientOpt = patientDAO.search(dto.getPatientId());
@@ -140,7 +109,7 @@ public class PatientProgramServiceImpl implements PatientProgramService {
             if (patientProgram.getPayment() != null) {
                 dto.setPaymentId(patientProgram.getPayment().getPayment_id());
             } else {
-                dto.setPaymentId(null); // or leave it unset
+                dto.setPaymentId(null);
             }
 
             dto.setRegistrationDate(patientProgram.getRegistration_date());
@@ -176,7 +145,6 @@ public class PatientProgramServiceImpl implements PatientProgramService {
         }
         if (program == null) return null;
 
-//        TherapyProgram program = programs.get(0);
         TherapyProgramDTO programDto = new TherapyProgramDTO();
         programDto.setProgramId(program.getProgramId());
         programDto.setProgramName(program.getProgramName());
@@ -227,11 +195,6 @@ public class PatientProgramServiceImpl implements PatientProgramService {
     }
 
     @Override
-    public String getNextPatientProgramPK() {
-        return "";
-    }
-
-    @Override
     public List<PatientProgramDTO> getProgramsByPatientId(String patientId) {
         List<PatientProgram> patientPrograms = patientProgramDAO.findByPatientId(patientId);
         List<PatientProgramDTO> dtos = new ArrayList<>();
@@ -250,70 +213,10 @@ public class PatientProgramServiceImpl implements PatientProgramService {
             } else {
                 dto.setPaymentId("No Payment");
             }
-
             dtos.add(dto);
         }
 
         return dtos;
     }
 
-    @Override
-    public List<PatientProgramDTO> getPatientsByProgramId(String programId) {
-        List<PatientProgram> patientPrograms = patientProgramDAO.findByProgramId(programId);
-        List<PatientProgramDTO> dtos = new ArrayList<>();
-
-        for (PatientProgram pp : patientPrograms) {
-            PatientProgramDTO dto = new PatientProgramDTO();
-            dto.setPatientId(pp.getPatient().getPatient_id());
-            dto.setPatientName(pp.getPatient().getName());
-            dto.setProgramId(pp.getTherapy_program().getProgramId());
-            dto.setProgramName(pp.getTherapy_program().getProgramName());
-            dto.setLeftToPay(pp.getTherapy_program().getFee());
-            dto.setRegistrationDate(pp.getRegistration_date());
-
-            if (pp.getPayment() != null) {
-                dto.setPaymentId(pp.getPayment().getPayment_id());
-            } else {
-                dto.setPaymentId("No Payment");
-            }
-
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
-
-    @Override
-    public boolean updateTherapyProgramFeeOfPatient(String patientId, String programId, BigDecimal newFee) {
-        return patientProgramDAO.updateTherapyProgramFee(patientId, programId, newFee);
-
-    }
-
-    @Override
-    public PatientProgramDTO searchPatientProgramFromBothIds(String patientId, String programId) {
-        Optional<PatientProgram> optionalPP = patientProgramDAO.findById(patientId, programId);
-
-        if (optionalPP.isPresent()) {
-            PatientProgram patientProgram = optionalPP.get();
-            PatientProgramDTO dto = new PatientProgramDTO();
-
-            dto.setPatientId(patientProgram.getPatient().getPatient_id());
-            dto.setPatientName(patientProgram.getPatient().getName());
-            dto.setProgramId(patientProgram.getTherapy_program().getProgramId());
-            dto.setProgramName(patientProgram.getTherapy_program().getProgramName());
-            dto.setLeftToPay(patientProgram.getTherapy_program().getFee());
-
-            if (patientProgram.getPayment() != null) {
-                dto.setPaymentId(patientProgram.getPayment().getPayment_id());
-            } else {
-                dto.setPaymentId("No Payment");
-            }
-
-            dto.setRegistrationDate(patientProgram.getRegistration_date());
-
-            return dto;
-        }
-
-        return null;
-    }
 }

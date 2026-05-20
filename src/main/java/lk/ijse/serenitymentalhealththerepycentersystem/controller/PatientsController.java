@@ -2,12 +2,10 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.PatientTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
@@ -23,53 +21,31 @@ import static javafx.scene.control.Alert.AlertType.*;
 public class PatientsController implements Initializable {
 
     @FXML
-    private Button btnDelete;
-
-    @FXML
-    private Button btnSave;
-
-    @FXML
-    private Button btnUpdate;
-
-    @FXML
     private TableColumn<PatientTM, String> colAddress;
-
     @FXML
     private TableColumn<PatientTM, String> colEmail;
-
     @FXML
     private TableColumn<PatientTM, String> colMedicalHistory;
-
     @FXML
     private TableColumn<PatientTM, String> colName;
-
     @FXML
     private TableColumn<PatientTM, String> colPatientId;
-
     @FXML
     private TableColumn<PatientTM, String> colPhone;
-
     @FXML
     private TableView<PatientTM> tblPatients;
-
     @FXML
     private TextField txtAddress;
-
     @FXML
     private TextField txtEmail;
-
     @FXML
     private TextArea txtMedicalHistory;
-
     @FXML
     private TextField txtPatientId;
-
     @FXML
     private TextField txtPatientName;
-
     @FXML
     private TextField txtPhone;
-
     @FXML
     private TextField txtSearch;
 
@@ -99,7 +75,7 @@ public class PatientsController implements Initializable {
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnDeleteOnAction() {
         String patientId = txtPatientId.getText();
 
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure to delete this Patient?", ButtonType.YES, ButtonType.NO);
@@ -114,13 +90,13 @@ public class PatientsController implements Initializable {
                     refreshPage();
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
+    void btnSaveOnAction() {
         if (haveEmptyFields()) {
             showAlert(WARNING, "Fields cannot be empty!");
             return;
@@ -137,12 +113,12 @@ public class PatientsController implements Initializable {
                 refreshPage();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
+    void btnUpdateOnAction() {
 
         if (txtPatientId.getText().isEmpty()) {
             showAlert(WARNING, "Please select a patient!");
@@ -169,12 +145,12 @@ public class PatientsController implements Initializable {
                 refreshPage();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnSearchOnAction(ActionEvent event) {
+    void btnSearchOnAction() {
         String searchText = txtSearch.getText();
         if (searchText.isEmpty()) {
             loadAllPatients();
@@ -228,45 +204,45 @@ public class PatientsController implements Initializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnRefreshOnAction(MouseEvent event) {
+    void btnRefreshOnAction() {
         refreshPage();
     }
 
     private boolean haveEmptyFields() {
 
         if (txtPatientId.getText().isEmpty()) {
-            showAlert(ERROR,"ID field is empty. Enter valid ID! (P001)");
+            showAlert(ERROR, "ID field is empty. Enter valid ID! (P001)");
             return true;
         }
         if (txtPatientName.getText().isEmpty()) {
-            showAlert(ERROR,"Name field is empty. Enter valid Name!");
+            showAlert(ERROR, "Name field is empty. Enter valid Name!");
             return true;
         }
         if (txtEmail.getText().isEmpty()) {
-            showAlert(ERROR,"Email field is empty. Enter valid Email!");
+            showAlert(ERROR, "Email field is empty. Enter valid Email!");
             return true;
         }
         if (txtPhone.getText().isEmpty()) {
-            showAlert(ERROR,"Contact field is empty. Enter Contact!");
+            showAlert(ERROR, "Contact field is empty. Enter Contact!");
             return true;
         }
         if (txtAddress.getText().isEmpty()) {
-            showAlert(ERROR,"Address field is empty. Enter Address!");
+            showAlert(ERROR, "Address field is empty. Enter Address!");
             return true;
         }
         if (txtMedicalHistory.getText().isEmpty()) {
-            showAlert(ERROR,"Medical History field is empty. Enter Medical History!");
+            showAlert(ERROR, "Medical History field is empty. Enter Medical History!");
             return true;
         }
         return false;
     }
 
-    private void showAlert(Alert.AlertType type,String msg) {
+    private void showAlert(Alert.AlertType type, String msg) {
         new Alert(type, msg).show();
     }
 
@@ -291,7 +267,7 @@ public class PatientsController implements Initializable {
         try {
             txtPatientId.setText(patientBO.getNextPatientPK());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -311,25 +287,25 @@ public class PatientsController implements Initializable {
             }
             tblPatients.setItems(patientTMS);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     private boolean validateData() {
         if (!txtPatientId.getText().matches(ID_PATTERN)) {
-            showAlert(ERROR,"Invalid Patient ID (Ex: P001)");
+            showAlert(ERROR, "Invalid Patient ID (Ex: P001)");
             return false;
         }
         if (!txtPatientName.getText().matches(NAME_PATTERN)) {
-            showAlert(ERROR,"Invalid Name");
+            showAlert(ERROR, "Invalid Name");
             return false;
         }
         if (!txtEmail.getText().matches(EMAIL_PATTERN)) {
-            showAlert(ERROR,"Invalid Email");
+            showAlert(ERROR, "Invalid Email");
             return false;
         }
         if (!txtPhone.getText().matches(PHONE_PATTERN)) {
-            showAlert(ERROR,"Invalid Phone (Ex: 0771234567)");
+            showAlert(ERROR, "Invalid Phone (Ex: 0771234567)");
             return false;
         }
         return true;

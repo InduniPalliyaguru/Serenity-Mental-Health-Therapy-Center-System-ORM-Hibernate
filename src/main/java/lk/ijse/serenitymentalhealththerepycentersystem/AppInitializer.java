@@ -10,8 +10,6 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl.UserDAOIm
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.User;
 import lk.ijse.serenitymentalhealththerepycentersystem.util.PasswordUtil;
 
-import java.io.IOException;
-
 public class AppInitializer extends Application {
 
     @Override

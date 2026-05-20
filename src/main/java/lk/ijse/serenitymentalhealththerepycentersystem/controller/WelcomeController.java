@@ -3,7 +3,6 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.DashboardDTO;
@@ -18,19 +17,14 @@ public class WelcomeController implements Initializable {
 
     @FXML
     private AnchorPane bodyPane;
-
     @FXML
     private Label lblActiveTherapist;
-
     @FXML
     private Label lblDailySession;
-
     @FXML
     private Label lblMonthlyIncome;
-
     @FXML
     private Label lblTotalPatient;
-
     @FXML
     private VBox vBoxRecentActivity;
 
@@ -43,22 +37,22 @@ public class WelcomeController implements Initializable {
     }
 
     @FXML
-    void addPatientOnClicked(MouseEvent event) {
+    void addPatientOnClicked() {
         navigate.navigateTo(bodyPane, "/view/patientPage.fxml");
     }
 
     @FXML
-    void exportReportOnClicked(MouseEvent event) {
+    void exportReportOnClicked() {
         navigate.navigateTo(bodyPane, "/view/reportsView.fxml");
     }
 
     @FXML
-    void processPaymentOnClicked(MouseEvent event) {
+    void processPaymentOnClicked() {
         navigate.navigateTo(bodyPane, "/view/payment.fxml");
     }
 
     @FXML
-    void sessionsOnClicked(MouseEvent event) {
+    void sessionsOnClicked() {
         navigate.navigateTo(bodyPane, "/view/therapySession.fxml");
     }
 
@@ -84,7 +78,8 @@ public class WelcomeController implements Initializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
+
 }

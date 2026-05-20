@@ -22,7 +22,7 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
     TherapistDAO therapistDAO = (TherapistDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPIST);
 
     @Override
-    public boolean saveAvailability(TherapistAvailabilityDTO dto) throws Exception {
+    public boolean saveAvailability(TherapistAvailabilityDTO dto) {
         Therapist therapist = therapistDAO.search(dto.getTherapistId());
         if (therapist == null) return false;
 
@@ -38,7 +38,7 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
     }
 
     @Override
-    public boolean updateAvailability(TherapistAvailabilityDTO dto) throws Exception {
+    public boolean updateAvailability(TherapistAvailabilityDTO dto) {
 
         Therapist therapist = therapistDAO.search(dto.getTherapistId());
         if (therapist == null) return false;
@@ -56,12 +56,12 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
     }
 
     @Override
-    public boolean deleteAvailability(String id) throws Exception {
+    public boolean deleteAvailability(String id) {
         return availDAO.delete(id);
     }
 
     @Override
-    public List<TherapistAvailabilityDTO> getAllAvailability() throws Exception {
+    public List<TherapistAvailabilityDTO> getAllAvailability() {
         List<TherapistAvailability> entities = availDAO.getAll();
         List<TherapistAvailabilityDTO> dtoList = new ArrayList<>();
 
@@ -81,7 +81,7 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
     }
 
     @Override
-    public String getNextAvailabilityId() throws Exception {
+    public String getNextAvailabilityId() {
         Optional<String> lastId = availDAO.getLastPK();
         if (lastId.isPresent()) {
             int id = Integer.parseInt(lastId.get().substring(1)) + 1;
@@ -91,7 +91,7 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
     }
 
     @Override
-    public List<TherapistAvailabilityDTO> findAvailabilityByTherapistName(String name) throws Exception {
+    public List<TherapistAvailabilityDTO> findAvailabilityByTherapistName(String name) {
         List<TherapistAvailability> entities = availDAO.findByTherapistName(name);
         List<TherapistAvailabilityDTO> dtoList = new ArrayList<>();
 
@@ -153,18 +153,6 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
         }
 
         return dtos;
-    }
-
-    private List<String> generateSlots(LocalTime start, LocalTime end) {
-        List<String> slots = new ArrayList<>();
-        LocalTime temp = start;
-        while (temp.isBefore(end)) {
-            LocalTime next = temp.plusHours(1);
-            if (next.isAfter(end)) next = end;
-            slots.add(temp + " - " + next);
-            temp = next;
-        }
-        return slots;
     }
 
     public boolean bookTimeSlot(String therapistId, LocalDate date, LocalTime startTime, Duration sessionDuration) {
@@ -235,7 +223,6 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
         Duration slotDuration = Duration.ofMinutes(30);
         int slotCount = (int) (sessionDuration.toMinutes() / slotDuration.toMinutes());
 
-        // Generate the slots to restore
         List<String> slotsToRestore = new ArrayList<>();
         LocalTime current = startTime;
         for (int i = 0; i < slotCount; i++) {
@@ -248,15 +235,13 @@ public class TherapistAvailabilityServiceImpl implements TherapistAvailabilitySe
             if (availability.getAvailable_date().equals(date)) {
                 List<String> existingSlots = availability.getAvailable_slots();
 
-                // Add the slots back
                 existingSlots.addAll(slotsToRestore);
                 existingSlots.sort(Comparator.comparing(slot -> LocalTime.parse(slot.split("-")[0])));
 
-                availability.set_available(true); // Restore availability
+                availability.set_available(true);
                 return availDAO.update(availability);
             }
         }
-
         return false;
     }
 

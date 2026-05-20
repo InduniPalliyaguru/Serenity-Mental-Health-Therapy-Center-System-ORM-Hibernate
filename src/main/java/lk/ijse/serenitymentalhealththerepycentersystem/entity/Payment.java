@@ -2,14 +2,17 @@ package lk.ijse.serenitymentalhealththerepycentersystem.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "payment")
-public class Payment implements SuperEntity{
+public class Payment implements SuperEntity {
     @Id
     private String payment_id;
 

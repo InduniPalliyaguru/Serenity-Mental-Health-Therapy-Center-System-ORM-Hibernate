@@ -1,0 +1,103 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="financial_report" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f29d8463-b883-49d2-974d-91b7e411b026">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SerenityDB_Connection"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="fromDate" class="java.sql.Date"/>
+	<parameter name="toDate" class="java.sql.Date"/>
+	<query language="sql"><![CDATA[SELECT 
+            p.payment_id AS paymentId,
+            pt.name AS patientName,
+            p.amount AS amount,
+            p.payment_date AS paymentDate
+        FROM 
+            payment p
+        INNER JOIN 
+            patient pt ON p.patient_id = pt.patient_id
+        WHERE 
+            p.payment_date BETWEEN $P{fromDate} AND $P{toDate}
+        ORDER BY 
+            p.payment_date DESC]]></query>
+	<field name="paymentId" class="java.lang.String"/>
+	<field name="patientName" class="java.lang.String"/>
+	<field name="amount" class="java.math.BigDecimal"/>
+	<field name="paymentDate" class="java.sql.Date"/>
+	<background splitType="Stretch"/>
+	<title height="90" splitType="Stretch">
+		<element kind="rectangle" uuid="8e3ba377-66a7-4b77-87bb-786d52df1207" mode="Opaque" x="0" y="0" width="555" height="80" backcolor="#1E293B">
+			<pen lineWidth="0.0"/>
+		</element>
+		<element kind="staticText" uuid="e0a02766-9e9d-4395-9ff0-cf171df5d45d" x="20" y="15" width="310" height="30" forecolor="#FFFFFF" fontSize="22.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[SERENITY MENTAL HEALTH]]></text>
+		</element>
+		<element kind="staticText" uuid="bd369db0-a3df-469b-8353-066cb5d8362a" x="20" y="45" width="200" height="20" forecolor="#94A3B8" fontSize="12.0" italic="true" vTextAlign="Middle">
+			<text><![CDATA[Financial Analytics Report]]></text>
+		</element>
+		<element kind="textField" uuid="d6e5d8ec-85d9-48cb-96d5-4509df632281" x="430" y="45" width="105" height="20" forecolor="#FFFFFF" pattern="MMMMM dd, yyyy" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+		<element kind="staticText" uuid="a7f8fd93-d024-4fbb-b3b4-53909fdc2125" x="350" y="45" width="80" height="20" forecolor="#94A3B8" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Generated Date: ]]></text>
+		</element>
+	</title>
+	<pageHeader height="40" splitType="Stretch">
+		<element kind="staticText" uuid="2a5de39a-76d7-42c2-b7ef-2d2fc57aef92" x="0" y="10" width="60" height="20" forecolor="#475569" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Period From:]]></text>
+		</element>
+		<element kind="textField" uuid="7cf42407-e435-43ea-9f79-6df3d15914fa" x="65" y="10" width="85" height="20" pattern="yyyy-MM-dd" vTextAlign="Middle">
+			<expression><![CDATA[$P{fromDate}]]></expression>
+		</element>
+		<element kind="staticText" uuid="5fa7cf42-4919-4b68-98f5-93df380e2f5b" x="160" y="10" width="20" height="20" forecolor="#475569" bold="true" vTextAlign="Middle">
+			<text><![CDATA[To:]]></text>
+		</element>
+		<element kind="textField" uuid="a659e93b-bb57-4581-9b19-335db0ec3f59" x="185" y="10" width="100" height="20" pattern="yyyy-MM-dd" vTextAlign="Middle">
+			<expression><![CDATA[$P{toDate}]]></expression>
+		</element>
+		<element kind="line" uuid="8859cd68-9ff1-4df2-8958-8683ff53907a" x="0" y="35" width="555" height="1" forecolor="#CBD5E1"/>
+	</pageHeader>
+	<columnHeader height="30" splitType="Stretch">
+		<element kind="rectangle" uuid="8271e860-bd74-4b44-9f73-902e86d06159" x="0" y="0" width="555" height="25" backcolor="#F1F5F9">
+			<pen lineWidth="0.0"/>
+		</element>
+		<element kind="staticText" uuid="6d1f95d9-dcda-43fa-a6cb-918991fa9a7a" x="10" y="0" width="100" height="25" forecolor="#1E293B" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Payment ID]]></text>
+		</element>
+		<element kind="staticText" uuid="be33bc81-22e3-4696-932d-eb3b1bbbc677" x="120" y="0" width="200" height="25" forecolor="#1E293B" bold="true" vTextAlign="Middle">
+			<text><![CDATA[Patient Name]]></text>
+		</element>
+		<element kind="staticText" uuid="88a53ef2-f567-4a0b-99f5-ff7d35ef2e41" x="330" y="0" width="110" height="25" forecolor="#1E293B" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Date]]></text>
+		</element>
+		<element kind="staticText" uuid="d9e8dfda-f89a-4713-9b24-ff574889c256" x="450" y="0" width="95" height="25" forecolor="#1E293B" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[Amount (LKR)]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<element kind="textField" uuid="0fd6d6a5-7a2e-4363-9f5b-1c5cbb73bfa5" x="10" y="0" width="100" height="20" vTextAlign="Middle">
+				<expression><![CDATA[$F{paymentId}]]></expression>
+			</element>
+			<element kind="textField" uuid="7a6dcbf2-2f16-4fdf-9730-845112ea1bc8" x="120" y="0" width="200" height="20" vTextAlign="Middle">
+				<expression><![CDATA[$F{patientName}]]></expression>
+			</element>
+			<element kind="textField" uuid="3d2192cb-2374-4b53-90da-8d769c3a3788" x="330" y="0" width="110" height="20" pattern="yyyy-MM-dd" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{paymentDate}]]></expression>
+			</element>
+			<element kind="textField" uuid="8fbcba66-8800-410a-b328-97ffb7235db0" x="450" y="0" width="95" height="20" pattern="#,##0.00" hTextAlign="Right" vTextAlign="Middle">
+				<expression><![CDATA[$F{amount}]]></expression>
+			</element>
+			<element kind="line" uuid="93ba78df-a7fd-4d2d-88b0-589ff21033fa" x="0" y="22" width="555" height="1" forecolor="#E2E8F0"/>
+		</band>
+	</detail>
+	<columnFooter splitType="Stretch"/>
+	<pageFooter height="30" splitType="Stretch">
+		<element kind="textField" uuid="992dbfe6-17b1-4c1c-9ef1-cf5e1e4ef225" x="435" y="5" width="80" height="20" forecolor="#94A3B8" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+		</element>
+		<element kind="textField" uuid="885df1a2-5a21-4ea9-b2f7-e435998a49c2" x="515" y="5" width="40" height="20" forecolor="#94A3B8" evaluationTime="Report" hTextAlign="Left" vTextAlign="Middle">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="staticText" uuid="7cf4cd94-a4b0-46db-908a-2115b0266da2" x="0" y="5" width="185" height="20" forecolor="#94A3B8" vTextAlign="Middle">
+			<text><![CDATA[Serenity Therapy Center Management]]></text>
+		</element>
+	</pageFooter>
+</jasperReport>

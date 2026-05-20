@@ -9,11 +9,14 @@ import java.util.Optional;
 
 public interface PatientProgramDAO extends CrudDAO<PatientProgram> {
 
-    public boolean delete(String patientId, String programId);
-    public List<PatientProgram> searchByName(String name);
-    public List<PatientProgram> findByPatientId(String id);
-    public List<PatientProgram> findByProgramId(String id);
-    public Optional<PatientProgram> findById(String patientId, String programId);
-    public boolean updateTherapyProgramFee(String patientId, String programId, BigDecimal newFee);
+    boolean delete(String patientId, String programId);
+
+    List<PatientProgram> findByPatientId(String id);
+
+    List<PatientProgram> findByProgramId(String id);
+
+    Optional<PatientProgram> findById(String patientId, String programId);
+
+    boolean updateTherapyProgramFee(String patientId, String programId, BigDecimal newFee);
 
 }

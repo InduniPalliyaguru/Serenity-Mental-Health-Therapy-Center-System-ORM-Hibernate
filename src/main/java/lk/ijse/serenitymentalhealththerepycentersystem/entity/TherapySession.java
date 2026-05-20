@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -42,7 +41,5 @@ public class TherapySession implements SuperEntity {
 
     @Column(nullable = false)
     private String status;
-
-
 
 }

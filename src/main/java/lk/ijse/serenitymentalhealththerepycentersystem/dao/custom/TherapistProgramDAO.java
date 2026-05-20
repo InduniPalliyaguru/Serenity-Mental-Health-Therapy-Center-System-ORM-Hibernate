@@ -9,10 +9,15 @@ import java.util.Optional;
 public interface TherapistProgramDAO extends CrudDAO<TherapistProgram> {
 
     boolean delete(String therapistId, String programId);
+
     List<TherapistProgram> findByProgramName(String name);
+
     List<TherapistProgram> findByTherapist(String name);
+
     Optional<TherapistProgram> findById(String therapistId, String programId);
+
     List<TherapistProgram> findByTherapistId(String therapistId);
+
     List<TherapistProgram> findByProgramId(String programId);
 
 

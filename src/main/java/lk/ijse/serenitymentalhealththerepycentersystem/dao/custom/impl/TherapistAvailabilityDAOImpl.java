@@ -39,7 +39,7 @@ public class TherapistAvailabilityDAOImpl implements TherapistAvailabilityDAO {
             session.merge(entity);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -113,8 +113,7 @@ public class TherapistAvailabilityDAOImpl implements TherapistAvailabilityDAO {
     public List<TherapistAvailability> getAvailableSlots(String therapistId, LocalDate date) throws Exception {
         Session session = FactoryConfiguration.getInstance().getSession();
         try {
-            String hql = "FROM TherapistAvailability t WHERE t.therapist.therapist_id = :tId " +
-                    "AND t.available_date = :selDate AND t.is_available = true ";
+            String hql = "FROM TherapistAvailability t WHERE t.therapist.therapist_id = :tId AND t.available_date = :selDate AND t.is_available = true ";
 
             return session.createQuery(hql, TherapistAvailability.class)
                     .setParameter("tId", therapistId)
@@ -123,11 +122,6 @@ public class TherapistAvailabilityDAOImpl implements TherapistAvailabilityDAO {
         } finally {
             session.close();
         }
-    }
-
-    @Override
-    public boolean updateStatus(String id, String status) throws Exception {
-        return false;
     }
 
     @Override

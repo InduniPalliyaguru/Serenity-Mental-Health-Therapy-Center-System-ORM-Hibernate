@@ -2,10 +2,8 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
@@ -26,9 +24,6 @@ public class ReportsController {
     private BarChart<String, Number> barChartPerformance;
     @FXML
     private PieChart pieChartPrograms;
-    @FXML
-    private CategoryAxis xAxisTherapists;
-
     @FXML
     private DatePicker dpFromDate;
     @FXML
@@ -105,7 +100,7 @@ public class ReportsController {
             popularity.forEach((name, count) -> pieData.add(new PieChart.Data(name, count)));
             pieChartPrograms.setData(pieData);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             new Alert(Alert.AlertType.ERROR, "Failed to load charts!").show();
         }
     }
@@ -129,12 +124,12 @@ public class ReportsController {
             }
             tblPayments.setItems(obList);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnSearchHistoryOnAction(ActionEvent event) {
+    void btnSearchHistoryOnAction() {
         String patientId = txtSearchPatientId.getText();
         if (patientId.isEmpty()) {
             new Alert(Alert.AlertType.WARNING, "Please enter a valid Patient ID!").show();
@@ -153,17 +148,31 @@ public class ReportsController {
                 new Alert(Alert.AlertType.INFORMATION, "No history found for this Patient.").show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             new Alert(Alert.AlertType.ERROR, "Failed to load patient history!").show();
         }
     }
 
     @FXML
-    void btnGenerateFinancialReportOnAction(ActionEvent event) {
+    void btnGenerateFinancialReportOnAction() {
         if (dpFromDate.getValue() == null || dpToDate.getValue() == null) {
-            new Alert(Alert.AlertType.WARNING, "Please select both dates!").show();
+            new Alert(Alert.AlertType.WARNING, "Please select both 'From' and 'To' dates to generate the financial report!").show();
             return;
         }
-        System.out.println("Jasper Report Generating...");
+
+        java.time.LocalDate fromDate = dpFromDate.getValue();
+        java.time.LocalDate toDate = dpToDate.getValue();
+
+        if (fromDate.isAfter(toDate)) {
+            new Alert(Alert.AlertType.ERROR, "Invalid Date Range! 'From Date' cannot be after 'To Date'.").show();
+            return;
+        }
+
+        try {
+            reportService.generateFinancialReport(fromDate, toDate);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            new Alert(Alert.AlertType.ERROR, "An error occurred while generating the report preview").show();
+        }
     }
 }

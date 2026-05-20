@@ -2,12 +2,10 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PaymentDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
@@ -40,79 +38,46 @@ public class PaymentsController implements Initializable {
         }
     }
 
-
     @FXML
     private TableColumn<PaymentTM, Double> amountCol;
-
     @FXML
     private TextField amountTxt;
-
     @FXML
     private TableColumn<PaymentTM, LocalDate> dateCol;
-
     @FXML
     private DatePicker dateTxt;
-
     @FXML
     private Button deleteButton;
-
-    @FXML
-    private Button getInvoice;
-
     @FXML
     private TableColumn<PaymentTM, String> patientIdCol;
-
     @FXML
     private TextField patientIdTxt;
-
     @FXML
     private TextField patientNameTxt;
-
-    @FXML
-    private Button patientSearchButton;
-
     @FXML
     private TableColumn<PaymentTM, String> paymentIdCol;
-
     @FXML
     private TextField paymentIdTxt;
-
     @FXML
     private ComboBox<String> paymentTypeChoice;
-
     @FXML
     private TableView<PaymentTM> paymentsTable;
-
     @FXML
     private TableColumn<PaymentTM, String> programIdCol;
-
     @FXML
     private TextField programIdTxt;
-
     @FXML
     private TextField programNameTxt;
-
-    @FXML
-    private Button programSearchButton;
-
-    @FXML
-    private Button saveButton;
-
     @FXML
     private Button searchButton;
-
     @FXML
     private TextField searchTxt;
-
     @FXML
     private TableColumn<PaymentTM, String> sessionIdCol;
-
     @FXML
     private TextField sessionIdTxt;
-
     @FXML
     private Label sessionIdPart1;
-
     @FXML
     private Button updateButton;
 
@@ -184,12 +149,12 @@ public class PaymentsController implements Initializable {
     }
 
     @FXML
-    void btnRefresh(MouseEvent event) {
+    void btnRefresh() {
         refreshPage();
     }
 
     @FXML
-    void delete(ActionEvent event) {
+    void delete() {
         String id = paymentIdTxt.getText();
 
         if (id == null || id.trim().isEmpty()) {
@@ -218,13 +183,13 @@ public class PaymentsController implements Initializable {
                 }
             } catch (Exception e) {
                 showAlert("Error", "Something went wrong!", Alert.AlertType.ERROR);
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
 
     @FXML
-    void getInvoiceOnAction(ActionEvent event) {
+    void getInvoiceOnAction() {
         String paymentId = paymentIdTxt.getText().trim();
 
         if (paymentId.isEmpty()) {
@@ -236,13 +201,13 @@ public class PaymentsController implements Initializable {
             payService.generateInvoice(paymentId);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             new Alert(Alert.AlertType.ERROR, "Failed to generate invoice").show();
         }
     }
 
     @FXML
-    void save(ActionEvent event) {
+    void save() {
         PaymentDTO dto = payService.constructPaymentDto(
                 paymentIdTxt.getText(),
                 patientIdTxt.getText(),
@@ -261,7 +226,7 @@ public class PaymentsController implements Initializable {
     }
 
     @FXML
-    void search(ActionEvent event) {
+    void search() {
         String query = searchTxt.getText();
         if (query.isEmpty()) {
             showAlert("Error", "Please enter a search term", Alert.AlertType.WARNING);
@@ -293,7 +258,7 @@ public class PaymentsController implements Initializable {
     }
 
     @FXML
-    void searchPatient(ActionEvent event) {
+    void searchPatient() {
         String name = patientNameTxt.getText().trim();
         ArrayList<PatientDTO> patients = patientService.findByPatientName(name);
 
@@ -309,7 +274,7 @@ public class PaymentsController implements Initializable {
     }
 
     @FXML
-    void searchProgram(ActionEvent event) {
+    void searchProgram() {
         String name = programNameTxt.getText().trim();
 
         try {
@@ -325,12 +290,12 @@ public class PaymentsController implements Initializable {
             programNameTxt.setText(programs.getProgramName());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void update(ActionEvent event) {
+    void update() {
         PaymentDTO dto = payService.constructPaymentDto(
                 paymentIdTxt.getText(),
                 patientIdTxt.getText(),
@@ -349,7 +314,7 @@ public class PaymentsController implements Initializable {
     }
 
     @FXML
-    void tableClick(MouseEvent event) {
+    void tableClick() {
         PaymentTM selected = paymentsTable.getSelectionModel().getSelectedItem();
         try {
             if (selected != null) {
@@ -358,13 +323,12 @@ public class PaymentsController implements Initializable {
                 patientNameTxt.setText(patientService.findPatientByID(selected.getPatientId()).getName());
                 programIdTxt.setText(selected.getTherapyProgramId());
                 programNameTxt.setText(therapyProgramService.searchProgram(selected.getTherapyProgramId()).getProgramName());
-                System.out.println("Debug: Session ID from table: " + therapyProgramService.searchProgram(selected.getTherapyProgramId()).getProgramName());
                 sessionIdTxt.setText(selected.getTherapySessionId());
                 amountTxt.setText(String.valueOf(selected.getAmount()));
                 dateTxt.setValue(selected.getPaymentDate());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

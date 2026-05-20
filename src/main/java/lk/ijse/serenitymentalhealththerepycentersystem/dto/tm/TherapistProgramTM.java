@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class TherapistProgramTM {
+
     private String therapistId;
     private String therapyProgramId;
     private String therapyProgramName;

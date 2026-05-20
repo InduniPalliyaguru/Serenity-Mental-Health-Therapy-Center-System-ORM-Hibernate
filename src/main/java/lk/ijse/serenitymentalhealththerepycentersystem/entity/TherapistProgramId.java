@@ -10,6 +10,8 @@ import lombok.*;
 @EqualsAndHashCode
 @Embeddable
 public class TherapistProgramId {
+
     private String therapistId;
     private String programId;
+
 }

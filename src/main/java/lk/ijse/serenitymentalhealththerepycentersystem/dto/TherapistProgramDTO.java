@@ -9,7 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class TherapistProgramDTO {
+
     private String therapistId;
     private String therapyProgramId;
     private String therapyProgramName;
+
 }

@@ -19,10 +19,7 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
         Transaction transaction = session.beginTransaction();
 
         try {
-            // Create a composite key (PatientProgramId) using patientId and programId
             PatientProgramID patientProgramId = new PatientProgramID(patientId, programId);
-
-            // Find the PatientProgram entity using the composite key
             PatientProgram patientProgram = session.find(PatientProgram.class, patientProgramId);
 
             if (patientProgram != null) {
@@ -37,11 +34,6 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
         } finally {
             session.close();
         }
-    }
-
-    @Override
-    public List<PatientProgram> searchByName(String name) {
-        return List.of();
     }
 
     @Override
@@ -74,7 +66,7 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
             PatientProgram patientProgram = session.find(PatientProgram.class, id);
             return Optional.ofNullable(patientProgram);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return Optional.empty();
         } finally {
             if (session != null) {
@@ -92,7 +84,6 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
             PatientProgram patientProgram = session.find(PatientProgram.class, id);
 
             if (patientProgram != null) {
-                // Set the new fee in the patient_program table (not in therapy_program)
                 patientProgram.setProgram_fee(newFee);
                 session.merge(patientProgram);
                 transaction.commit();
@@ -101,12 +92,10 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
             return false;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
-            if (session != null) {
-                session.close();
-            }
+            session.close();
         }
     }
 
@@ -118,10 +107,10 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
             session.persist(entity);
             transaction.commit();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             return false;
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -136,7 +125,7 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -160,4 +149,5 @@ public class PatientProgramDAOImpl implements PatientProgramDAO {
         session.close();
         return patientProgram;
     }
+
 }

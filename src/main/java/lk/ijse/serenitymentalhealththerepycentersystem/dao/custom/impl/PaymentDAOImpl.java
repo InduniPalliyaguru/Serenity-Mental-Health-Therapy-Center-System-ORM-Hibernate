@@ -38,17 +38,6 @@ public class PaymentDAOImpl implements PaymentDAO {
     }
 
     @Override
-    public List<Payment> findByDate(LocalDate date) {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        List<Payment> payments = session.createQuery(
-                        "FROM Payment p WHERE DATE(p.payment_date) = :date", Payment.class)
-                .setParameter("date", date)
-                .list();
-        session.close();
-        return payments;
-    }
-
-    @Override
     public boolean save(Payment entity) {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
@@ -58,7 +47,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -75,7 +64,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -96,7 +85,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             return false;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -150,8 +139,7 @@ public class PaymentDAOImpl implements PaymentDAO {
                         JasperViewer.viewReport(jasperPrint, false);
 
                     } catch (JRException e) {
-                        e.printStackTrace();
-                        throw new SQLException("JasperReport filling failed", e);
+                        System.out.println(e.getMessage());
                     }
                 }
             });

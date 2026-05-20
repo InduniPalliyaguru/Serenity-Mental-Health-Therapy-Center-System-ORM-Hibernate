@@ -10,9 +10,11 @@ import java.math.BigDecimal;
 @Setter
 @ToString
 public class TherapyProgramTM {
+
     private String programId;
     private String programName;
     private String duration;
     private BigDecimal fee;
     private String description;
+
 }

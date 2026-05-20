@@ -7,13 +7,18 @@ import java.util.ArrayList;
 
 public interface TherapistService extends SuperService {
 
-//     boolean saveTherapist(TherapistDTO dto);
-     boolean updateTherapist(TherapistDTO dto);
-     boolean deleteTherapist(String pk);
-     ArrayList<TherapistDTO> getAllTherapists();
-     ArrayList<TherapistDTO> findByTherapistName(String name);
+    boolean updateTherapist(TherapistDTO dto);
+
+    boolean deleteTherapist(String pk);
+
+    ArrayList<TherapistDTO> getAllTherapists();
+
+    ArrayList<TherapistDTO> findByTherapistName(String name);
+
     TherapistDTO findByTherapistId(String id);
-     String getNextTherapistPK();
+
+    String getNextTherapistPK();
+
     boolean saveTherapistWithPrograms(TherapistDTO therapistDTO) throws Exception;
 }
 

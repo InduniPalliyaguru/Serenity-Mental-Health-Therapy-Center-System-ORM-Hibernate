@@ -1,11 +1,9 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.UserService;
@@ -15,15 +13,6 @@ import java.io.IOException;
 public class LoginController {
 
     @FXML
-    private AnchorPane baseAnchorPane;
-
-    @FXML
-    private Hyperlink lblForgotPassword;
-
-    @FXML
-    private Button loginButton;
-
-    @FXML
     private PasswordField loginPasswordText;
 
     @FXML
@@ -31,9 +20,8 @@ public class LoginController {
 
     UserService userBO = (UserService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.USER);
 
-
     @FXML
-    void loginValidate(ActionEvent event) {
+    void loginValidate() {
         String username = loginUsernameText.getText();
         String password = loginPasswordText.getText();
 
@@ -41,15 +29,15 @@ public class LoginController {
 
             String role = userBO.authenticateUser(username, password);
 
-
             if (role != null) {
                 navigateTo("/view/dashboard.fxml", role);
+
                 new ReportsController().setUserRole(role);
             } else {
                 new Alert(Alert.AlertType.ERROR, "Invalid Username or Password!").show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -67,7 +55,7 @@ public class LoginController {
 
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error loading dashboard: " + e.getMessage());
         }
     }
 

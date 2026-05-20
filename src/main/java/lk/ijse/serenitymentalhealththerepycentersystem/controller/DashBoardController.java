@@ -5,8 +5,6 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
@@ -21,46 +19,29 @@ public class DashBoardController implements Initializable {
 
     @FXML
     private StackPane bodyPane;
-
     @FXML
     private AnchorPane baseAnchorPane;
-
-    @FXML
-    private Label lblRole;
-
-    @FXML
-    private Button logoutBtn;
-
     @FXML
     private Button patientProgramPageBtn;
-
     @FXML
     private Button patientsPageBtn;
-
     @FXML
     private Button paymentsPageBtn;
-
     @FXML
     private Button therapistsPageBtn;
-
     @FXML
     private Button therapyProgramPageBtn;
-
     @FXML
     private Button therapySessionPageBtn;
-
     @FXML
     private TextField txtDate;
-
     @FXML
     private Button usersPageBtn;
-
-    @FXML
-    private ImageView welcomePageBtn;
 
     private Button currentActiveButton;
 
     private final NavigationUtil navigate = new NavigationUtil();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         navigate.navigateTo(bodyPane, "/view/welcome.fxml");
@@ -79,54 +60,54 @@ public class DashBoardController implements Initializable {
     }
 
     @FXML
-    void loadPatientProgramPage(MouseEvent event) {
+    void loadPatientProgramPage() {
         setActiveStyle(patientProgramPageBtn);
         navigate.navigateTo(bodyPane, "/view/patientProgram.fxml");
     }
 
     @FXML
-    void loadPatientsPage(MouseEvent event) {
+    void loadPatientsPage() {
         setActiveStyle(patientsPageBtn);
         navigate.navigateTo(bodyPane, "/view/patientPage.fxml");
     }
 
     @FXML
-    void loadPaymentsPageBtn(MouseEvent event) {
+    void loadPaymentsPageBtn() {
         setActiveStyle(paymentsPageBtn);
         navigate.navigateTo(bodyPane, "/view/payment.fxml");
     }
 
     @FXML
-    void loadTherapistsPage(MouseEvent event) {
+    void loadTherapistsPage() {
         setActiveStyle(therapistsPageBtn);
         navigate.navigateTo(bodyPane, "/view/therapist.fxml");
     }
 
     @FXML
-    void loadTherapyProgramsPage(MouseEvent event) {
+    void loadTherapyProgramsPage() {
         setActiveStyle(therapyProgramPageBtn);
         navigate.navigateTo(bodyPane, "/view/therapyProgram.fxml");
     }
 
     @FXML
-    void loadTherapySessionsPage(MouseEvent event) {
+    void loadTherapySessionsPage() {
         setActiveStyle(therapySessionPageBtn);
         navigate.navigateTo(bodyPane, "/view/therapySession.fxml");
     }
 
     @FXML
-    void loadUsersPage(MouseEvent event) {
+    void loadUsersPage() {
         setActiveStyle(usersPageBtn);
         navigate.navigateTo(bodyPane, "/view/userManage.fxml");
     }
 
     @FXML
-    void loadWelcomePage(MouseEvent event) {
+    void loadWelcomePage() {
         navigate.navigateTo(bodyPane, "/view/welcome.fxml");
     }
 
     @FXML
-    void logOut(MouseEvent event) {
+    void logOut() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to log out?",
                 ButtonType.YES, ButtonType.NO);
         alert.setTitle("Logout Confirmation");

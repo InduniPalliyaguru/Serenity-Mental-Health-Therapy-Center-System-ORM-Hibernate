@@ -2,12 +2,10 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.UserDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.UserTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
@@ -20,55 +18,32 @@ import java.util.ResourceBundle;
 public class UserController implements Initializable {
 
     @FXML
-    private Button deleteButton;
-
-    @FXML
     private TableColumn<UserTM, String> passwordCol;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private Button searchButton;
-
     @FXML
     private TextField searchTxt;
-
-    @FXML
-    private Button updateButton;
-
     @FXML
     private TableColumn<UserTM, String> userEmailCol;
-
     @FXML
     private TextField userEmailTxt;
-
     @FXML
     private TableColumn<UserTM, String> userIdCol;
-
     @FXML
     private TextField userIdTxt;
-
     @FXML
     private TextField userPasswordTxt;
-
     @FXML
     private TableColumn<UserTM, String> userRoleCol;
-
     @FXML
     private ComboBox<String> userRoleTxt;
-
     @FXML
     private TableColumn<UserTM, String> usernameCol;
-
     @FXML
     private TextField usernameTxt;
-
     @FXML
     private TableView<UserTM> usersTable;
 
     UserService userService = (UserService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.USER);
-    private ObservableList<UserTM> userTMList = FXCollections.observableArrayList();
+    private final ObservableList<UserTM> userTMList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -99,13 +74,13 @@ public class UserController implements Initializable {
     }
 
     @FXML
-    void btnRefresh(MouseEvent event) {
+    void btnRefresh() {
         clearForm();
         loadAllUsers();
     }
 
     @FXML
-    void delete(ActionEvent event) {
+    void delete() {
         if (userIdTxt.getText() == null) {
             new Alert(Alert.AlertType.WARNING, "Please select a user to delete").show();
             return;
@@ -122,7 +97,7 @@ public class UserController implements Initializable {
     }
 
     @FXML
-    void save(ActionEvent event) {
+    void save() {
         String id = userService.generateNextUserId();
         String username = usernameTxt.getText();
         String email = userEmailTxt.getText();
@@ -155,7 +130,7 @@ public class UserController implements Initializable {
     }
 
     @FXML
-    void search(ActionEvent event) {
+    void search() {
         String name = searchTxt.getText();
         if (name.isEmpty()) {
             new Alert(Alert.AlertType.WARNING, "Please enter a username to search").show();
@@ -183,7 +158,7 @@ public class UserController implements Initializable {
     }
 
     @FXML
-    void tableClick(MouseEvent event) {
+    void tableClick() {
         UserTM selected = usersTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
             userIdTxt.setText(selected.getUserId());
@@ -195,7 +170,7 @@ public class UserController implements Initializable {
     }
 
     @FXML
-    void update(ActionEvent event) {
+    void update() {
         if (userIdTxt.getText() == null) {
             new Alert(Alert.AlertType.WARNING, "Please select a user from the table").show();
             return;

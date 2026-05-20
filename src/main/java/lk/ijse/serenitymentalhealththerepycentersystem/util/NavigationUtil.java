@@ -21,7 +21,7 @@ public class NavigationUtil {
 
             basePane.getChildren().add(load);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             new Alert(Alert.AlertType.ERROR, "Fail to load page!").show();
         }
     }
@@ -37,7 +37,7 @@ public class NavigationUtil {
             stage.setResizable(false);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

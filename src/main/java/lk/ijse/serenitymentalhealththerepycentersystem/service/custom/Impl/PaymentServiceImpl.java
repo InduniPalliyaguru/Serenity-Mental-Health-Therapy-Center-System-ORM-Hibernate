@@ -66,7 +66,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             session.close();
         }
@@ -94,7 +94,6 @@ public class PaymentServiceImpl implements PaymentService {
                 return false;
             }
 
-            // Get the old payment details to check the old payment amount
             Optional<Payment> existingPaymentOpt = paymentDAO.findById(dto.getPaymentId());
             if (existingPaymentOpt.isEmpty()) {
                 return false;
@@ -102,27 +101,23 @@ public class PaymentServiceImpl implements PaymentService {
 
             Payment existingPayment = existingPaymentOpt.get();
 
-            // Update Payment entity with new values
             existingPayment.setPatient(patientOpt);
             existingPayment.setTherapy_program(programOpt);
             existingPayment.setTherapy_session(sessionOpt.orElse(null));
             existingPayment.setAmount(dto.getAmount());
             existingPayment.setPayment_date(dto.getPaymentDate());
 
-            // Save the updated payment
             if (paymentDAO.update(existingPayment)) {
                 isCompleted = true;
 
-                // Adjust the program fee if the payment amount has changed
                 Optional<PatientProgram> patientProgramOpt = patientProgramDAO.findById(patientOpt.getPatient_id(), programOpt.getProgramId());
                 if (patientProgramOpt.isPresent()) {
                     PatientProgram patientProgram = patientProgramOpt.get();
                     BigDecimal oldFee = patientProgram.getProgram_fee();
 
-                    // Check if the payment amount has changed
                     BigDecimal paymentDifference = dto.getAmount().subtract(existingPayment.getAmount());
                     if (paymentDifference.compareTo(BigDecimal.ZERO) != 0) {
-                        // Update the program fee with the new payment difference
+
                         BigDecimal newFee = oldFee.subtract(paymentDifference);
                         patientProgramDAO.updateTherapyProgramFee(patientOpt.getPatient_id(), programOpt.getProgramId(), newFee);
                     }
@@ -135,7 +130,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             session.close();
         }
@@ -165,10 +160,8 @@ public class PaymentServiceImpl implements PaymentService {
                 PatientProgram patientProgram = patientProgramOpt.get();
                 BigDecimal oldFee = patientProgram.getProgram_fee();
 
-                // Adjust the program fee by adding the payment amount back
                 BigDecimal newFee = oldFee.add(payment.getAmount());
 
-                // Update the program fee in PatientProgram
                 patientProgramDAO.updateTherapyProgramFee(patient.getPatient_id(), program.getProgramId(), newFee);
             }
 
@@ -181,7 +174,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             session.close();
         }
@@ -205,33 +198,12 @@ public class PaymentServiceImpl implements PaymentService {
             );
             dtos.add(dto);
         }
-
         return dtos;
     }
 
     @Override
     public ArrayList<PaymentDTO> searchByPatientName(String name) {
         List<Payment> payments = paymentDAO.findByPatientName(name);
-        ArrayList<PaymentDTO> dtos = new ArrayList<>();
-
-        for (Payment p : payments) {
-            PaymentDTO dto = new PaymentDTO(
-                    p.getPayment_id(),
-                    p.getPatient(),
-                    p.getTherapy_program(),
-                    p.getTherapy_session(),
-                    p.getAmount(),
-                    p.getPayment_date()
-            );
-            dtos.add(dto);
-        }
-
-        return dtos;
-    }
-
-    @Override
-    public ArrayList<PaymentDTO> searchByDate(LocalDate date) {
-        List<Payment> payments = paymentDAO.findByDate(date);
         ArrayList<PaymentDTO> dtos = new ArrayList<>();
 
         for (Payment p : payments) {
@@ -278,7 +250,8 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void generateInvoice(String paymentId) throws Exception {
+    public void generateInvoice(String paymentId) {
         paymentDAO.printInvoiceReport(paymentId);
     }
+
 }

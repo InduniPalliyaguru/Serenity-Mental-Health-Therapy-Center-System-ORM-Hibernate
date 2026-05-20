@@ -50,20 +50,17 @@ public class TherapistProgramServiceImpl implements TherapistProgramService {
             return false;
         }
 
-
         TherapistProgram entity = new TherapistProgram(
                 new TherapistProgramId(therapistId, programId),
                 therapistOpt,
                 programOpt
         );
-
         return therapistProgramDAO.update(entity);
     }
 
     @Override
     public boolean deleteTherapistProgram(String therapistId, String programId) {
         return therapistProgramDAO.delete(therapistId, programId);
-
     }
 
     @Override
@@ -78,7 +75,8 @@ public class TherapistProgramServiceImpl implements TherapistProgramService {
             );
         } else {
             return null;
-        }    }
+        }
+    }
 
     @Override
     public List<TherapistProgramDTO> getAllTherapistPrograms() {
@@ -93,7 +91,6 @@ public class TherapistProgramServiceImpl implements TherapistProgramService {
             );
             dtos.add(dto);
         }
-
         return dtos;
     }
 
@@ -110,7 +107,6 @@ public class TherapistProgramServiceImpl implements TherapistProgramService {
             );
             dtos.add(dto);
         }
-
         return dtos;
     }
 
@@ -127,7 +123,6 @@ public class TherapistProgramServiceImpl implements TherapistProgramService {
             );
             dtos.add(dto);
         }
-
         return dtos;
     }
 
@@ -144,7 +139,6 @@ public class TherapistProgramServiceImpl implements TherapistProgramService {
             );
             dtos.add(dto);
         }
-
         return dtos;
     }
 
@@ -161,7 +155,7 @@ public class TherapistProgramServiceImpl implements TherapistProgramService {
             );
             dtos.add(dto);
         }
-
         return dtos;
     }
+
 }

@@ -24,34 +24,11 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     TherapistDAO therapistDAO = (TherapistDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPIST);
     PatientDAO patientDAO = (PatientDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.PATIENT);
     TherapyProgramDAO therapyProgramDAO = (TherapyProgramDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPY_PROGRAM);
-
+    TherapistAvailabilityDAO therapistAvailabilityDAO = (TherapistAvailabilityDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.THERAPIST_AVAILABILITY);
     TherapistAvailabilityService therapistAvailabilityBO = (TherapistAvailabilityService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST_AVAILABILITY);
 
-
     @Override
-    public TherapySessionDTO searchSession(String id) throws Exception {
-
-        Optional<TherapySession> optional = therapySessionDAO.findBySessionId(id);
-        if (optional.isEmpty()) return null;
-
-        TherapySession session = optional.get();
-        TherapySessionDTO dto = new TherapySessionDTO();
-        dto.setSessionId(session.getSession_id());
-        dto.setTherapistId(session.getTherapist().getTherapist_id());
-        dto.setPatientId(session.getPatient().getPatient_id());
-        dto.setTherapyProgramId(session.getTherapy_program().getProgramId());
-        dto.setAvailabilityId(session.getTherapistAvailability() != null
-                ? session.getTherapistAvailability().getAvailability_id() : null);
-        dto.setSessionDate(session.getSession_date());
-        dto.setSessionTime(session.getStart_time());
-        dto.setDuration(session.getDuration());
-        dto.setStatus(session.getStatus());
-
-        return dto;
-    }
-
-    @Override
-    public boolean saveSession(TherapySessionDTO dto) throws Exception {
+    public boolean saveSession(TherapySessionDTO dto){
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -90,7 +67,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
 
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -98,7 +75,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     }
 
     @Override
-    public boolean updateSession(TherapySessionDTO dto) throws Exception {
+    public boolean updateSession(TherapySessionDTO dto){
 
         Therapist therapistOpt = therapistDAO.search(dto.getTherapistId());
         Patient patientOpt = patientDAO.search(dto.getPatientId());
@@ -116,9 +93,13 @@ public class TherapySessionServiceImpl implements TherapySessionService {
         therapySession.setTherapy_program(programOpt);
 
         if (dto.getAvailabilityId() != null) {
-            therapySession.setTherapistAvailability(null);
-        } else {
-            therapySession.setTherapistAvailability(null);
+            TherapistAvailability availability = therapistAvailabilityDAO.search(dto.getAvailabilityId());
+
+            if (availability != null) {
+                therapySession.setTherapistAvailability(availability);
+            } else {
+                return false;
+            }
         }
 
         therapySession.setSession_date(dto.getSessionDate());
@@ -131,7 +112,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     }
 
     @Override
-    public boolean deleteSession(String sessionId) throws Exception {
+    public boolean deleteSession(String sessionId){
 
         Optional<TherapySession> optionalSession = therapySessionDAO.findBySessionId(sessionId);
 
@@ -150,7 +131,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     }
 
     @Override
-    public List<TherapySessionDTO> getAllSessions() throws Exception {
+    public List<TherapySessionDTO> getAllSessions(){
 
         List<TherapySession> sessions = therapySessionDAO.getAll();
         ArrayList<TherapySessionDTO> sessionDtos = new ArrayList<>();
@@ -172,11 +153,6 @@ public class TherapySessionServiceImpl implements TherapySessionService {
         }
 
         return sessionDtos;
-    }
-
-    @Override
-    public List<TherapySessionDTO> searchByPatientName(String name) throws Exception {
-        return List.of();
     }
 
     @Override
@@ -246,7 +222,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
                         createNewAvailability(availability, endTime, slotEnd, session);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
                 return availability;
             }

@@ -5,9 +5,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.UserDAO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.UserDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.User;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.UserService;
-import lk.ijse.serenitymentalhealththerepycentersystem.util.KeepUserIDUtil;
 import lk.ijse.serenitymentalhealththerepycentersystem.util.PasswordUtil;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,29 +16,7 @@ public class UserServiceImpl implements UserService {
     UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 
     @Override
-    public String checkCredentials(String username, String password) {
-            User user = userDAO.findByUsername(username);
-            if (user != null) {
-
-                if (BCrypt.checkpw(password, user.getPassword())) {
-                    return user.getRole();
-                }
-            }
-            return null;
-        }
-
-    @Override
-    public String login(String username, String password) {
-        User user = userDAO.findByUsername(username);
-        if (user != null && BCrypt.checkpw(password, user.getPassword())) {
-            return user.getRole();
-        }
-        return null;
-
-    }
-
-    @Override
-    public String authenticateUser(String username, String password) throws Exception {
+    public String authenticateUser(String username, String password) {
 
         User user = userDAO.findByUsername(username);
 
@@ -51,37 +27,7 @@ public class UserServiceImpl implements UserService {
                 return user.getRole();
             }
         }
-
         return null;
-    }
-
-    @Override
-    public String validateUser(String username, String password) {
-        User user = userDAO.findByUsername(username);
-
-        if (user == null) {
-            return null;
-        }
-
-        if (verifyPassword(password, user.getPassword())) {
-            KeepUserIDUtil.getInstance().setCurrentUserId(user.getUser_id());
-            return user.getRole();
-        } else {
-            return null;
-        }
-    }
-
-    public boolean verifyPassword(String plainPassword, String hashedPassword) {
-        if (hashedPassword == null || hashedPassword.isEmpty()) {
-            throw new IllegalArgumentException("Hashed password cannot be null or empty");
-        }
-
-        try {
-            return BCrypt.checkpw(plainPassword, hashedPassword);
-        } catch (IllegalArgumentException e) {
-            System.err.println("Invalid password hash format: " + hashedPassword);
-            return false;
-        }
     }
 
     @Override
@@ -146,7 +92,7 @@ public class UserServiceImpl implements UserService {
         Optional<String> lastPkOpt = userDAO.getLastPK();
 
         if (lastPkOpt.isPresent()) {
-            String lastPk = lastPkOpt.get(); // e.g., U005
+            String lastPk = lastPkOpt.get();
             int num = Integer.parseInt(lastPk.replace("U", ""));
             return String.format("U%03d", num + 1);
         } else {
@@ -171,28 +117,5 @@ public class UserServiceImpl implements UserService {
         return userDtos;
     }
 
-    @Override
-    public UserDTO findUserByUserId(String userId) {
-        Optional<User> optionalUser = userDAO.findByUserId(userId);
-
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            UserDTO userDto = new UserDTO();
-            userDto.setUser_id(user.getUser_id());
-            userDto.setUsername(user.getUsername());
-            userDto.setEmail(user.getEmail());
-            userDto.setPassword(user.getPassword());
-            userDto.setRole(user.getRole());
-            return userDto;
-        }
-
-        return null;
-    }
-
-    @Override
-    public boolean updateUsernameAndPassword(String userId, String newUsername, String newPassword) {
-        String hashedPassword = PasswordUtil.hashPassword(newPassword);
-        return userDAO.updateUsernameAndPassword(userId, newUsername, hashedPassword);
-    }
 
 }

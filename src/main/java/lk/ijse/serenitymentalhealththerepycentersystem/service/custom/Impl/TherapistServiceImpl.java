@@ -54,7 +54,6 @@ public class TherapistServiceImpl implements TherapistService {
                     }
                 }
             }
-
             return therapistDAO.update(therapist);
         }
         return false;
@@ -101,7 +100,6 @@ public class TherapistServiceImpl implements TherapistService {
 
             therapistDtos.add(therapistDTO);
         }
-
         return therapistDtos;
     }
 
@@ -128,7 +126,6 @@ public class TherapistServiceImpl implements TherapistService {
                     ));
                 }
             }
-
             dto.setAssignedPrograms(tmList);
 
             return dto;
@@ -153,7 +150,7 @@ public class TherapistServiceImpl implements TherapistService {
     }
 
     @Override
-    public boolean saveTherapistWithPrograms(TherapistDTO dto) throws Exception {
+    public boolean saveTherapistWithPrograms(TherapistDTO dto) {
         Therapist therapist = new Therapist();
         therapist.setTherapist_id(dto.getTherapistId());
         therapist.setName(dto.getName());
@@ -179,15 +176,14 @@ public class TherapistServiceImpl implements TherapistService {
                     bridge.setId(compositeId);
                     bridge.setTherapist(therapist);
                     bridge.setTherapy_program(programEntity);
-
                     list.add(bridge);
                 }
             }
         }
 
-        // මෙතැනදී අනිවාර්යයෙන්ම සකස් කරගත් list එක set කරන්න
         therapist.setTherapistPrograms(list);
 
         return therapistDAO.save(therapist);
     }
+
 }

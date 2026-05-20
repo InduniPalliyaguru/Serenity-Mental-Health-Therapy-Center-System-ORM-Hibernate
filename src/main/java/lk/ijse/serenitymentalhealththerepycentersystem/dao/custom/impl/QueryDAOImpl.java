@@ -2,11 +2,18 @@ package lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.impl;
 
 import lk.ijse.serenitymentalhealththerepycentersystem.config.FactoryConfiguration;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.QueryDAO;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QueryDAOImpl implements QueryDAO {
 
@@ -42,7 +49,6 @@ public class QueryDAOImpl implements QueryDAO {
     @Override
     public List<Object[]> getAllPaymentsInfo() {
         Session session = FactoryConfiguration.getInstance().getSession();
-        // pt.name වෙනුවට pt (සම්පූර්ණ Patient object එකම) ගන්නවා
         String hql = "SELECT py.payment_id, pt, py.amount, py.payment_date FROM Payment py JOIN py.patient pt ORDER BY py.payment_date DESC";
         List<Object[]> list = session.createQuery(hql, Object[].class).list();
         session.close();
@@ -100,4 +106,41 @@ public class QueryDAOImpl implements QueryDAO {
         session.close();
         return list;
     }
+
+    @Override
+    public void generateFinancialReport(LocalDate fromDate, LocalDate toDate) {
+
+        Session session = FactoryConfiguration.getInstance().getSession();
+
+        try {
+            session.doWork(new org.hibernate.jdbc.Work() {
+                @Override
+                public void execute(Connection connection) throws SQLException {
+                    try {
+                        InputStream reportStream = getClass().getResourceAsStream("/reports/financeReport.jasper");
+
+                        if (reportStream == null) {
+                            throw new RuntimeException("Compiled report file (paymentInvoice.jasper) not found in resources/reports/ folder!");
+                        }
+
+                        Map<String, Object> parameters = new HashMap<>();
+                        parameters.put("fromDate", java.sql.Date.valueOf(fromDate));
+                        parameters.put("toDate", java.sql.Date.valueOf(toDate));
+
+                        JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, parameters, connection);
+
+                        JasperViewer.viewReport(jasperPrint, false);
+
+                    } catch (JRException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            });
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
 }

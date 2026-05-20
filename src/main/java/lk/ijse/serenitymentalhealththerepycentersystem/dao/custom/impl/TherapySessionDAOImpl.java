@@ -69,7 +69,7 @@ public class TherapySessionDAOImpl implements TherapySessionDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -90,7 +90,7 @@ public class TherapySessionDAOImpl implements TherapySessionDAO {
             return false;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();

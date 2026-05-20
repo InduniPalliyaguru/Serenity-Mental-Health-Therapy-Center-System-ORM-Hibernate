@@ -13,6 +13,7 @@ module lk.ijse.serenitymentalhealththerepycentersystem {
     requires javafx.graphics;
 //    requires jasperreports;
     requires net.sf.jasperreports.core;
+    requires java.sql;
 
     opens lk.ijse.serenitymentalhealththerepycentersystem.config to jakarta.persistence;
 

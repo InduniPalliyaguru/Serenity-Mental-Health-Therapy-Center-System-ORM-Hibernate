@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 public class PatientProgramTM {
+
     private String patientId;
     private String patientName;
     private String programId;

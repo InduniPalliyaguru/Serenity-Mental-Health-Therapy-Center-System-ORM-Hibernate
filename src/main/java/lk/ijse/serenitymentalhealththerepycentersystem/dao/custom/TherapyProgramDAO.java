@@ -9,7 +9,9 @@ import java.util.Optional;
 public interface TherapyProgramDAO extends CrudDAO<TherapyProgram> {
 
     Optional<String> getLastPK();
+
     TherapyProgram findByName(String name) throws Exception;
-    public List<TherapyProgram> findByTherapyProgramName(String name);
+
+    List<TherapyProgram> findByTherapyProgramName(String name);
 
 }

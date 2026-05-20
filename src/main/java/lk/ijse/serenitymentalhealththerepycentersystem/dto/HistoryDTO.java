@@ -1,6 +1,5 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.dto;
 
-
 import lombok.*;
 
 @Getter

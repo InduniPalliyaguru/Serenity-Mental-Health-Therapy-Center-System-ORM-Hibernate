@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class HistoryTM {
+
     private String date;
     private String programName;
     private String therapistName;
     private String historyStatus;
     private String notes;
+
 }

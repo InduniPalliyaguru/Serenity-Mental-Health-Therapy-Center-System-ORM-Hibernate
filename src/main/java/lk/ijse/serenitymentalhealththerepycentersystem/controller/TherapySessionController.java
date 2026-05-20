@@ -1,7 +1,6 @@
 
 package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,7 +14,6 @@ import javafx.stage.Stage;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.*;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapySessionTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TimeSlotRowTM;
-import lk.ijse.serenitymentalhealththerepycentersystem.entity.PatientProgram;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.*;
 import lk.ijse.serenitymentalhealththerepycentersystem.util.ValidateUtil;
@@ -34,103 +32,64 @@ public class TherapySessionController implements Initializable {
 
     @FXML
     private TableColumn<TimeSlotRowTM, String> date1TSCol;
-
     @FXML
     private TableColumn<TimeSlotRowTM, String> date2TSCol;
-
     @FXML
     private TableColumn<TimeSlotRowTM, String> date3TSCol;
-
     @FXML
     private TableColumn<TimeSlotRowTM, String> date4TSCol;
-
     @FXML
     private TableColumn<TimeSlotRowTM, String> date5TSCol;
 
     @FXML
-    private Button deleteButton;
-
-    @FXML
     private TableColumn<TherapySessionTM, Duration> durationCol;
-
     @FXML
     private TableColumn<TherapySessionTM, String> patientIdCol;
 
     @FXML
     private TextField patientIdTxt;
-
     @FXML
     private TextField patientNameTxt;
-
-    @FXML
-    private Button patientSearchButton;
-
-    @FXML
-    private Button paymentLoadButton;
-
     @FXML
     private TableColumn<TherapySessionTM, String> programIdCol;
-
     @FXML
     private TextField programIdTxt;
-
     @FXML
     private ComboBox<String> programNameTxt;
-
     @FXML
     private Button saveButton;
-
-    @FXML
-    private Button searchButton;
-
     @FXML
     private TextField searchTxt;
-
     @FXML
     private TableColumn<TherapySessionTM, LocalDate> sessionDateCol;
-
     @FXML
     private DatePicker sessionDateTxt;
-
     @FXML
     private ComboBox<String> sessionDurationTxt;
-
     @FXML
     private TableColumn<TherapySessionTM, String> sessionIdCol;
-
     @FXML
     private TextField sessionIdTxt;
-
     @FXML
     private TableColumn<TherapySessionTM, String> sessionTimeCol;
-
     @FXML
     private TextField sessionTimeTxt;
-
     @FXML
     private TableColumn<TherapySessionTM, String> statusCol;
-
     @FXML
     private ComboBox<String> statusTxtChoice;
-
     @FXML
     private TableColumn<TherapySessionTM, String> therapistIdCol;
-
     @FXML
     private TextField therapistIdTxt;
-
     @FXML
     private ComboBox<String> therapistNameTxt;
-
     @FXML
     private TableView<TherapySessionTM> therapySessionTable;
-
     @FXML
     private TableView<TimeSlotRowTM> timeSlotTable;
-
     @FXML
     private TableColumn<TimeSlotRowTM, String> timeTSCol;
-
     @FXML
     private Button updateButton;
 
@@ -174,14 +133,14 @@ public class TherapySessionController implements Initializable {
     }
 
     @FXML
-    void btnRefresh(MouseEvent event) {
+    void btnRefresh() {
         clearForm();
         loadTimeTable();
         loadAllSessions();
     }
 
     @FXML
-    void delete(ActionEvent event) {
+    void delete() {
         String sessionId = sessionIdTxt.getText();
         if (sessionId == null || sessionId.isEmpty()) {
             showAlert("Warning", "Please select a session to delete.", Alert.AlertType.WARNING);
@@ -200,12 +159,12 @@ public class TherapySessionController implements Initializable {
                 clearForm();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void loadPaymentPage(ActionEvent event) {
+    void loadPaymentPage() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/payment.fxml"));
             Parent root = loader.load();
@@ -221,12 +180,12 @@ public class TherapySessionController implements Initializable {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void save(ActionEvent event) {
+    void save() {
 
         String sessionId = sessionIdTxt.getText().trim();
         String patientId = patientIdTxt.getText().trim();
@@ -301,13 +260,13 @@ public class TherapySessionController implements Initializable {
                 clearForm();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
     }
 
     @FXML
-    void search(ActionEvent event) {
+    void search() {
         String name = searchTxt.getText().trim();
         if (name.isEmpty()) {
             showAlert("Input Error", "Enter a patient Name to search.", Alert.AlertType.WARNING);
@@ -326,7 +285,7 @@ public class TherapySessionController implements Initializable {
                                 dto.getPatientId(),
                                 dto.getTherapyProgramId(),
                                 dto.getTherapistId(),
-                                null, // or dto.getAvailabilityId()
+                                null,
                                 dto.getSessionDate(),
                                 dto.getSessionTime(),
                                 Duration.ofMinutes(dto.getDuration()),
@@ -341,7 +300,7 @@ public class TherapySessionController implements Initializable {
     }
 
     @FXML
-    void searchPatient(ActionEvent event) {
+    void searchPatient() {
         String name = patientNameTxt.getText().trim();
         ArrayList<PatientDTO> patients = patientService.findByPatientName(name);
 
@@ -360,7 +319,7 @@ public class TherapySessionController implements Initializable {
                 .map(PatientProgramDTO::getProgramName)
                 .collect(Collectors.toList());
 
-        programNameTxt.getItems().clear(); // optional: clears old data if needed
+        programNameTxt.getItems().clear();
         programIdTxt.clear();
         programNameTxt.getItems().addAll(programNames);
 
@@ -372,7 +331,7 @@ public class TherapySessionController implements Initializable {
     }
 
     @FXML
-    void update(ActionEvent event) {
+    void update() {
         if (sessionIdTxt.getText() == null || sessionIdTxt.getText().isEmpty()) {
             showAlert("Warning", "Please select a session from the table to update.", Alert.AlertType.WARNING);
             return;
@@ -402,6 +361,7 @@ public class TherapySessionController implements Initializable {
         try {
             sessionTime = LocalTime.parse(sessionTimeStr, timeFormatter);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             showAlert("Input Error", "Invalid time format. Please use format like 10:30 AM.", Alert.AlertType.ERROR);
             return;
         }
@@ -443,12 +403,12 @@ public class TherapySessionController implements Initializable {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void tableClick(MouseEvent event) {
+    void tableClick() {
         TherapySessionTM selected = therapySessionTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
             sessionIdTxt.setText(selected.getSessionId());
@@ -522,7 +482,7 @@ public class TherapySessionController implements Initializable {
             updateButton.setDisable(true);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -540,7 +500,7 @@ public class TherapySessionController implements Initializable {
             TherapyProgramDTO program = programs.getFirst();
             programIdTxt.setText(program.getProgramId());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         List<TherapistProgramDTO> therapistsPrograms = therapistProgram.findByProgramName(programNameTxt.getValue().trim());

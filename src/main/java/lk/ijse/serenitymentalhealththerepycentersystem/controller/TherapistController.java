@@ -2,7 +2,6 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistDTO;
@@ -33,52 +31,36 @@ public class TherapistController implements Initializable {
 
     @FXML
     private Button btnAssign;
-
     @FXML
     private ComboBox<String> cmbPrograms;
-
     @FXML
     private TableColumn<TherapistTM, String> colEmail;
-
     @FXML
     private TableColumn<TherapistTM, String> colId;
-
     @FXML
     private TableColumn<TherapistTM, String> colName;
-
     @FXML
     private TableColumn<TherapistProgramTM, String> colProgId;
-
     @FXML
     private TableColumn<TherapistProgramTM, String> colProgName;
-
     @FXML
     private TableColumn<TherapistTM, String> colSpecialization;
-
     @FXML
     private TableColumn<TherapistTM, String> colPhone;
-
     @FXML
     private TableView<TherapistProgramTM> tblAssignedPrograms;
-
     @FXML
     private TableView<TherapistTM> tblTherapists;
-
     @FXML
     private TextField txtEmail;
-
     @FXML
     private TextField txtPhone;
-
     @FXML
     private TextField txtSearch;
-
     @FXML
     private TextField txtSpecialization;
-
     @FXML
     private TextField txtTherapistId;
-
     @FXML
     private TextField txtTherapistName;
 
@@ -90,8 +72,8 @@ public class TherapistController implements Initializable {
     TherapistService therapistBO = (TherapistService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST);
     TherapyProgramService programBO = (TherapyProgramService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPY_PROGRAM);
 
-    private ObservableList<TherapistTM> therapistList = FXCollections.observableArrayList();
-    private ObservableList<TherapistProgramTM> assignedProgramList = FXCollections.observableArrayList();
+    private final ObservableList<TherapistTM> therapistList = FXCollections.observableArrayList();
+    private final ObservableList<TherapistProgramTM> assignedProgramList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -107,7 +89,6 @@ public class TherapistController implements Initializable {
 
         refreshPage();
 
-        // Table Selection Listener
         tblTherapists.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) fillFieldsFromTable(newValue);
         });
@@ -120,7 +101,7 @@ public class TherapistController implements Initializable {
     }
 
     @FXML
-    void btnAssignProgramOnAction(ActionEvent event) {
+    void btnAssignProgramOnAction() {
         String selectedProgId = cmbPrograms.getSelectionModel().getSelectedItem();
         if (selectedProgId == null) return;
 
@@ -129,15 +110,15 @@ public class TherapistController implements Initializable {
             assignedProgramList.add(new TherapistProgramTM(progDto.getProgramId(), progDto.getProgramName()));
             tblAssignedPrograms.setItems(assignedProgramList);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnDeleteOnAction() {
         String id = txtTherapistId.getText();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure to delete this Therapist?",
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure to delete this Therapist?",
                 ButtonType.YES, ButtonType.NO);
 
         alert.setTitle("Confirm Deletion");
@@ -150,17 +131,17 @@ public class TherapistController implements Initializable {
                     showAlert(Alert.AlertType.INFORMATION, "Deleted Successfully");
                     refreshPage();
                 } else {
-                     showAlert(Alert.AlertType.ERROR, "Deletion Failed!");
+                    showAlert(Alert.AlertType.ERROR, "Deletion Failed!");
                 }
             } catch (Exception e) {
                 showAlert(Alert.AlertType.ERROR, "Deletion Failed. Something went wrong!");
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
+    void btnSaveOnAction() {
         if (!validateData()) return;
 
         try {
@@ -182,12 +163,12 @@ public class TherapistController implements Initializable {
             }
         } catch (Exception e) {
             showAlert(ERROR, "Save Failed. Something went wrong!");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnSearchOnAction(ActionEvent event) {
+    void btnSearchOnAction() {
         String searchText = txtSearch.getText();
 
         if (searchText.isEmpty()) {
@@ -231,17 +212,17 @@ public class TherapistController implements Initializable {
             }
         } catch (Exception e) {
             showAlert(ERROR, "Something went wrong!");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnRefreshPageOnAction(MouseEvent event) {
+    void btnRefreshPageOnAction() {
         refreshPage();
     }
 
     @FXML
-    void btnTherapistAvailableOnAction(ActionEvent event) {
+    void btnTherapistAvailableOnAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/therapistAvailability.fxml"));
             Parent root = loader.load();
@@ -258,12 +239,12 @@ public class TherapistController implements Initializable {
 
         } catch (IOException e) {
             showAlert(ERROR, "Something went wrong. Cannot open the page!");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
+    void btnUpdateOnAction() {
         if (!validateData()) return;
 
         try {
@@ -285,7 +266,7 @@ public class TherapistController implements Initializable {
             }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Update Failed. Something went wrong!");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -328,7 +309,7 @@ public class TherapistController implements Initializable {
             tblTherapists.setItems(therapistList);
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Something went wrong. Therapist Table not loading!");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -342,7 +323,7 @@ public class TherapistController implements Initializable {
             cmbPrograms.setItems(ids);
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Something went wrong. Program IDs not loading!");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

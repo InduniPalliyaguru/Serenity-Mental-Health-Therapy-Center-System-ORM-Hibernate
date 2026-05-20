@@ -7,6 +7,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dto.PaymentDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.Patient;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.ReportService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,4 +64,10 @@ public class ReportServiceImpl implements ReportService {
         }
         return dtoList;
     }
+
+    @Override
+    public void generateFinancialReport(LocalDate fromDate, LocalDate toDate) {
+        queryDAO.generateFinancialReport(fromDate, toDate);
+    }
+
 }

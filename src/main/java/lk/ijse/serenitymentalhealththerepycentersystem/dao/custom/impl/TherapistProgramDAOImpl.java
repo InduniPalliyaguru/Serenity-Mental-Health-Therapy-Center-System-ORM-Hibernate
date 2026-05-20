@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class TherapistProgramDAOImpl implements TherapistProgramDAO {
+
     @Override
     public boolean delete(String therapistId, String programId) {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -26,7 +27,7 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
             return false;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -64,7 +65,7 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
             TherapistProgramId id = new TherapistProgramId(therapistId, programId);
             program = session.get(TherapistProgram.class, id);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             session.close();
         }
@@ -83,7 +84,7 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
                     .setParameter("therapistId", therapistId)
                     .getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             session.close();
         }
@@ -102,11 +103,10 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
                     .setParameter("programId", programId)
                     .getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } finally {
             session.close();
         }
-
         return results;
     }
 
@@ -120,7 +120,7 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -137,7 +137,7 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -161,4 +161,5 @@ public class TherapistProgramDAOImpl implements TherapistProgramDAO {
         session.close();
         return programs;
     }
+
 }

@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class TherapistDTO {
+
     private String therapistId;
     private String name;
     private String email;

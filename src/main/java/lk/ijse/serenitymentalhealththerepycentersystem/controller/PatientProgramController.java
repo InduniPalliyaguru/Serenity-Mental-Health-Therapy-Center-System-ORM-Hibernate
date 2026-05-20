@@ -2,15 +2,12 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientProgramDTO;
-import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.PatientProgramTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
@@ -27,76 +24,41 @@ import java.util.ResourceBundle;
 public class PatientProgramController implements Initializable {
 
     @FXML
-    private Button btnCheckPatient;
-
-    @FXML
-    private Button btnCheckProgram;
-
-    @FXML
-    private Button deleteButton;
-
-    @FXML
     private TableColumn<PatientProgramTM, Double> leftToPayCol;
-
     @FXML
     private Label leftToPayTxt;
-
     @FXML
     private TableColumn<PatientProgramTM, String> patientIdCol;
-
     @FXML
     private TextField patientIdTxt;
-
     @FXML
     private TableColumn<PatientProgramTM, String> patientNameCol;
-
     @FXML
     private TextField patientNameTxt;
-
     @FXML
     private TableView<PatientProgramTM> patientProgramTable;
-
     @FXML
     private TableColumn<PatientProgramTM, String> paymentIdCol;
-
     @FXML
     private TextField paymentIdTxt;
-
     @FXML
     private TableColumn<PatientProgramTM, Double> programFeeCol;
-
     @FXML
     private Label programFeeTxt;
-
     @FXML
     private TableColumn<PatientProgramTM, String> programIdCol;
-
     @FXML
     private TextField programIdTxt;
-
     @FXML
     private TextField programNameTxt;
-
     @FXML
     private TableColumn<PatientProgramTM, LocalDate> registerDateCol;
-
     @FXML
     private DatePicker registerDateTxt;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private Button searchButton;
-
     @FXML
     private ToggleButton searchToggleButton;
-
     @FXML
     private TextField searchTxt;
-
-    @FXML
-    private Button updateButton;
 
     PatientProgramService patientProgramService = (PatientProgramService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.PATIENT_PROGRAM);
     TherapyProgramService therapyProgramService = (TherapyProgramService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPY_PROGRAM);
@@ -117,20 +79,19 @@ public class PatientProgramController implements Initializable {
     }
 
     @FXML
-    void btnRefresh(MouseEvent event) {
+    void btnRefresh() {
         refreshPage();
     }
 
     @FXML
-    void delete(ActionEvent event) {
+    void delete() {
         String patientName = patientNameTxt.getText();
         String programName = programNameTxt.getText();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Confirmation");
         alert.setHeaderText("Confirm Program Deletion");
-        alert.setContentText("Are you sure you want to delete the program '" + programName +
-                "' for patient '" + patientName + "'?");
+        alert.setContentText("Are you sure you want to delete the program '" + programName + "' for patient '" + patientName + "'?");
 
         ButtonType btnYes = new ButtonType("Yes", ButtonBar.ButtonData.YES);
         ButtonType btnNo = new ButtonType("No", ButtonBar.ButtonData.NO);
@@ -155,7 +116,7 @@ public class PatientProgramController implements Initializable {
     }
 
     @FXML
-    void save(ActionEvent event) {
+    void save() {
         PatientProgramDTO dto = new PatientProgramDTO(
                 patientIdTxt.getText(),
                 patientNameTxt.getText(),
@@ -175,7 +136,7 @@ public class PatientProgramController implements Initializable {
     }
 
     @FXML
-    void search(ActionEvent event) {
+    void search() {
         String query = searchTxt.getText().trim();
 
         if (query.isEmpty()) {
@@ -222,7 +183,7 @@ public class PatientProgramController implements Initializable {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
         if (programTMS.isEmpty()) {
@@ -233,7 +194,7 @@ public class PatientProgramController implements Initializable {
     }
 
     @FXML
-    void searchToggle(ActionEvent event) {
+    void searchToggle() {
         if (searchToggleButton.isSelected()) {
             searchToggleButton.setText("Search by Program");
         } else {
@@ -242,7 +203,7 @@ public class PatientProgramController implements Initializable {
     }
 
     @FXML
-    void update(ActionEvent event) {
+    void update() {
         String feeText = leftToPayTxt.getText();
         BigDecimal fee = new BigDecimal(feeText);
 
@@ -267,7 +228,7 @@ public class PatientProgramController implements Initializable {
     }
 
     @FXML
-    void tableClick(MouseEvent event) {
+    void tableClick() {
         PatientProgramTM selected = patientProgramTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
             patientIdTxt.setText(selected.getPatientId());
@@ -282,7 +243,7 @@ public class PatientProgramController implements Initializable {
     }
 
     @FXML
-    void searchPatient(ActionEvent event) {
+    void searchPatient() {
         String name = patientNameTxt.getText().trim();
         PatientDTO patient = patientProgramService.findByPatientName(name);
         if (patient == null) {
@@ -294,7 +255,7 @@ public class PatientProgramController implements Initializable {
     }
 
     @FXML
-    void searchProgram(ActionEvent event) {
+    void searchProgram() {
         String name = programNameTxt.getText().trim();
         TherapyProgramDTO program = patientProgramService.findByProgramName(name);
         if (program == null) {
@@ -314,7 +275,7 @@ public class PatientProgramController implements Initializable {
             try {
                 program = therapyProgramService.searchProgram(dto.getProgramId());
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
             programTMS.add(new PatientProgramTM(
                     dto.getPatientId(),

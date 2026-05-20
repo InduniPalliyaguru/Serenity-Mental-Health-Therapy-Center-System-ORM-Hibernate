@@ -1,18 +1,16 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.entity;
 
 import jakarta.persistence.*;
-import lk.ijse.serenitymentalhealththerepycentersystem.entity.Patient;
-import lk.ijse.serenitymentalhealththerepycentersystem.entity.PatientProgramID;
-import lk.ijse.serenitymentalhealththerepycentersystem.entity.SuperEntity;
-import lk.ijse.serenitymentalhealththerepycentersystem.entity.TherapyProgram;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "patient_program")
 public class PatientProgram implements SuperEntity {
 
@@ -31,7 +29,7 @@ public class PatientProgram implements SuperEntity {
     private LocalDate registration_date;
 
     @ManyToOne
-    @JoinColumn(name = "payment_id") // Nullable for future developments
+    @JoinColumn(name = "payment_id")
     private Payment payment;
 
     @Column(nullable = false, precision = 10, scale = 2)

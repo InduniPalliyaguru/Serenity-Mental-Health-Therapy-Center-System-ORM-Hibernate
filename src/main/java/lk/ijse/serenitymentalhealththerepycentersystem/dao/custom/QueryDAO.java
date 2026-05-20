@@ -2,6 +2,7 @@ package lk.ijse.serenitymentalhealththerepycentersystem.dao.custom;
 
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.SuperDAO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface QueryDAO extends SuperDAO {
@@ -23,4 +24,6 @@ public interface QueryDAO extends SuperDAO {
     double getMonthlyRevenue();
 
     List<Object[]> getRecentActivities();
+
+    void generateFinancialReport(LocalDate fromDate, LocalDate toDate);
 }

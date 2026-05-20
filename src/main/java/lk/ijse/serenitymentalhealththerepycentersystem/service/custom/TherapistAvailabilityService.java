@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface TherapistAvailabilityService extends SuperService {
+
     boolean saveAvailability(TherapistAvailabilityDTO dto) throws Exception;
 
     boolean updateAvailability(TherapistAvailabilityDTO dto) throws Exception;

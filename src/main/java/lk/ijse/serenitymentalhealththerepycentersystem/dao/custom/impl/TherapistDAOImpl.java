@@ -18,10 +18,10 @@ public class TherapistDAOImpl implements TherapistDAO {
             session.persist(entity);
             transaction.commit();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             return false;
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -36,7 +36,7 @@ public class TherapistDAOImpl implements TherapistDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -49,16 +49,16 @@ public class TherapistDAOImpl implements TherapistDAO {
         Transaction transaction = session.beginTransaction();
         try {
             Therapist therapist = session.find(Therapist.class, id);
-            if (therapist!= null) {
+            if (therapist != null) {
                 session.remove(therapist);
                 transaction.commit();
                 return true;
             }
             return false;
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             return false;
-        }finally {
+        } finally {
             session.close();
         }
     }

@@ -31,13 +31,11 @@ public class UserDAOImpl implements UserDAO {
             session.persist(entity);
             transaction.commit();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             return false;
-        }finally {
-            if (session != null) {
-                session.close();
-            }
+        } finally {
+            session.close();
         }
     }
 
@@ -53,10 +51,9 @@ public class UserDAOImpl implements UserDAO {
             transaction.rollback();
             return false;
         } finally {
-            if (session != null) {
-                session.close();
-            }
-        }    }
+            session.close();
+        }
+    }
 
     @Override
     public boolean delete(String id) {
@@ -64,19 +61,17 @@ public class UserDAOImpl implements UserDAO {
         Transaction transaction = session.beginTransaction();
         try {
             User user = session.find(User.class, id);
-            if (user!= null) {
+            if (user != null) {
                 session.remove(user);
                 transaction.commit();
                 return true;
             }
             return false;
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             return false;
-        }finally {
-            if (session != null) {
-                session.close();
-            }
+        } finally {
+            session.close();
         }
     }
 
@@ -93,7 +88,6 @@ public class UserDAOImpl implements UserDAO {
         return users;
     }
 
-
     @Override
     public Optional<String> getLastPK() {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -105,86 +99,4 @@ public class UserDAOImpl implements UserDAO {
         return Optional.ofNullable(lastPk);
     }
 
-    @Override
-    public String validateUser(String username, String password) {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Object[] result = null;
-
-        try {
-            result = session.createQuery(
-                            "SELECT u.password, u.role FROM User u WHERE u.username = :username", Object[].class)
-                    .setParameter("username", username)
-                    .uniqueResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        if (result == null) {
-            System.out.println("Debug: No user found with username: " + username);
-            return null;
-        }
-
-        String databasePassword = (String) result[0];
-        String role = (String) result[1];
-
-        if (databasePassword != null && databasePassword.equals(password)) {
-            System.out.println("Debug: Authentication successful for role: " + role);
-            return role;
-        } else {
-            System.out.println("Debug: Password does not match for user: " + username);
-            return null;
-        }
-    }
-
-
-    @Override
-    public Optional<User> findByUserId(String userId) {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        List<User> users = null;
-
-        try {
-            users = session.createQuery("FROM User WHERE user_id = :userId", User.class)
-                    .setParameter("userId", userId)
-                    .getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-
-        return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
-    }
-
-
-    @Override
-    public boolean updateUsernameAndPassword(String userId, String newUsername, String newPassword) {
-        Session session = FactoryConfiguration.getInstance().getSession();
-        Transaction transaction = session.beginTransaction();
-
-        try {
-            User user = session.find(User.class, userId);
-
-            if (user != null) {
-                // Update only the username and password
-                user.setUsername(newUsername);
-                user.setPassword(newPassword);  // Assuming password is already hashed when being passed here
-
-                session.update(user);  // Update the user with new values
-                transaction.commit();
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (Exception e) {
-            transaction.rollback();
-            return false;
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
 }

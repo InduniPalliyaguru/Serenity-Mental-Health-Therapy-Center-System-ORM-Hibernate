@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface TherapistDAO extends CrudDAO<Therapist> {
 
     List<Therapist> findByTherapistName(String name);
+
     Optional<String> getLastPK();
 }

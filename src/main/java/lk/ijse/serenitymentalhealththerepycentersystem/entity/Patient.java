@@ -1,15 +1,15 @@
 package lk.ijse.serenitymentalhealththerepycentersystem.entity;
 
 import jakarta.persistence.*;
-import lk.ijse.serenitymentalhealththerepycentersystem.entity.PatientProgram;
-import lk.ijse.serenitymentalhealththerepycentersystem.entity.SuperEntity;
 import lombok.*;
 
 import java.util.List;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "patient")
 public class Patient implements SuperEntity {
 

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class PatientDAOImpl implements PatientDAO {
+
     @Override
     public boolean save(Patient entity) {
         Session session = FactoryConfiguration.getInstance().getSession();
@@ -20,7 +21,7 @@ public class PatientDAOImpl implements PatientDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -37,7 +38,7 @@ public class PatientDAOImpl implements PatientDAO {
             return true;
         } catch (Exception e) {
             transaction.rollback();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return false;
         } finally {
             session.close();
@@ -50,16 +51,16 @@ public class PatientDAOImpl implements PatientDAO {
         Transaction transaction = session.beginTransaction();
         try {
             Patient patient = session.find(Patient.class, id);
-            if (patient!= null) {
+            if (patient != null) {
                 session.remove(patient);
                 transaction.commit();
                 return true;
             }
             return false;
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             return false;
-        }finally {
+        } finally {
             session.close();
         }
     }
@@ -108,18 +109,5 @@ public class PatientDAOImpl implements PatientDAO {
     public List<Patient> searchBySessionStatus(String status) {
         return List.of();
     }
-
-//    @Override
-//    public List<Patient> searchBySessionStatus(String status) {
-//        Session session = FactoryConfiguration.getInstance().getSession();
-//        try {
-//            String hql = "SELECT DISTINCT p FROM Patient p JOIN p.therapySessions s WHERE s.status = :status";
-//            return session.createQuery(hql, Patient.class)
-//                    .setParameter("status", status)
-//                    .list();
-//        } finally {
-//            session.close();
-//        }
-//    }
 
 }

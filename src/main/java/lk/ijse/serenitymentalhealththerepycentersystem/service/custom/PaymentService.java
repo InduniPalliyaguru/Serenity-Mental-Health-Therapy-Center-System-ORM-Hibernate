@@ -19,8 +19,6 @@ public interface PaymentService extends SuperService {
 
     ArrayList<PaymentDTO> searchByPatientName(String name);
 
-    ArrayList<PaymentDTO> searchByDate(LocalDate date);
-
     String getNextPaymentPK();
 
     PaymentDTO constructPaymentDto(String paymentId, String patientId, String programId, String sessionId, BigDecimal amount, LocalDate date);

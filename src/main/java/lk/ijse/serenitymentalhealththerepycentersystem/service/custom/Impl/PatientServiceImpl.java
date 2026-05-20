@@ -112,7 +112,6 @@ public class PatientServiceImpl implements PatientService {
 
             return String.format("P%03d", nextId);
         }
-
         return "P001";
     }
 

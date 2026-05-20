@@ -2,12 +2,10 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistAvailabilityDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapistAvailabilityTM;
@@ -24,55 +22,32 @@ import java.util.ResourceBundle;
 
 public class TherapistAvailabilityController implements Initializable {
 
-
-    @FXML
-    private Button btnCheck;
-
-    @FXML
-    private Button btnDelete;
-
-    @FXML
-    private Button btnUpdate;
-
     @FXML
     private ComboBox<String> cmbAvailability;
-
     @FXML
     private TableColumn<TherapistAvailabilityTM, String> colAvailability;
-
     @FXML
     private TableColumn<TherapistAvailabilityTM, String> colAvailabilityId;
-
     @FXML
     private TableColumn<TherapistAvailabilityTM, LocalDate> colDate;
-
     @FXML
     private TableColumn<TherapistAvailabilityTM, LocalTime> colEndTime;
-
     @FXML
     private TableColumn<TherapistAvailabilityTM, LocalTime> colStartTime;
-
     @FXML
     private TableColumn<TherapistAvailabilityTM, String> colTherapistId;
-
     @FXML
     private DatePicker datePicker;
-
     @FXML
     private TableView<TherapistAvailabilityTM> tblAvailability;
-
     @FXML
     private TextField txtAvailabilityId;
-
     @FXML
     private TextField txtEndTime;
-
     @FXML
     private TextField txtSearch;
-
     @FXML
     private TextField txtStartTime;
-
     @FXML
     private TextField txtTherapistName;
 
@@ -100,7 +75,7 @@ public class TherapistAvailabilityController implements Initializable {
     }
 
     @FXML
-    void btnCheckOnAction(ActionEvent event) {
+    void btnCheckOnAction() {
         String nameInput = txtTherapistName.getText().trim();
 
         if (nameInput.isEmpty()) {
@@ -116,28 +91,26 @@ public class TherapistAvailabilityController implements Initializable {
                 new Alert(Alert.AlertType.ERROR, "No therapist found by this name!").show();
                 selectedTherapistId = null;
                 txtTherapistName.setStyle("-fx-border-color: red;");
-            }
-            else if (therapistList.size() > 1) {
+            } else if (therapistList.size() > 1) {
                 new Alert(Alert.AlertType.WARNING, "There are several therapists with this name. Please enter the full name.").show();
                 selectedTherapistId = null;
-            }
-            else {
+            } else {
                 TherapistDTO selectedTherapist = therapistList.get(0);
                 selectedTherapistId = selectedTherapist.getTherapistId();
 
                 txtTherapistName.setText(selectedTherapist.getName());
                 txtTherapistName.setStyle("-fx-border-color: green;");
 
-                new Alert(Alert.AlertType.INFORMATION,"The therapist confirmed: " + selectedTherapistId).show();
+                new Alert(Alert.AlertType.INFORMATION, "The therapist confirmed: " + selectedTherapistId).show();
             }
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnDeleteOnAction() {
         String id = txtAvailabilityId.getText();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to delete this Availability record?", ButtonType.YES, ButtonType.NO);
@@ -151,13 +124,13 @@ public class TherapistAvailabilityController implements Initializable {
                 }
             } catch (Exception e) {
                 new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
 
     @FXML
-    void btnSavOnAction(ActionEvent event) {
+    void btnSavOnAction() {
         if (!validateInputs() || selectedTherapistId == null) {
             new Alert(Alert.AlertType.WARNING, "Please check the therapist and enter all data!").show();
             return;
@@ -184,7 +157,7 @@ public class TherapistAvailabilityController implements Initializable {
     }
 
     @FXML
-    void btnSearchOnAction(ActionEvent event) {
+    void btnSearchOnAction() {
         String searchText = txtSearch.getText();
         if (searchText.isEmpty()) {
             loadAllAvailability();
@@ -217,12 +190,12 @@ public class TherapistAvailabilityController implements Initializable {
             }
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
+    void btnUpdateOnAction() {
         if (!validateInputs()) return;
 
         try {
@@ -242,12 +215,12 @@ public class TherapistAvailabilityController implements Initializable {
             }
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Something went wrong!").show();
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnRefreshOnAction(MouseEvent event) {
+    void btnRefreshOnAction() {
         refreshPage();
     }
 
@@ -262,7 +235,7 @@ public class TherapistAvailabilityController implements Initializable {
             LocalTime start = LocalTime.parse(txtStartTime.getText());
             LocalTime end = LocalTime.parse(txtEndTime.getText());
             if (!start.isBefore(end)) {
-                new Alert(Alert.AlertType.ERROR,"The start time must be before the end time!").show();
+                new Alert(Alert.AlertType.ERROR, "The start time must be before the end time!").show();
                 return false;
             }
         } catch (Exception e) {
@@ -292,7 +265,7 @@ public class TherapistAvailabilityController implements Initializable {
             txtEndTime.clear();
             loadAllAvailability();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -305,7 +278,7 @@ public class TherapistAvailabilityController implements Initializable {
             txtEndTime.setText(tm.getEndTime().toString());
             cmbAvailability.setValue(tm.getStatus());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -325,7 +298,7 @@ public class TherapistAvailabilityController implements Initializable {
             }
             tblAvailability.setItems(tmList);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

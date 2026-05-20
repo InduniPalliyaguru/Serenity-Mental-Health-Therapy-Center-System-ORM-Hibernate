@@ -2,12 +2,10 @@ package lk.ijse.serenitymentalhealththerepycentersystem.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapyProgramTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
@@ -22,56 +20,29 @@ import java.util.ResourceBundle;
 public class TherapyProgramController implements Initializable {
 
     @FXML
-    private Button btnDelete;
-
-    @FXML
-    private Button btnSave;
-
-    @FXML
-    private Button btnSearch;
-
-    @FXML
-    private Button btnUpdate;
-
-    @FXML
     private TableColumn<TherapyProgramTM, String> colDescription;
-
     @FXML
     private TableColumn<TherapyProgramTM, String> colDuration;
-
     @FXML
     private TableColumn<TherapyProgramTM, BigDecimal> colFee;
-
     @FXML
     private TableColumn<TherapyProgramTM, String> colName;
-
     @FXML
     private TableColumn<TherapyProgramTM, String> colProgramId;
-
     @FXML
     private TableView<TherapyProgramTM> tblTherapyProgram;
-
     @FXML
     private TextArea txtDescription;
-
     @FXML
     private TextField txtDuration;
-
     @FXML
     private TextField txtFee;
-
     @FXML
     private TextField txtProgramId;
-
     @FXML
     private TextField txtProgramName;
-
     @FXML
     private TextField txtSearch;
-
-    private final String ID_PATTERN = "^MT[0-9]{4}$";
-    private final String NAME_PATTERN = "^[A-z\\s]{3,}$";
-    private final String FEE_PATTERN = "^[0-9]+(\\.[0-9]{1,2})?$";
 
     TherapyProgramService therapyProgramBO = (TherapyProgramService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPY_PROGRAM);
 
@@ -93,7 +64,7 @@ public class TherapyProgramController implements Initializable {
     }
 
     @FXML
-    void btnDeleteOnAction(ActionEvent event) {
+    void btnDeleteOnAction() {
         String id = txtProgramId.getText();
         if (id.isEmpty()) return;
 
@@ -106,12 +77,13 @@ public class TherapyProgramController implements Initializable {
                 }
             } catch (Exception e) {
                 showAlert(Alert.AlertType.ERROR, "Delete Failed!");
+                System.out.println(e.getMessage());
             }
         }
     }
 
     @FXML
-    void btnSaveOnAction(ActionEvent event) {
+    void btnSaveOnAction() {
         if (haveEmptyFields()) return;
         if (!validateData()) return;
         try {
@@ -130,11 +102,12 @@ public class TherapyProgramController implements Initializable {
             }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Save Failed!");
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnSearchOnAction(ActionEvent event) {
+    void btnSearchOnAction() {
         try {
             TherapyProgramDTO dto = therapyProgramBO.searchProgram(txtSearch.getText());
             if (dto != null) {
@@ -147,12 +120,12 @@ public class TherapyProgramController implements Initializable {
                 showAlert(Alert.AlertType.WARNING, "Not Found!");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnUpdateOnAction(ActionEvent event) {
+    void btnUpdateOnAction() {
         if (haveEmptyFields()) return;
         if (!validateData()) return;
         try {
@@ -171,11 +144,12 @@ public class TherapyProgramController implements Initializable {
             }
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Update Failed!");
+            System.out.println(e.getMessage());
         }
     }
 
     @FXML
-    void btnRefreshOnAction(MouseEvent event) {
+    void btnRefreshOnAction() {
         refreshPage();
     }
 
@@ -209,14 +183,17 @@ public class TherapyProgramController implements Initializable {
 
     private boolean validateData() {
 
+        String ID_PATTERN = "^MT[0-9]{4}$";
         if (!txtProgramId.getText().matches(ID_PATTERN)) {
             showAlert(Alert.AlertType.ERROR, "Invalid ID! (MT1001)");
             return false;
         }
+        String NAME_PATTERN = "^[A-z\\s]{3,}$";
         if (!txtProgramName.getText().matches(NAME_PATTERN)) {
             showAlert(Alert.AlertType.ERROR, "Invalid Name!");
             return false;
         }
+        String FEE_PATTERN = "^[0-9]+(\\.[0-9]{1,2})?$";
         if (!txtFee.getText().matches(FEE_PATTERN)) {
             showAlert(Alert.AlertType.ERROR, "Invalid Fee Format!");
             return false;
@@ -264,7 +241,7 @@ public class TherapyProgramController implements Initializable {
         try {
             txtProgramId.setText(therapyProgramBO.getNextTherapyProgramPK());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

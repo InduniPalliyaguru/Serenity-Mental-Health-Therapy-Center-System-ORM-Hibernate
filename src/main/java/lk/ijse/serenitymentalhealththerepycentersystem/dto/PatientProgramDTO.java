@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @ToString
 
 public class PatientProgramDTO {
+
     private String patientId;
     private String patientName;
     private String programId;
@@ -18,4 +20,5 @@ public class PatientProgramDTO {
     private LocalDate registrationDate;
     private String paymentId;
     private BigDecimal leftToPay;
+
 }
