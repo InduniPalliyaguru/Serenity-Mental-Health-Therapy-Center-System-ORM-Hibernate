@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-//import jakarta.persistence.Cacheable;
+import jakarta.persistence.Cacheable;
 import org.hibernate.annotations.Cache;
 
 import java.util.List;
