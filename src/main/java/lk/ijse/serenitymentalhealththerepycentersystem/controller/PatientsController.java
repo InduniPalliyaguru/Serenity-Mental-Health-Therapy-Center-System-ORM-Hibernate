@@ -55,7 +55,7 @@ public class PatientsController implements Initializable {
     private static final String EMAIL_PATTERN = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final String PHONE_PATTERN = "^0[0-9]{9}$";
 
-    PatientService patientBO = (PatientService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.PATIENT);
+    PatientService patientService = (PatientService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.PATIENT);
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,7 +84,7 @@ public class PatientsController implements Initializable {
 
         if (result.isPresent() && result.get() == ButtonType.YES) {
             try {
-                boolean isDeleted = patientBO.deletePatient(patientId);
+                boolean isDeleted = patientService.deletePatient(patientId);
 
                 if (isDeleted) {
                     showAlert(INFORMATION, "Patient deleted successfully!");
@@ -103,7 +103,7 @@ public class PatientsController implements Initializable {
 
             if (!validateData()) return;
 
-            boolean isSaved = patientBO.savePatient(new PatientDTO(
+            boolean isSaved = patientService.savePatient(new PatientDTO(
                     txtPatientId.getText(), txtPatientName.getText(), txtEmail.getText(),
                     txtPhone.getText(), txtAddress.getText(), txtMedicalHistory.getText()
             ));
@@ -142,7 +142,7 @@ public class PatientsController implements Initializable {
                     txtMedicalHistory.getText()
             );
 
-            boolean isUpdated = patientBO.updatePatient(patientDTO);
+            boolean isUpdated = patientService.updatePatient(patientDTO);
 
             if (isUpdated) {
                 showAlert(INFORMATION, "Patient updated successfully!");
@@ -163,7 +163,7 @@ public class PatientsController implements Initializable {
 
         try {
             if (searchText.matches(ID_PATTERN)) {
-                PatientDTO dto = patientBO.findPatientByID(searchText);
+                PatientDTO dto = patientService.findPatientByID(searchText);
                 if (dto != null) {
                     fillFields(dto);
 
@@ -175,7 +175,7 @@ public class PatientsController implements Initializable {
                 }
             }
 
-            List<PatientDTO> filteredList = patientBO.getPatientsBySession(searchText);
+            List<PatientDTO> filteredList = patientService.getPatientsBySession(searchText);
 
             if (!filteredList.isEmpty()) {
                 ObservableList<PatientTM> tmList = FXCollections.observableArrayList();
@@ -185,7 +185,7 @@ public class PatientsController implements Initializable {
                 }
                 tblPatients.setItems(tmList);
             } else {
-                List<PatientDTO> patientsByName = patientBO.findByPatientName(searchText);
+                List<PatientDTO> patientsByName = patientService.findByPatientName(searchText);
 
                 if (patientsByName != null && !patientsByName.isEmpty()) {
                     System.out.println("patient found");
@@ -215,6 +215,36 @@ public class PatientsController implements Initializable {
     @FXML
     void btnRefreshOnAction() {
         refreshPage();
+    }
+
+    @FXML
+    void btnFilterAllProgramsOnAction() {
+        try {
+            List<PatientDTO> specialPatients = patientService.getPatientsEnrolledInAllPrograms();
+
+            if (specialPatients.isEmpty()) {
+                showAlert(INFORMATION, "No patients are enrolled in all therapy programs currently.");
+                return;
+            }
+
+            tblPatients.getItems().clear();
+            for (PatientDTO dto : specialPatients) {
+                tblPatients.getItems().add(new PatientTM(
+                        dto.getPatientId(),
+                        dto.getName(),
+                        dto.getEmail(),
+                        dto.getPhone(),
+                        dto.getAddress(),
+                        dto.getMedicalHistory()
+                ));
+            }
+
+            showAlert(INFORMATION, "Showing patients registered for ALL therapy programs!");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            showAlert(ERROR, "Failed to load filtered data.");
+        }
     }
 
     private void checkEmptyFields() {
@@ -262,7 +292,7 @@ public class PatientsController implements Initializable {
         loadAllPatients();
 
         try {
-            txtPatientId.setText(patientBO.getNextPatientPK());
+            txtPatientId.setText(patientService.getNextPatientPK());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -271,7 +301,7 @@ public class PatientsController implements Initializable {
     private void loadAllPatients() {
         ObservableList<PatientTM> patientTMS = FXCollections.observableArrayList();
         try {
-            List<PatientDTO> allPatients = patientBO.getAllPatients();
+            List<PatientDTO> allPatients = patientService.getAllPatients();
             for (PatientDTO dto : allPatients) {
                 patientTMS.add(new PatientTM(
                         dto.getPatientId(),

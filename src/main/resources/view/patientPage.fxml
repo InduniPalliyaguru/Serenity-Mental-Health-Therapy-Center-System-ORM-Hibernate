@@ -130,6 +130,15 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <children>
+                  <Button mnemonicParsing="false" onAction="#btnFilterAllProgramsOnAction" prefHeight="32.0" prefWidth="181.0" style="-fx-background-color: #fc9003; -fx-text-fill: black;" styleClass="btn-save" text="Show All Program Patients">
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" height="20.0" radius="9.5" width="20.0">
+                           <color>
+                              <Color opacity="0.15" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </Button>
                         <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="40.0" prefWidth="120.0" styleClass="btn-delete" text="Delete" />
                         <Button fx:id="btnUpdate" mnemonicParsing="false" onAction="#btnUpdateOnAction" prefHeight="40.0" prefWidth="120.0" styleClass="btn-update" text="Update" />
                         <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveOnAction" prefHeight="40.0" prefWidth="150.0" styleClass="btn-save" text="Save Patient">

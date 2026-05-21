@@ -23,4 +23,7 @@ public interface PatientService extends SuperService {
     String getNextPatientPK() throws Exception;
 
     List<PatientDTO> getPatientsBySession(String status) throws Exception;
+
+    List<PatientDTO> getPatientsEnrolledInAllPrograms();
+
 }

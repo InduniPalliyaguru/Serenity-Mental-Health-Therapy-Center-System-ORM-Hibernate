@@ -132,4 +132,15 @@ public class PatientServiceImpl implements PatientService {
         return patientList;
     }
 
+    @Override
+    public List<PatientDTO> getPatientsEnrolledInAllPrograms() {
+        List<Patient> patients = patientDAO.getPatientsEnrolledInAllPrograms();
+        List<PatientDTO> dtoList = new ArrayList<>();
+
+        for (Patient p : patients) {
+            dtoList.add(new PatientDTO(p.getPatient_id(), p.getName(), p.getEmail(), p.getPhone(), p.getAddress(), p.getMedical_history()));
+        }
+        return dtoList;
+    }
+
 }

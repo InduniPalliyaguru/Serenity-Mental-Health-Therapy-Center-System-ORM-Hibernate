@@ -110,4 +110,18 @@ public class PatientDAOImpl implements PatientDAO {
         return List.of();
     }
 
+    @Override
+    public List<Patient> getPatientsEnrolledInAllPrograms() {
+        Session session = FactoryConfiguration.getInstance().getSession();
+        try {
+            String hql = "SELECT p FROM Patient p WHERE " +
+                    "(SELECT COUNT(distinct pp.therapy_program.programId) FROM PatientProgram pp WHERE pp.patient.patient_id = p.patient_id) = " +
+                    "(SELECT COUNT(tp) FROM TherapyProgram tp)";
+
+            return session.createQuery(hql, Patient.class).getResultList();
+        } finally {
+            session.close();
+        }
+    }
+
 }
