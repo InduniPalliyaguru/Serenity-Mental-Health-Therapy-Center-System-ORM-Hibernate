@@ -6,6 +6,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.entity.TherapySession;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,6 +109,24 @@ public class TherapySessionDAOImpl implements TherapySessionDAO {
         List<TherapySession> sessions = session.createQuery("FROM TherapySession", TherapySession.class).list();
         session.close();
         return sessions;
+    }
+
+    @Override
+    public List<TherapySession> findActiveSessionsByTherapist(Session session, String therapistId, LocalDate date) {
+        String hql = "FROM TherapySession WHERE therapist.therapist_id = :tId AND session_date = :sDate AND status != 'Cancelled'";
+        return session.createQuery(hql, TherapySession.class)
+                .setParameter("tId", therapistId)
+                .setParameter("sDate", date)
+                .getResultList();
+    }
+
+    @Override
+    public List<TherapySession> findActiveSessionsByPatient(Session session, String patientId, LocalDate date) {
+        String hql = "FROM TherapySession WHERE patient.patient_id = :pId AND session_date = :sDate AND status != 'Cancelled'";
+        return session.createQuery(hql, TherapySession.class)
+                .setParameter("pId", patientId)
+                .setParameter("sDate", date)
+                .getResultList();
     }
 
 }

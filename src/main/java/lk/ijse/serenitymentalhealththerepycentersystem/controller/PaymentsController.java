@@ -10,6 +10,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PaymentDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.PaymentTM;
+import lk.ijse.serenitymentalhealththerepycentersystem.exception.PaymentException;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PatientService;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PaymentService;
@@ -207,25 +208,6 @@ public class PaymentsController implements Initializable {
     }
 
     @FXML
-    void save() {
-        PaymentDTO dto = payService.constructPaymentDto(
-                paymentIdTxt.getText(),
-                patientIdTxt.getText(),
-                programIdTxt.getText(),
-                sessionIdTxt.getText(),
-                new BigDecimal(amountTxt.getText()),
-                dateTxt.getValue()
-        );
-
-        if (payService.savePayment(dto)) {
-            showAlert("Success", "Payment saved successfully", Alert.AlertType.INFORMATION);
-            refreshPage();
-        } else {
-            showAlert("Error", "Failed to save payment", Alert.AlertType.ERROR);
-        }
-    }
-
-    @FXML
     void search() {
         String query = searchTxt.getText();
         if (query.isEmpty()) {
@@ -295,21 +277,60 @@ public class PaymentsController implements Initializable {
     }
 
     @FXML
-    void update() {
-        PaymentDTO dto = payService.constructPaymentDto(
-                paymentIdTxt.getText(),
-                patientIdTxt.getText(),
-                programIdTxt.getText(),
-                sessionIdTxt.getText(),
-                new BigDecimal(amountTxt.getText()),
-                dateTxt.getValue()
-        );
+    void save() {
+        try {
+            checkPaymentFields();
 
-        if (payService.updatePayment(dto)) {
-            showAlert("Success", "Payment updated successfully", Alert.AlertType.INFORMATION);
-            refreshPage();
-        } else {
-            showAlert("Error", "Failed to update payment", Alert.AlertType.ERROR);
+            PaymentDTO dto = payService.constructPaymentDto(
+                    paymentIdTxt.getText(),
+                    patientIdTxt.getText(),
+                    programIdTxt.getText(),
+                    sessionIdTxt.getText(),
+                    new BigDecimal(amountTxt.getText()),
+                    dateTxt.getValue()
+            );
+
+            if (payService.savePayment(dto)) {
+                showAlert("Success", "Payment saved successfully", Alert.AlertType.INFORMATION);
+                refreshPage();
+            } else {
+                showAlert("Error", "Failed to save payment", Alert.AlertType.ERROR);
+            }
+
+        } catch (PaymentException e) {
+            showAlert("Payment Error", e.getMessage(), Alert.AlertType.ERROR);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            showAlert("Error", "An unexpected error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    void update() {
+        try {
+            checkPaymentFields();
+
+            PaymentDTO dto = payService.constructPaymentDto(
+                    paymentIdTxt.getText(),
+                    patientIdTxt.getText(),
+                    programIdTxt.getText(),
+                    sessionIdTxt.getText(),
+                    new BigDecimal(amountTxt.getText()),
+                    dateTxt.getValue()
+            );
+
+            if (payService.updatePayment(dto)) {
+                showAlert("Success", "Payment updated successfully", Alert.AlertType.INFORMATION);
+                refreshPage();
+            } else {
+                showAlert("Error", "Failed to update payment", Alert.AlertType.ERROR);
+            }
+
+        } catch (PaymentException e) {
+            showAlert("Payment Error", e.getMessage(), Alert.AlertType.ERROR);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            showAlert("Error", "An unexpected error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -338,6 +359,24 @@ public class PaymentsController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void checkPaymentFields() {
+        if (paymentIdTxt.getText().isEmpty() || patientIdTxt.getText().isEmpty() ||
+                programIdTxt.getText().isEmpty() || amountTxt.getText().isEmpty() || dateTxt.getValue() == null) {
+
+            throw new PaymentException("Payment Failed: All required fields must be filled!");
+        }
+
+        if ("Session Payment".equals(paymentTypeChoice.getValue()) && sessionIdTxt.getText().isEmpty()) {
+            throw new PaymentException("Payment Failed: Therapy Session ID is required for Session Payments!");
+        }
+
+        try {
+            new BigDecimal(amountTxt.getText());
+        } catch (NumberFormatException e) {
+            throw new PaymentException("Payment Failed: Invalid amount format! Please enter a valid decimal number.");
+        }
     }
 
 }

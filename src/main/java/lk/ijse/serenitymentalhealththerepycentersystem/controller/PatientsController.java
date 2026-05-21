@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.PatientTM;
+import lk.ijse.serenitymentalhealththerepycentersystem.exception.RegistrationException;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PatientService;
 
@@ -97,23 +98,26 @@ public class PatientsController implements Initializable {
 
     @FXML
     void btnSaveOnAction() {
-        if (haveEmptyFields()) {
-            showAlert(WARNING, "Fields cannot be empty!");
-            return;
-        }
-        if (!validateData()) return;
-
         try {
+            checkEmptyFields();
+
+            if (!validateData()) return;
+
             boolean isSaved = patientBO.savePatient(new PatientDTO(
                     txtPatientId.getText(), txtPatientName.getText(), txtEmail.getText(),
                     txtPhone.getText(), txtAddress.getText(), txtMedicalHistory.getText()
             ));
+
             if (isSaved) {
                 showAlert(INFORMATION, "Patient Saved!");
                 refreshPage();
             }
+
+        } catch (RegistrationException e) {
+            showAlert(ERROR, e.getMessage());
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            showAlert(ERROR, "An unexpected error occurred: " + e.getMessage());
         }
     }
 
@@ -213,33 +217,26 @@ public class PatientsController implements Initializable {
         refreshPage();
     }
 
-    private boolean haveEmptyFields() {
+    private void checkEmptyFields() {
 
         if (txtPatientId.getText().isEmpty()) {
-            showAlert(ERROR, "ID field is empty. Enter valid ID! (P001)");
-            return true;
+            throw new RegistrationException("ID field is empty. Enter valid ID! (P001)");
         }
         if (txtPatientName.getText().isEmpty()) {
-            showAlert(ERROR, "Name field is empty. Enter valid Name!");
-            return true;
+            throw new RegistrationException("Name field is empty. Enter valid Name!");
         }
         if (txtEmail.getText().isEmpty()) {
-            showAlert(ERROR, "Email field is empty. Enter valid Email!");
-            return true;
+            throw new RegistrationException("Email field is empty. Enter valid Email!");
         }
         if (txtPhone.getText().isEmpty()) {
-            showAlert(ERROR, "Contact field is empty. Enter Contact!");
-            return true;
+            throw new RegistrationException("Contact field is empty. Enter Contact!");
         }
         if (txtAddress.getText().isEmpty()) {
-            showAlert(ERROR, "Address field is empty. Enter Address!");
-            return true;
+            throw new RegistrationException("Address field is empty. Enter Address!");
         }
         if (txtMedicalHistory.getText().isEmpty()) {
-            showAlert(ERROR, "Medical History field is empty. Enter Medical History!");
-            return true;
+            throw new RegistrationException("Medical History field is empty. Enter Medical History!");
         }
-        return false;
     }
 
     private void showAlert(Alert.AlertType type, String msg) {

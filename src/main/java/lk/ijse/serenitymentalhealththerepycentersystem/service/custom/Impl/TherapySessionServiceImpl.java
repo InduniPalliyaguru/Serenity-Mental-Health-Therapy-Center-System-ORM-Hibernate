@@ -5,6 +5,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.*;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapySessionDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.*;
+import lk.ijse.serenitymentalhealththerepycentersystem.exception.ScheduleConflictException;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapistAvailabilityService;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapySessionService;
@@ -28,7 +29,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     TherapistAvailabilityService therapistAvailabilityBO = (TherapistAvailabilityService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST_AVAILABILITY);
 
     @Override
-    public boolean saveSession(TherapySessionDTO dto){
+    public boolean saveSession(TherapySessionDTO dto) {
         Session session = FactoryConfiguration.getInstance().getSession();
         Transaction transaction = session.beginTransaction();
 
@@ -39,12 +40,36 @@ public class TherapySessionServiceImpl implements TherapySessionService {
 
             if (therapist == null || patient == null || program == null) return false;
 
+            LocalTime newStart = dto.getSessionTime();
+            LocalTime newEnd = newStart.plusMinutes(dto.getDuration());
+
+            List<TherapySession> tSessions = therapySessionDAO.findActiveSessionsByTherapist(session, dto.getTherapistId(), dto.getSessionDate());
+
+            for (TherapySession s : tSessions) {
+                LocalTime existStart = s.getStart_time();
+                LocalTime existEnd = existStart.plusMinutes(s.getDuration());
+
+                if (newStart.isBefore(existEnd) && existStart.isBefore(newEnd)) {
+                    throw new ScheduleConflictException("Scheduling Conflict: Therapist '" + therapist.getName() + "' is already booked for a session from " + existStart + " to " + existEnd + "!");
+                }
+            }
+
+            List<TherapySession> pSessions = therapySessionDAO.findActiveSessionsByPatient(session, dto.getPatientId(), dto.getSessionDate());
+
+            for (TherapySession s : pSessions) {
+                LocalTime existStart = s.getStart_time();
+                LocalTime existEnd = existStart.plusMinutes(s.getDuration());
+
+                if (newStart.isBefore(existEnd) && existStart.isBefore(newEnd)) {
+                    throw new ScheduleConflictException("Scheduling Conflict: Patient already has another session scheduled from " + existStart + " to " + existEnd + "!");
+                }
+            }
+
             Duration duration = Duration.ofMinutes(dto.getDuration());
             TherapistAvailability bookedAvailability = bookTimeSlotInternal(dto.getTherapistId(), dto.getSessionDate(), dto.getSessionTime(), duration, session);
 
             if (bookedAvailability == null) {
-                transaction.rollback();
-                return false;
+                throw new ScheduleConflictException("Scheduling Conflict: The requested time slot is not available in the Therapist's weekly schedule!");
             }
 
             TherapySession therapySession = new TherapySession();
@@ -52,9 +77,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
             therapySession.setTherapist(therapist);
             therapySession.setPatient(patient);
             therapySession.setTherapy_program(program);
-
             therapySession.setTherapistAvailability(bookedAvailability);
-
             therapySession.setSession_date(dto.getSessionDate());
             therapySession.setStart_time(dto.getSessionTime());
             therapySession.setDuration(dto.getDuration());
@@ -65,6 +88,9 @@ public class TherapySessionServiceImpl implements TherapySessionService {
             transaction.commit();
             return true;
 
+        } catch (ScheduleConflictException e) {
+            if (transaction != null) transaction.rollback();
+            throw e;
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             System.out.println(e.getMessage());
@@ -75,7 +101,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     }
 
     @Override
-    public boolean updateSession(TherapySessionDTO dto){
+    public boolean updateSession(TherapySessionDTO dto) {
 
         Therapist therapistOpt = therapistDAO.search(dto.getTherapistId());
         Patient patientOpt = patientDAO.search(dto.getPatientId());
@@ -112,7 +138,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     }
 
     @Override
-    public boolean deleteSession(String sessionId){
+    public boolean deleteSession(String sessionId) {
 
         Optional<TherapySession> optionalSession = therapySessionDAO.findBySessionId(sessionId);
 
@@ -131,7 +157,7 @@ public class TherapySessionServiceImpl implements TherapySessionService {
     }
 
     @Override
-    public List<TherapySessionDTO> getAllSessions(){
+    public List<TherapySessionDTO> getAllSessions() {
 
         List<TherapySession> sessions = therapySessionDAO.getAll();
         ArrayList<TherapySessionDTO> sessionDtos = new ArrayList<>();

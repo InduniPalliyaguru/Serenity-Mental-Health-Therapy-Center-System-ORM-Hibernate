@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.*;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapySessionTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TimeSlotRowTM;
+import lk.ijse.serenitymentalhealththerepycentersystem.exception.ScheduleConflictException;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.*;
 import lk.ijse.serenitymentalhealththerepycentersystem.util.ValidateUtil;
@@ -245,7 +246,6 @@ public class TherapySessionController implements Initializable {
         );
 
         try {
-
             boolean saved = theraSession.saveSession(session);
             if (saved) {
                 showAlert("Success", "Therapy session saved successfully!", Alert.AlertType.INFORMATION);
@@ -254,13 +254,15 @@ public class TherapySessionController implements Initializable {
                 clearForm();
             } else {
                 showAlert("Error", "Failed to save therapy session.", Alert.AlertType.ERROR);
-
                 loadAllSessions();
                 clearTimeTable();
                 clearForm();
             }
+        } catch (ScheduleConflictException e) {
+            showAlert("Scheduling Conflict", e.getMessage(), Alert.AlertType.WARNING);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            showAlert("Error", "An unexpected error occurred: " + e.getMessage(), Alert.AlertType.ERROR);
         }
 
     }

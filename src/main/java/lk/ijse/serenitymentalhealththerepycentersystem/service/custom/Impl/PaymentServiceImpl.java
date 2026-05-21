@@ -5,6 +5,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.*;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PaymentDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.*;
+import lk.ijse.serenitymentalhealththerepycentersystem.exception.PaymentException;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PaymentService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -234,14 +235,22 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDTO constructPaymentDto(String paymentId, String patientId, String programId, String sessionId, BigDecimal amount, LocalDate date) {
+
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new PaymentException("Payment Processing Failed: Payment amount must be greater than zero!");
+        }
+
         Patient patientOpt = patientDAO.search(patientId);
         TherapyProgram programOpt = programDAO.search(programId);
         Optional<TherapySession> sessionOpt = (sessionId != null && !sessionId.isEmpty())
                 ? sessionDAO.findBySessionId(sessionId)
                 : Optional.empty();
 
-        if (patientOpt == null || programOpt == null) {
-            throw new RuntimeException("Patient or Program not found.");
+        if (patientOpt == null) {
+            throw new PaymentException("Payment Processing Failed: Provided Patient ID '" + patientId + "' does not exist!");
+        }
+        if (programOpt == null) {
+            throw new PaymentException("Payment Processing Failed: Provided Therapy Program ID '" + programId + "' does not exist!");
         }
 
         TherapySession session = sessionOpt.orElse(null);

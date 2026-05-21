@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import lk.ijse.serenitymentalhealththerepycentersystem.exception.LoginException;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.UserService;
 
@@ -22,22 +23,33 @@ public class LoginController {
 
     @FXML
     void loginValidate() {
-        String username = loginUsernameText.getText();
-        String password = loginPasswordText.getText();
-
         try {
+            checkEmptyFields();
+
+            String username = loginUsernameText.getText();
+            String password = loginPasswordText.getText();
 
             String role = userBO.authenticateUser(username, password);
 
             if (role != null) {
                 navigateTo("/view/dashboard.fxml", role);
-
                 new ReportsController().setUserRole(role);
-            } else {
-                new Alert(Alert.AlertType.ERROR, "Invalid Username or Password!").show();
             }
+
+        } catch (LoginException e) {
+            new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            new Alert(Alert.AlertType.ERROR, "An unexpected error occurred: " + e.getMessage()).show();
+        }
+    }
+
+    private void checkEmptyFields() {
+        if (loginUsernameText.getText() == null || loginUsernameText.getText().trim().isEmpty()) {
+            throw new LoginException("Login Failed: Username field cannot be empty!");
+        }
+        if (loginPasswordText.getText() == null || loginPasswordText.getText().trim().isEmpty()) {
+            throw new LoginException("Login Failed: Password field cannot be empty!");
         }
     }
 

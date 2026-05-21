@@ -4,19 +4,25 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.UserDAO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.UserDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.User;
+import lk.ijse.serenitymentalhealththerepycentersystem.exception.LoginException;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.UserService;
 import lk.ijse.serenitymentalhealththerepycentersystem.util.PasswordUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserServiceImpl implements UserService {
 
     UserDAO userDAO = (UserDAO) DAOFactory.getInstance().getDAO(DAOFactory.DAOType.USER);
 
+    private final Map<String, Integer> loginAttemptsMap = new HashMap<>();
+    private static final int MAX_ATTEMPTS = 3;
+
     @Override
     public String authenticateUser(String username, String password) {
+
+        if (loginAttemptsMap.containsKey(username) && loginAttemptsMap.get(username) >= MAX_ATTEMPTS) {
+            throw new LoginException("Login Failed: Your account has been locked due to multiple failed attempts! Please contact Admin.");
+        }
 
         User user = userDAO.findByUsername(username);
 
@@ -24,10 +30,19 @@ public class UserServiceImpl implements UserService {
             boolean isMatched = PasswordUtil.checkPassword(password, user.getPassword());
 
             if (isMatched) {
+                loginAttemptsMap.remove(username);
                 return user.getRole();
             }
         }
-        return null;
+
+        int currentAttempts = loginAttemptsMap.getOrDefault(username, 0) + 1;
+        loginAttemptsMap.put(username, currentAttempts);
+
+        if (currentAttempts >= MAX_ATTEMPTS) {
+            throw new LoginException("Login Failed: Maximum login attempts exceeded. Your account is now locked!");
+        }
+        int remainingAttempts = MAX_ATTEMPTS - currentAttempts;
+        throw new LoginException("Login Failed: Invalid Username or Password! (" + remainingAttempts + " attempts remaining)");
     }
 
     @Override

@@ -4,6 +4,7 @@ import lk.ijse.serenitymentalhealththerepycentersystem.dao.DAOFactory;
 import lk.ijse.serenitymentalhealththerepycentersystem.dao.custom.PatientDAO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.PatientDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.entity.Patient;
+import lk.ijse.serenitymentalhealththerepycentersystem.exception.RegistrationException;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.PatientService;
 
 import java.util.ArrayList;
@@ -16,6 +17,12 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public boolean savePatient(PatientDTO dto) {
+
+        Patient duplicatePatient = patientDAO.search(dto.getPatientId());
+        if (duplicatePatient != null) {
+            throw new RegistrationException("Registration Failed: Patient ID '" + dto.getPatientId() + "' already exists!");
+        }
+
         Patient patient = new Patient();
         patient.setPatient_id(dto.getPatientId());
         patient.setName(dto.getName());
