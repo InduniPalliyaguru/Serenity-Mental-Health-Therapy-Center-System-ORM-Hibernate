@@ -12,10 +12,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistDTO;
+import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapistProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.TherapyProgramDTO;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapistProgramTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.dto.tm.TherapistTM;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.ServiceFactory;
+import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapistProgramService;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapistService;
 import lk.ijse.serenitymentalhealththerepycentersystem.service.custom.TherapyProgramService;
 
@@ -71,6 +73,7 @@ public class TherapistController implements Initializable {
 
     TherapistService therapistBO = (TherapistService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST);
     TherapyProgramService programBO = (TherapyProgramService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPY_PROGRAM);
+    TherapistProgramService therapistProgramService = (TherapistProgramService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.THERAPIST_PROGRAM);
 
     private final ObservableList<TherapistTM> therapistList = FXCollections.observableArrayList();
     private final ObservableList<TherapistProgramTM> assignedProgramList = FXCollections.observableArrayList();
@@ -284,6 +287,9 @@ public class TherapistController implements Initializable {
         txtEmail.setText(tm.getEmail());
         txtPhone.setText(tm.getPhone());
         txtSpecialization.setText(tm.getSpecialization());
+
+        loadTherapistAssignedPrograms(tm.getTherapistId());
+
     }
 
     public void refreshPage() {
@@ -368,6 +374,26 @@ public class TherapistController implements Initializable {
 
                 showAlert(Alert.AlertType.INFORMATION, "Program removed from the list. Click 'Update' to save changes.");
             }
+        }
+    }
+
+    private void loadTherapistAssignedPrograms(String therapistId) {
+        try {
+            List<TherapistProgramDTO> assignedPrograms = therapistProgramService.getTherapistProgramsByTherapistId(therapistId);
+
+            tblAssignedPrograms.getItems().clear();
+
+            if (assignedPrograms != null) {
+                for (TherapistProgramDTO dto : assignedPrograms) {
+                    tblAssignedPrograms.getItems().add(new TherapistProgramTM(
+                            dto.getTherapyProgramId(),
+                            dto.getTherapyProgramName()
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            new Alert(Alert.AlertType.ERROR, "Failed to load assigned therapy programs for this therapist!").show();
         }
     }
 

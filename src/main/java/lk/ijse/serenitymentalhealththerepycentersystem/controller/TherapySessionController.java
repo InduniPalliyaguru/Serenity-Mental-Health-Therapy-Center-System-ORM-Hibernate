@@ -456,6 +456,7 @@ public class TherapySessionController implements Initializable {
             if (columnIndex >= 1 && columnIndex <= 5) {
                 LocalDate selectedDate = nextFiveDates.get(columnIndex - 1);
                 System.out.println("Selected date: " + selectedDate);
+                sessionDateTxt.setValue(selectedDate);
             }
         }
     }

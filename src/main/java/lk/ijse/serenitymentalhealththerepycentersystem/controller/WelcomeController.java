@@ -72,7 +72,7 @@ public class WelcomeController implements Initializable {
 
                 for (String activityText : dto.getRecentActivities()) {
                     Label lblActivity = new Label(activityText);
-                    lblActivity.setStyle("-fx-font-size: 13px; -fx-text-fill: #475569; -fx-padding: 5;");
+                    lblActivity.setStyle("-fx-font-size: 14px; -fx-text-fill: #475569; -fx-padding: 5;");
                     vBoxRecentActivity.getChildren().add(lblActivity);
                 }
             }

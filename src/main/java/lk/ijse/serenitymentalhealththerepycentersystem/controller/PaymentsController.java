@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -68,7 +69,7 @@ public class PaymentsController implements Initializable {
     @FXML
     private TextField programIdTxt;
     @FXML
-    private TextField programNameTxt;
+    private ComboBox<String> programNameTxt;
     @FXML
     private Button searchButton;
     @FXML
@@ -143,7 +144,7 @@ public class PaymentsController implements Initializable {
         patientIdTxt.clear();
         patientNameTxt.clear();
         programIdTxt.clear();
-        programNameTxt.clear();
+        loadProgramNames();
         sessionIdTxt.clear();
         amountTxt.clear();
         dateTxt.setValue(null);
@@ -257,7 +258,7 @@ public class PaymentsController implements Initializable {
 
     @FXML
     void searchProgram() {
-        String name = programNameTxt.getText().trim();
+        String name = programNameTxt.getValue().trim();
 
         try {
             TherapyProgramDTO programs = therapyProgramService.findByName(name);
@@ -269,7 +270,7 @@ public class PaymentsController implements Initializable {
 
 
             programIdTxt.setText(programs.getProgramId());
-            programNameTxt.setText(programs.getProgramName());
+            programNameTxt.setValue(programs.getProgramName());
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -343,7 +344,7 @@ public class PaymentsController implements Initializable {
                 patientIdTxt.setText(selected.getPatientId());
                 patientNameTxt.setText(patientService.findPatientByID(selected.getPatientId()).getName());
                 programIdTxt.setText(selected.getTherapyProgramId());
-                programNameTxt.setText(therapyProgramService.searchProgram(selected.getTherapyProgramId()).getProgramName());
+                programNameTxt.setValue(therapyProgramService.searchProgram(selected.getTherapyProgramId()).getProgramName());
                 sessionIdTxt.setText(selected.getTherapySessionId());
                 amountTxt.setText(String.valueOf(selected.getAmount()));
                 dateTxt.setValue(selected.getPaymentDate());
@@ -379,4 +380,17 @@ public class PaymentsController implements Initializable {
         }
     }
 
+    private void loadProgramNames() {
+        try {
+            List<TherapyProgramDTO> allPrograms = therapyProgramService.getAllPrograms();
+            ObservableList<String> ids = FXCollections.observableArrayList();
+            for (TherapyProgramDTO dto : allPrograms) {
+                ids.add(dto.getProgramName());
+            }
+            programNameTxt.setItems(ids);
+        } catch (Exception e) {
+            showAlert("Error", "Something went wrong. Program IDs not loading!", Alert.AlertType.ERROR);
+            System.out.println(e.getMessage());
+        }
+    }
 }

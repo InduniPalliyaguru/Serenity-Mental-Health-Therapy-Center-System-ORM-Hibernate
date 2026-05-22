@@ -91,7 +91,7 @@
                         </Label>
                         <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <children>
-                                <TextField fx:id="programNameTxt" prefHeight="35.0" style="-fx-background-radius: 8; -fx-border-color: #CBD5E1; -fx-border-radius: 8;" HBox.hgrow="ALWAYS" />
+                        <ComboBox fx:id="programNameTxt" prefHeight="27.0" prefWidth="264.0" style="-fx-background-color: white; -fx-border-color: #CBD5E1; -fx-border-radius: 8;" />
                                 <Button fx:id="programSearchButton" onAction="#searchProgram" prefHeight="35.0" prefWidth="80.0" styleClass="btn-save" text="Check" textFill="WHITE">
                                     <font> <Font name="System Bold" size="12.0" /> </font>
                                 </Button>

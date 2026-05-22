@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -50,7 +51,7 @@ public class PatientProgramController implements Initializable {
     @FXML
     private TextField programIdTxt;
     @FXML
-    private TextField programNameTxt;
+    private ComboBox<String> programNameTxt;
     @FXML
     private TableColumn<PatientProgramTM, LocalDate> registerDateCol;
     @FXML
@@ -75,6 +76,7 @@ public class PatientProgramController implements Initializable {
         patientNameCol.setCellValueFactory(new PropertyValueFactory<>("patientName"));
 
         refreshTable();
+        refreshPage();
 
     }
 
@@ -86,7 +88,7 @@ public class PatientProgramController implements Initializable {
     @FXML
     void delete() {
         String patientName = patientNameTxt.getText();
-        String programName = programNameTxt.getText();
+        String programName = programNameTxt.getValue();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Confirmation");
@@ -121,7 +123,7 @@ public class PatientProgramController implements Initializable {
                 patientIdTxt.getText(),
                 patientNameTxt.getText(),
                 programIdTxt.getText(),
-                programNameTxt.getText(),
+                programNameTxt.getValue(),
                 registerDateTxt.getValue(),
                 paymentIdTxt.getText(),
                 null
@@ -213,7 +215,7 @@ public class PatientProgramController implements Initializable {
                 patientIdTxt.getText(),
                 patientNameTxt.getText(),
                 programIdTxt.getText(),
-                programNameTxt.getText(),
+                programNameTxt.getValue(),
                 registerDateTxt.getValue(),
                 paymentIdTxt.getText(),
                 fee
@@ -234,7 +236,7 @@ public class PatientProgramController implements Initializable {
             patientIdTxt.setText(selected.getPatientId());
             patientNameTxt.setText(selected.getPatientName());
             programIdTxt.setText(selected.getProgramId());
-            programNameTxt.setText(selected.getProgramName());
+            programNameTxt.setValue(selected.getProgramName());
             registerDateTxt.setValue(selected.getRegistrationDate());
             paymentIdTxt.setText(selected.getPaymentId());
             programFeeTxt.setText(String.valueOf(selected.getProgramFee()));
@@ -256,14 +258,14 @@ public class PatientProgramController implements Initializable {
 
     @FXML
     void searchProgram() {
-        String name = programNameTxt.getText().trim();
+        String name = programNameTxt.getValue().trim();
         TherapyProgramDTO program = patientProgramService.findByProgramName(name);
         if (program == null) {
             showAlert("Not Found", "Program not found", Alert.AlertType.WARNING);
             return;
         }
         programIdTxt.setText(program.getProgramId());
-        programNameTxt.setText(program.getProgramName());
+        programNameTxt.setValue(program.getProgramName());
     }
 
     private void refreshTable() {
@@ -296,7 +298,7 @@ public class PatientProgramController implements Initializable {
         patientIdTxt.clear();
         patientNameTxt.clear();
         programIdTxt.clear();
-        programNameTxt.clear();
+        loadProgramNames();
         paymentIdTxt.clear();
         registerDateTxt.setValue(null);
         programFeeTxt.setText("");
@@ -314,6 +316,20 @@ public class PatientProgramController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void loadProgramNames() {
+        try {
+            List<TherapyProgramDTO> allPrograms = therapyProgramService.getAllPrograms();
+            ObservableList<String> ids = FXCollections.observableArrayList();
+            for (TherapyProgramDTO dto : allPrograms) {
+                ids.add(dto.getProgramName());
+            }
+            programNameTxt.setItems(ids);
+        } catch (Exception e) {
+            showAlert("Error", "Something went wrong. Program IDs not loading!", Alert.AlertType.ERROR);
+            System.out.println(e.getMessage());
+        }
     }
 
 }
