@@ -17,7 +17,7 @@ A secure, data-driven, and enterprise-grade standalone desktop application devel
 <!-- 1. MAIN SCREENSHOT (Dashboard) -->
 <p align="center">
   <h4>📊 Main Analytics Dashboard View</h4>
-  <img src="<img width="1875" height="974" alt="Screenshot 2026-06-03 090654" src="https://github.com/user-attachments/assets/7f666d5c-6f25-43b0-9c31-1c2e41a52d96" />" alt="Main Dashboard View" width="100%" />
+  <img src="https://github.com/user-attachments/assets/7f666d5c-6f25-43b0-9c31-1c2e41a52d96" alt="Main Dashboard View" width="100%" />
 </p>
 
 <!-- 2. IMAGE GRID FOR THE OTHER 4 SCREENSHOTS -->
@@ -25,21 +25,21 @@ A secure, data-driven, and enterprise-grade standalone desktop application devel
   <tr>
     <td align="center" width="50%">
       <h4>👤 Patient Profiling & History</h4>
-      <img src="<img width="1871" height="973" alt="Screenshot 2026-06-03 095113" src="https://github.com/user-attachments/assets/b144d595-09c9-4de6-8c63-172fd95db79a" />" alt="Patient Management" width="100%" />
+      <img src="https://github.com/user-attachments/assets/b144d595-09c9-4de6-8c63-172fd95db79a" alt="Patient Management" width="100%" />
     </td>
     <td align="center" width="50%">
       <h4>📅 Smart Session Scheduling</h4>
-      <img src="<img width="1879" height="976" alt="Screenshot 2026-06-03 090752" src="https://github.com/user-attachments/assets/de433865-07d4-48a9-9a26-65e3d136c7bc" />" alt="Appointment Booking" width="100%" />
+      <img src="https://github.com/user-attachments/assets/de433865-07d4-48a9-9a26-65e3d136c7bc" alt="Appointment Booking" width="100%" />
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
       <h4>💰 Payment & Invoice Handling</h4>
-      <img src="<img width="1524" height="835" alt="Screenshot 2026-06-03 090924" src="https://github.com/user-attachments/assets/bb329995-2678-4c40-a4e5-9d0da6509822" />" alt="Financial Processing" width="100%" />
+      <img src="https://github.com/user-attachments/assets/bb329995-2678-4c40-a4e5-9d0da6509822" alt="Financial Processing" width="100%" />
     </td>
     <td align="center" width="50%">
       <h4>🔒 Secure Login / Admin Controls</h4>
-      <img src="<img width="1601" height="861" alt="Screenshot 2026-06-03 090623" src="https://github.com/user-attachments/assets/58634c5f-2c1f-4130-93cd-a791a7c6679e" />" alt="Security Settings" width="100%" />
+      <img src="https://github.com/user-attachments/assets/58634c5f-2c1f-4130-93cd-a791a7c6679e" alt="Security Settings" width="100%" />
     </td>
   </tr>
 </table>
